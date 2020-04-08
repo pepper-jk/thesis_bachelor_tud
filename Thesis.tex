@@ -1,0 +1,516 @@
+%% This is file `DEMO-TUDaThesis.tex' version 2.09 (2020/03/13),
+%% it is part of
+%% TUDa-CI -- Corporate Design for TU Darmstadt
+%% ----------------------------------------------------------------------------
+%%
+%%  Copyright (C) 2018--2020 by Marei Peischl <marei@peitex.de>
+%%
+%% ============================================================================
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%% http://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2008/05/04 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainers of this work are
+%%   Marei Peischl <tuda-ci@peitex.de>
+%%   Markus Lazanowski <latex@ce.tu-darmstadt.de>
+%%
+%% The development respository can be found at
+%% https://github.com/tudace/tuda_latex_templates
+%% Please use the issue tracker for feedback!
+%%
+%% ============================================================================
+%%
+% !TeX program = lualatex
+%%
+
+\documentclass[
+	ngerman,
+	ruledheaders=section,%Ebene bis zu der die Überschriften mit Linien abgetrennt werden, vgl. DEMO-TUDaPub
+	class=report,% Basisdokumentenklasse. Wählt die Korrespondierende KOMA-Script Klasse
+	thesis={type=bachelor},% Dokumententyp Thesis, für Dissertationen siehe die Demo-Datei DEMO-TUDaPhd
+	accentcolor=9c,% Auswahl der Akzentfarbe
+	custommargins=true,% Ränder werden mithilfe von typearea automatisch berechnet
+	marginpar=false,% Kopfzeile und Fußzeile erstrecken sich nicht über die Randnotizspalte
+	%BCOR=5mm,%Bindekorrektur, falls notwendig
+	parskip=half-,%Absatzkennzeichnung durch Abstand vgl. KOMA-Sript
+	fontsize=11pt,%Basisschriftgröße laut Corporate Design ist mit 9pt häufig zu klein
+%	logofile=example-image, %Falls die Logo Dateien nicht vorliegen
+]{tudapub}
+
+% Der folgende Block ist nur bei pdfTeX auf Versionen vor April 2018 notwendig
+\usepackage{iftex}
+\ifPDFTeX
+	\usepackage[utf8]{inputenc}%kompatibilität mit TeX Versionen vor April 2018
+\fi
+
+%%%%%%%%%%%%%%%%%%%
+%Sprachanpassung & Verbesserte Trennregeln
+%%%%%%%%%%%%%%%%%%%
+\usepackage[english, main=ngerman]{babel}
+\usepackage[autostyle]{csquotes}% Anführungszeichen vereinfacht
+\usepackage{microtype}
+
+
+%%%%%%%%%%%%%%%%%%%
+%Literaturverzeichnis
+%%%%%%%%%%%%%%%%%%%
+\usepackage{biblatex}   % Literaturverzeichnis
+%\bibliography{DEMO-TUDaBibliography}
+
+% TODO: fix biblatex cites
+\addbibresource{research.bib}
+%\bibliographystyle{plain}
+
+
+%%%%%%%%%%%%%%%%%%%
+%Paketvorschläge Tabellen
+%%%%%%%%%%%%%%%%%%%
+%\usepackage{array}     % Basispaket für Tabellenkonfiguration, wird von den folgenden automatisch geladen
+\usepackage{tabularx}   % Tabellen, die sich automatisch der Breite anpassen
+%\usepackage{longtable} % Mehrseitige Tabellen
+%\usepackage{xltabular} % Mehrseitige Tabellen mit anpassarer Breite
+\usepackage{booktabs}   % Verbesserte Möglichkeiten für Tabellenlayout über horizontale Linien
+
+%%%%%%%%%%%%%%%%%%%
+%Paketvorschläge Mathematik
+%%%%%%%%%%%%%%%%%%%
+%\usepackage{mathtools} % erweiterte Fassung von amsmath
+%\usepackage{amssymb}   % erweiterter Zeichensatz
+%\usepackage{siunitx}   % Einheiten
+
+%Formatierungen für Beispiele in diesem Dokument. Im Allgemeinen nicht notwendig!
+\let\file\texttt
+\let\code\texttt
+\let\tbs\textbackslash
+
+\usepackage{pifont}% Zapf-Dingbats Symbole
+\newcommand*{\FeatureTrue}{\ding{52}}
+\newcommand*{\FeatureFalse}{\ding{56}}
+
+\begin{document}
+
+\Metadata{
+	title=Discriminating if a network flow could have been created from a given sequence of network packets,
+	author=Jens Keim
+}
+
+\title{Discriminating if a network flow could have been created from a given sequence of network packets}
+\subtitle{subtitle}
+\author[J. Keim]{Jens Keim}%optionales Argument ist die Signatur,
+\birthplace{Worms}%Geburtsort, bei Dissertationen zwingend notwendig
+\reviewer{Prof. Dr. Max M{\"u}hlh{\"a}user \and Dr. Carlos G. Cordero}%Gutachter
+
+%Diese Felder erden untereinander auf der Titelseite platziert.
+%\department ist eine notwendige Angabe, siehe auch dem Abschnitt `Abweichung von den Vorgaben für die Titelseite'
+% TODO: trusted systems? as carlos or in matrix
+\department{inf} % Das Kürzel wird automatisch ersetzt und als Studienfach gewählt, siehe Liste der Kürzel im Dokument.
+\institute{Telecooperation}
+\group{SPIN}
+
+\submissiondate{\today}
+\examdate{\today}
+
+%	\tuprints{urn=1234,printid=12345}
+%	\dedication{Für alle, die \TeX{} nutzen.}
+
+\maketitle
+
+\affidavit
+
+\tableofcontents
+
+\chapter{Introduction}
+
+% - Warum gibt es dieses Diplomarbeitsthema?
+% - Bezug zur Forschung?
+
+% Ca 1/2 - 1 Seite
+
+\section{Motivation}
+
+Network intrusion detection systems (NIDSs) require datasets to be trained and tested.
+However, appropriate datasets for NIDSs are hard to come by
+since creating authentic synthetic datasets is difficult and time-consuming
+and most real traffic is rarely shared due to privacy concerns \cite{ringFlowbasedNetworkTraffic2019a} or copyright \cite{corderoID2TDIYDataset2015}.
+This is why researchers in the field of NIDSs are restricted to use datasets with known defects or to create their own datasets.
+% Remember that the last sentence of each paragraph should ease the way for the next paragraph.
+
+% Creating synthetic network traffic is essential to provide this kind of datasets.
+A researcher that chooses to create their own datasets may use real network traffic, synthetic network traffic, or a mixture of both.
+Using real traffic to create a dataset, although desirable, has many disadvantages.
+The capture might be too old to represent current networks or
+% The network topology recorded, e.g. NAT, % Why is this a problem?
+% or the used bandwidth. % not clear what you mean
+it may contain artifacts.
+Synthetic network traffic is hard to create because network traffic is diverse.
+It is influenced by many factors, like
+the countless terminals communicating,
+the interim devices, e.g. switches, and their bandwidth,
+gateways, subnets, and churn of terminals.
+To generate appropriate datasets one would need to simulate all those factors and their interactions.
+This is where the mixture of real and synthetic traffic comes in.
+With this method, one takes an already existing network packet capture and modifies it to fit their needs.
+%The idea is good, but the sentence needs work.
+% You also need to be carefull and not mix these two ideas:
+% 1) Mixing synthetic data with real to create a new dataset.
+% 2) Create a complete synthetic dataset from scratch using real traffic as reference.
+% Remember that with the GAN technique, we may create completely synthetic traffic that is not mixed with "real" traffic.
+This modification can range from adding specific packets, e.g. of an network attack\cite{corderoID2TDIYDataset2015},
+to modifying existing packets to fit a new network topology
+or altering other significant features of the network behavior by modifying each packet.
+Even though this method is quite effective, its design and implementation are also time-consuming.
+Since it is difficult to create realistic network packet captures from scratch,
+one could propose to create these traffic captures based on network flows.
+
+The paper ''Flow-based Network Traffic Generation using Generative Adversarial Networks'' by Markus Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} provides a method to create synthetic network flows that mimic a given set of network flows.
+Building on top of this method one could synthetically create labeled datasets of authentic network flows for NIDSs.
+However, it is still desirable to have traffic based datasets, since they provide more information than flows.
+Instead one could build on top of the method to create synthetic network flows proposed by Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} and
+use the already authentic flows to create authentic synthetic network traffic at the packet level.
+One approach to this could be a Generative Adversarial Network (GAN) that generates network packet captures based on network flows.
+
+A GAN consists of two NNs that compete against each other to maximize the quality of the generated data:
+a generator network (GN) and a discriminative network (DN).
+The GN is constantly trying to fool the DN with data it generates synthetically,
+while the DN is constantly trying to figure out if the data it was given is real or synthetic.
+If correctly optimized, a GAN may create synthetic data indistinguishable from real data.
+
+\section{Problem}
+
+If we would want to propose a GAN that can create the packets from which a network flow was constructed,
+three major challenges need to be addressed.
+One, the DN needs to be defined such that it can determine if a network flow could have been created by a sequence of network packets.
+Two, a GN needs to be able to create network packet captures that are indistinguishable (in some statistical sense) from the packets the network flow was created from.
+Three, the training of the GAN and the required datasets.
+To create a GAN, both the DN and GN need to perform well on their own.
+
+In this research, we focus on building a NN that can be used in later work as the DN of a GAN.
+It is not obvious, however, how to create a DN that
+can verify that a network flow was created from a sequence of packets.
+This leads to the research questions presented next.
+
+\section{Research Questions}
+
+This thesis will attempt to answer the following research questions.
+
+\begin{itemize}
+  \item How can we develop a neural network that acts as a discriminator for a GAN
+  that can determine if a network flow could have been created by a sequence of network packets.
+  \item Which features of network flows and packets are (most) significant to determine if a network flow could have been created by a sequence of network packets?
+  \item Which NN architecture would be most suitable to distinguish if network packets could have created some network flow?
+\end{itemize}
+
+\section{Goals and Objectives}
+
+% Was wird bei der Diplomarbeit inhaltlich erwartet und bewertet?
+
+% I picture three main goals for your thesis (you need to either agree or propose something different):
+% x 1) Create a dataset (or program to make datasets) to test your theories.
+% x 2) Figure out what is needed to distinguish if packets belong to a certain flow, and
+% x 3) Come up with an architecture capable of making correct decisions.
+
+This thesis focuses on creating a Neural Network (NN) model
+that can be used as the DN of a GAN
+that takes network flows as input and produces network packets as output.
+The NN gets an array of network packets and at least one network flow as input
+and provides the probability that a specific network flow was created from the given sequence of packets.
+To achieve this goal, we might need to consider additional input,
+such as labels for either the network flows, the network packets, or both.
+Therefore the goal of this thesis is to create a DN model that distinguishes
+if a specific network flow could have been created from a given sequence of packets, or not.
+
+It will not only be necessary to create the NN architecture,
+but also the datasets needed to train and test the system.
+For this, we need suitable representations of network flows and packets that a NN can process.
+To test the reliability of our DN, diverse datasets from sufficiently distinct networks need to be constructed.
+% During the development of the NN model, these features will be adjusted to create appropriate datasets.
+So to reach the goal, we need to reach the following objectives:
+
+\begin{itemize}
+  \item Collecting diverse packet captures, representing a wide range of networks.
+  \item Extracting flows from said packet captures.
+  \item Creating fake flows by modifying the extracted ones based on those features.
+  \item Extracting features from packets and flows alike,
+which can be used to distinguish if packets belong to a certain flow.
+  \item Creating a NN model based on those features.
+  \item Choosing a NN architecture that is capable of making correct decisions.
+  \item Testing the effectiveness of the NN architectures to work as discriminators.
+\end{itemize}
+
+%%% THESIS TOPIC END
+
+%\chapter{Requirements}
+
+% Anmerkung von Prof. Mühlhäuser: "Voraussetzungen":
+% kann ruhig Selbstverständlichkeiten wie erwünschte Programmierkenntnisse
+% beinhalten. Man glaubt nicht, was man bei jedem 10ten (oder so) Diplomanden
+% alles irgendwann vermissen wird :-).
+% Außerdem kann man "Grundkenntnisse in ... (Themengebiet) wünschenswert
+% und förderlich, aber nicht zwingend" hinschreiben, dann kann man
+% (z.B. mündlich) argumentieren, dass ein Teil der Literatur vor
+% Startschuss zu den 6 Monaten gelesen werden muss.
+
+%\section{for the student}
+
+%\begin{itemize}
+%  \item basic familiarity with Python
+%  \item basic familiarity with ID2T and Traffic Statistic Extraction
+%  \item basic familiarity with yaf and Flow Extraction
+%  \item basic familiarity with Tensorflow 2
+%  \item basic knowledge of Neural Networks
+%  \item broad understanding of RNNs
+%\end{itemize}
+
+%\section{for the architecture}
+
+% how much detail?
+% regarding the training of GANs/Discriminator
+% OR later in Thesis?
+
+%\subsection{Functional Requirements}
+% what it should do
+
+%\subsection{Non Functional Requirements}
+% how it works
+
+\chapter{Background}
+
+% In every background "item", always start stating why the topic is important to know in the context of your thesis.
+
+\section{Network intrusion detection systems}
+
+To understand the motivation behind this thesis we must understand how NIDSs work.
+Intrusion detection systems (IDSs) describe hard- or software that monitors a network or system for malicious activity or policy violations.
+One differentiates between NIDSs and host-based intrusion detection systems (HIDSs).
+The former monitor a network, while the later a single system.
+
+Today NIDSs are crucial for network security.
+Therefore we focus on them.
+There are two different classifications of NIDSs:
+signature-based NIDSs and anomaly-based NIDSs.
+Signature-based systems are limited for several reasons:
+the availability of signatures,
+the growing threat of federated attacks that split the malicious signature between multiple gateways.
+
+This is where anomaly-based detection comes in.
+They classify network behavior as either normal or anomalous.
+This way even new attacks, for which no signature is yet provided,
+can be recognized by the system, since it is anomalous to the network behavior it knows about.
+These systems have two main sources of knowledge:
+the network they observe all the time
+and the datasets they get trained with.
+
+\section{Network traffic datasets at packet level}
+
+This thesis aims to lay the groundwork for a new method of the creation of authentic synthetic network packet captures
+that can be used for labeled datasets for training and testing NIDSs.
+Anomaly-based NIDSs (ANIDS) need network traffic datasets for testing and training.
+Those datasets need to be appropriate to the threat and labeled accordingly.
+However appropriate datasets are hard to come by.
+Most real traffic recordings are rarely shared due to privacy concerns \cite{ringFlowbasedNetworkTraffic2019a} or copyright \cite{corderoID2TDIYDataset2015}.
+The datasets including network attacks,
+which are shared publicly,
+tend to either be snapshots from real attacks or synthetically created traces from an isolated network.
+The later does not provide realistic non-attack traffic, or background traffic.
+The former present the problem of non-attack traffic being of a unique network in a unique time frame and therefore not representative of every network.
+Also, they most likely get anonymized and are therefore do not represent the ground truth.
+Thus these datasets are not sufficient to train or test NIDS.
+And no matter the origin the dataset will only describe the network and the behavior of its traffic at the time of recording or creation, hence it might not be applicable in future networks \cite{ringFlowbasedNetworkTraffic2019a}.
+
+\section{Network flows vs. network packet captures}
+
+If we want to extract features from network flows
+we first need to understand the difference between a network flow and network traffic caputres.
+A network packet capture is a recording of network traffic at the packet level.
+It is limited by a start and end time.
+Each packet within the capture contains all headers it contained during actual transmission.
+The payload of the packets is omitted if its size gets too large to be reasonably stored otherwise, the packets are unaltered.
+A network flow is an artificial logical equivalent to only one network connection \cite{brownleeTrafficFlowMeasurement}.
+This connection may be between two terminals, a multicast group or a terminal and a broadcast address \cite{rajahalmeIPv6FlowLabel}.
+Like a network packet capture, a flow is limited by a start and end time,
+but it does not contain information on individual packets.
+It describes the connection on a more abstract level.
+
+% NN, decision making, sequential (network) data
+
+\section{Recurrent Neural Networks}
+
+To solve the problem stated in this thesis we are required to find an appropriate NN architecture
+that is capable of making correct decisions about network flows created from network packet captures.
+Neural Networks usually process each input independently from previous inputs.
+This behavior is not necessarily what you want depending on your problem.
+Recurrent Neural Networks (RNNs) store previous results (output) of the NN and uses them to process the new input.
+Natural language processing usually profits from this.
+In theory, this ''memory'' can hold information about all previous calculations,
+but in practice, it only keeps track of the last few steps.
+% new hidden state = tanh(input + previous hidden state)
+This is due to the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
+%A basic RNN uses the hyperbolic tangent function
+
+\subsection{Long Short Term Memory \& Gated Recurrent Units}
+
+This is where Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTermMemory1997} or Gated Recurrent Units (GRUs), formerly known as gated recursive convolutional neural network (grConv) \cite{bahdanauNeuralMachineTranslation2016}, come in.
+Both similarly tackle the short-term memory issue,
+also known as the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
+Where the weight of the memory is changed so little, that it becomes insignificant.
+Both models provide a gated approach.
+They also both rely on the Sigmoid function in addition to the hyperbolic tangent function.
+While the hyperbolic tangent function produces values between -1 and 1,
+the Sigmoid function produces values from 0 to 1.
+This benefits the memory since low impact data is multiplied by 0 and therefore left out of the equation.
+
+% LSTM
+% new cell state = (previous cell state * forget gate) + input gate
+% new hidden state = output gate * tanh(new cell state)
+% gates:
+% \begin{itemize}
+%   \item forget gate: sigmoid(input + previous hidden state)
+%   \item input gate: sigmoid(input + previous hidden state) * tanh(input + previous hidden state)
+%   \item output gate: sigmoid(input + previous hidden state)
+% \end{itemize}
+
+% GRU
+% new hidden state = (previous hidden state * update gate) + output gate
+% gates:
+% \begin{itemize}
+%   \item reset gate: sigmoid(input + previous hidden state) * previous hidden state
+%   \item update gate: 1 - sigmoid(input + previous hidden state)
+%   \item ''output gate'': tanh(input + reset gate) * sigmoid(input + previous hidden state)
+% \end{itemize}
+
+\chapter{Related Work}
+
+Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} introduce a GAN to generate synthetic network flows.
+Not only is their work interesting as the source of input for the proposed GAN at a later time,
+but as a resource regarding feature extraction for network flows,
+which is needed by this thesis.
+So even though Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} do not create network packet captures,
+their choice of network flow features is immensely valuable to this thesis.
+
+In addition, we will need to look into related work regarding NNs, RNNs and GANs, specifically DNs.
+Since some approaches for other problems might be applicable to the problem of discriminating if a network flow could have been created from a given sequence of network packets.
+This will become clearer once the feature sets of network flows and packets are defined.
+
+% Approaches to generate synthetic network packets that did not use NNs are not really related work,
+% since they will not face the same problems as this thesis, therefore they were omitted.
+
+% \chapter{Thesis Outline}
+
+% \begin{itemize}
+%   \item extract characteristics of flows and packets, that are relevant
+%   \item create training datasets
+%   \item create testing datasets
+%   \item create Neural Network Architecture
+% \end{itemize}
+
+\chapter{Methodology}
+
+For our DN, we assume that some form of Recurrent Neural Network (RNN) will be suitable as a discriminator of a GAN that can create synthetic network packet captures from network flows.
+Since ''basic'' RNNs have the problem of short-term memory, we propose the use of either Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTermMemory1997} or Gated Recurrent Units (GRUs) \cite{bahdanauNeuralMachineTranslation2016}.
+GRUs tend to use fewer operations and states to produce similar or better results than LSTMs.
+But depending on the use case, LSTMs might still produce better results.
+It is to be determined, which of the two neural networks provides better results for the problem in this thesis.
+
+% Bidirectional RNN?
+
+% \chapter{Development environment}
+
+% Entwicklungsumgebung fehlt: da kann z.B.: stehen Windows XP,
+% .NET-Framework, C# oder was auch immer.
+
+% \begin{itemize}
+%   \item Python
+%   \item Tensorflow 2
+%   \item ID2T
+%   \item yaf
+%   \item PCA?
+% \end{itemize}
+
+\chapter{Timetable}
+
+The following timetable proposes a broad overview.
+If necessary single phases can be interleaved and adjusted.
+Additionally, regular meetings with a supervisor are mandatory to talk about progress and problems.
+
+% Prof. Mühlhäuser: Bei Diplomarbeiten, die zu einem Gesamtsystem gehören,
+% muss man auf die Integrationsarbeit achten und sollte die hinreichend mit
+% hinein nehmen. Das ist fair den Studenten gegenüber (kostet Zeit) und
+% wichtig für die Arbeit.
+
+\begin{center}
+\begin{tabular}{|l|p{5cm}|p{6.5cm}|}
+\hline
+\textbf{Month} & \textbf{Assignment} & \textbf{Writing} \\
+\hline
+ & Preparation & Reading relevant papers and familiarization with the tools \\
+
+\hline
+
+Start &
+Discussion of the given task &
+Discussion of the structure of the thesis\\
+
+\hline
+
+1 &
+Setting up Tensorflow 2 and Defining Dataset criteria &
+Transcription of the knowledge acquired during the preparations\\
+
+\hline
+
+2 &
+Creation of Training \& Testing Datasets &
+Documentation of the datasets and the methodology behind them.\\
+
+\hline
+
+3 &
+Begin of Implementation of DN architecture &
+Documentation of the DN and updating of the datasets' documentation.\\
+
+\hline
+
+4 &
+Improving Model/Architecture based on results from the datasets &
+Documenting results and update the documentation of the DN and the datasets accordingly.\\
+
+\hline
+
+5 &
+Evaluate results &
+Write conclusion and update introduction, etc., accordingly.\\
+
+\hline
+
+6 &
+Prepare Presentation \& 1. Talk&
+Work on feedback given by supervisor.\\
+
+\hline
+
+6 Mid &
+2. Talk (1/2 h Talk about the outcomes of the thesis)&
+Finalize thesis.
+\\
+
+\hline
+
+6 End &
+Handing in the thesis &
+The thesis is stamped by the Pr{\"u}fungssekreteriat and given to the supervisor.
+\\
+
+\hline
+
+\end{tabular}
+\end{center}
+
+\printbibliography
+
+\end{document}
