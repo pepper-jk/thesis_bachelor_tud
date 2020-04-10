@@ -400,6 +400,22 @@ This will become clearer once the feature sets of network flows and packets are 
 % Approaches to generate synthetic network packets that did not use NNs are not really related work,
 % since they will not face the same problems as this thesis, therefore they were omitted.
 
+\section{IP2Vec}
+
+Network flows consist of multiple features, some of which are categorical, e.g. IP addresses, ports and protocols.
+However NNs work best with numerical data.
+To effectively train a NN we therefore need to represent those categorical features as numerical data.
+For this we will use IP2Vec proposed by Ring et al. \cite{ringIP2VecLearningSimilarities2017}.
+This solution produces similarity values for IP addresses based on the behavior of the host.
+Their work is based on the concept of word2Vec from the field of natural language processing.
+%TODO: explain IP2Vec in detail
+Their experiments show, that provided the right dataset the data produced by IP2Vec can be used to distinguish between infected and non-infected host, as well as between servers, clients and even printers.
+
+We might need to improve the existing model though, since their model is not suitable for datasets, in which the behavior of a host changes over time.
+For our purpose we will need to adjust their model in a way, that they already suggest in their future work.
+We would want to retrain the IP2Vec model every time we input a new dataset into our DN.
+This behavior will be mandatory once the DN is used in a GAN after this thesis.
+
 % \chapter{Thesis Outline}
 
 % \begin{itemize}
