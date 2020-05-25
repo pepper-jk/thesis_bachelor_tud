@@ -403,7 +403,15 @@ To effectively train a NN we therefore need to represent those categorical featu
 For this we will use IP2Vec proposed by Ring et al. \cite{ringIP2VecLearningSimilarities2017}.
 This solution produces similarity values for IP addresses based on the behavior of the host.
 Their work is based on the concept of word2Vec from the field of natural language processing.
+%TODO: explain word2Vec shortly
+
 %TODO: explain IP2Vec in detail
+But instead of words IP2Vec processes network flow attributes,
+specifically source IP, destination IP, destination port and protocol.
+With this approach they are able to determine the differences between IPs based on their communication patterns (aka similar behavior).
+However one could change those attributes and determine the difference between IPs based on different attributes.
+%Which might be, what we have to do.
+
 Their experiments show, that provided the right dataset the data produced by IP2Vec can be used to distinguish between infected and non-infected host, as well as between servers, clients and even printers.
 
 We might need to improve the existing model though, since their model is not suitable for datasets, in which the behavior of a host changes over time.
