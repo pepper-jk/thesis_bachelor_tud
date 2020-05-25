@@ -127,11 +127,6 @@
 
 \chapter{Introduction}
 
-% - Warum gibt es dieses Diplomarbeitsthema?
-% - Bezug zur Forschung?
-
-% Ca 1/2 - 1 Seite
-
 \section{Motivation}
 
 Network intrusion detection systems (NIDSs) require datasets to be trained and tested.
@@ -416,15 +411,6 @@ For our purpose we will need to adjust their model in a way, that they already s
 We would want to retrain the IP2Vec model every time we input a new dataset into our DN.
 This behavior will be mandatory once the DN is used in a GAN after this thesis.
 
-% \chapter{Thesis Outline}
-
-% \begin{itemize}
-%   \item extract characteristics of flows and packets, that are relevant
-%   \item create training datasets
-%   \item create testing datasets
-%   \item create Neural Network Architecture
-% \end{itemize}
-
 \chapter{Methodology}
 
 For our DN, we assume that some form of Recurrent Neural Network (RNN) will be suitable as a discriminator of a GAN that can create synthetic network packet captures from network flows.
@@ -432,100 +418,6 @@ Since ''basic'' RNNs have the problem of short-term memory, we propose the use o
 GRUs tend to use fewer operations and states to produce similar or better results than LSTMs.
 But depending on the use case, LSTMs might still produce better results.
 It is to be determined, which of the two neural networks provides better results for the problem in this thesis.
-
-% Bidirectional RNN?
-
-% \chapter{Development environment}
-
-% Entwicklungsumgebung fehlt: da kann z.B.: stehen Windows XP,
-% .NET-Framework, C# oder was auch immer.
-
-% \begin{itemize}
-%   \item Python
-%   \item Tensorflow 2
-%   \item ID2T
-%   \item yaf
-%   \item PCA?
-% \end{itemize}
-
-\chapter{Timetable}
-
-The following timetable proposes a broad overview.
-If necessary single phases can be interleaved and adjusted.
-Additionally, regular meetings with a supervisor are mandatory to talk about progress and problems.
-
-% Prof. Mühlhäuser: Bei Diplomarbeiten, die zu einem Gesamtsystem gehören,
-% muss man auf die Integrationsarbeit achten und sollte die hinreichend mit
-% hinein nehmen. Das ist fair den Studenten gegenüber (kostet Zeit) und
-% wichtig für die Arbeit.
-
-\begin{center}
-\begin{tabular}{|l|p{5cm}|p{6.5cm}|}
-\hline
-\textbf{Month} & \textbf{Assignment} & \textbf{Writing} \\
-\hline
- & Preparation & Reading relevant papers and familiarization with the tools \\
-
-\hline
-
-Start &
-Discussion of the given task &
-Discussion of the structure of the thesis\\
-
-\hline
-
-1 &
-Setting up Tensorflow 2 and Defining Dataset criteria &
-Transcription of the knowledge acquired during the preparations\\
-
-\hline
-
-2 &
-Creation of Training \& Testing Datasets &
-Documentation of the datasets and the methodology behind them.\\
-
-\hline
-
-3 &
-Begin of Implementation of DN architecture &
-Documentation of the DN and updating of the datasets' documentation.\\
-
-\hline
-
-4 &
-Improving Model/Architecture based on results from the datasets &
-Documenting results and update the documentation of the DN and the datasets accordingly.\\
-
-\hline
-
-5 &
-Evaluate results &
-Write conclusion and update introduction, etc., accordingly.\\
-
-\hline
-
-6 &
-Prepare Presentation \& 1. Talk&
-Work on feedback given by supervisor.\\
-
-\hline
-
-6 Mid &
-2. Talk (1/2 h Talk about the outcomes of the thesis)&
-Finalize thesis.
-\\
-
-\hline
-
-6 End &
-Handing in the thesis &
-The thesis is stamped by the Pr{\"u}fungssekreteriat and given to the supervisor.
-\\
-
-\hline
-
-\end{tabular}
-\end{center}
 
 \printbibliography
 
