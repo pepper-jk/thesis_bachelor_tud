@@ -444,7 +444,17 @@ It is to be determined, which of the two neural networks provides better results
 
 \subsection{Dataset Preparation}
 
+To ensure contious datasets for our NN, we used IP2Vec to generate source IP based vectors that represent the similarity between IP addresses within a dataset.
+We used YAF and yafscii to create flow based csv files, which we used as an input for IP2Vec.
+This is the procidure for network flows as well as for packet data.
+
 \subsection{Dataset Criteria}
+
+Our main focus for the dataset attributes lies on the attributes already present in flows and packet captures.
+For this we propose that we can focus on network flows only for the beginning, since they hold all information that is directly comparable.
+For this every packet capture will first turned into flows.
+
+% TODO: compare single flow from packet capture? or even extract "single flow" packet captures from the whole packet capture
 
 \section{Model(s)}
 
