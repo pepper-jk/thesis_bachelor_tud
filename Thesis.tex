@@ -451,23 +451,88 @@ It is to be determined, which of the two neural networks provides better results
 
 \section{Datasets}
 
+For our datasets we will create network flows and IP2Vec embeddings based on publicly available and well known network packet captures.
+This is necessary, since we can not create network packets from flows.
+% TODO? Also we will implement an easy way to create positive and negative samples.
+
+% FIXME: only a certain percentage of the dataset for training, all of it for testing?
+
 \subsection{Dataset Preparation}
 
 To ensure contious datasets for our NN, we used IP2Vec to generate source IP based vectors that represent the similarity between IP addresses within a dataset.
-We used YAF and yafscii to create flow based csv files, which we used as an input for IP2Vec.
-This is the procidure for network flows as well as for packet data.
+We used YAF and yafscii to create flow based csv files, which we used as an input for IP2Vecs preprocessing.
+This is the procedure for network flows as well as for packet data.
+
+Our model will get pairs of network flows and decide their similarity.
+% FIXME: wording matching/mismatching
+For this it needs to be trained with a significant amount of data, both matching and mismatching samples, so that it can make informed decisions.
+This could be provided by combining datasets?
+or just one big dataset with much variaty?
 
 \subsection{Dataset Criteria}
+
+In this section we discuess, which network traffic attributes will be of importance to our neural network,
+and therefore decide the criteria of the dataset input of our neural network.
 
 Our main focus for the dataset attributes lies on the attributes already present in flows and packet captures.
 For this we propose that we can focus on network flows only for the beginning, since they hold all information that is directly comparable.
 For this every packet capture will first turned into flows.
 
+FLows created by YAF contain the following attributes:
+% start-time, end-time, duration, rtt, proto, sip, sp, dip, dp, iflags, uflags, riflags, ruflags, isn, risn, tag, rtag, pkt, oct, rpkt, roct, end-reason
+Timestamps for start and end time, duration, round trip time, protocol, source IP, source port, destination IP, destination port, TCP flags (forward and reverse), initial TCP sequence number (forward and reverse), first-packet 802.1q VLAN tag (forward and reverse), packet count (forward and reverse), octet/byte count (forward and reverse), the reason for the end of the packet sequence.
+
+Out of those the following are used by IP2Vec:
+Duration, protocol, source IP, source port, destination IP, destination port, packet count (forward), octet/byte count (forward)
+
+% FIXME: mabye flags later?
+
+Additionally IP2Vec extracts the attriubtes Day and Time from the start timestamp,
+where Day is a boolean represening weekday or weekend
+and Time is the time of day, striped from the date.
+However IP2Vec only uses them temporarly.
+We will extract those attributes from IP2Vecs preprocessing and use them as opposed to the start timestamp,
+since they are more generic, therefore provide better comparability and still anker the flow to a specific time.
+% TODO: export these features for our NN
+
+We now need to decide, which other attributes of a network flow are of value to our neural network.
+Since IP2Vec only helps us represent the categorical attributes, there are still bool, numerical and continous attributes left for us to use.
+We just need to look at their value for the NN.
+
+After we decided over the flow attributes %(and they work with the NN)
+we might take a closer look at the packet level attributes, a flow does not provide and decide if the extra implementation is worth it.
+
 % TODO: compare single flow from packet capture? or even extract "single flow" packet captures from the whole packet capture
+
+\subsection{Network Packet Captures used}
+
+For the creation of our datasets we need network packet captures.
+For this we take a look at intrusion detection datasets,
+as well as %TODO: what?
+
+Those most well known is DARPA, but since it is old and not representative of real world traffic we will only use it as a baseline.
+We will also use the
+MAWI,
+Simpleweb,
+etc. datasets.
+
+% TODO: maybe add a pcap from my personal network
+
+We chose these datasets because of their significant statistical differences, which have been shown in the paper
+"On generating network trafic datasets with synthetic atacks for intrusion detection" by Cordero et al..
+% TODO: OR double check with ID2T
 
 \section{Model(s)}
 
 % TODO: what are the tweaks
+
+For our model we will most likely use a form of Recurrent Neural Network (RNN).
+This will help with the vanishing gradient problem and make sure all our previous results will be taken into account.
+However it is important to establish a baseline, which will help us establish a measure of progress. % or even success.
+This is why for our first model we choose % TODO: WHAT?
+
+Afterwards we will compare the results of various RRNs, such as LSTMs and GRUs, to our baseline.
+If there is time left we might take a look into other NN architectures. % like DNN and CNN?
 
 % FIXME: depending on the size of the training split into seperate sections, like before
 
@@ -495,6 +560,8 @@ For this every packet capture will first turned into flows.
 \section{Future Work}
 
 \subsection{Generation of network taffic captures with GANs}
+
+\subsubsection{Federated Learning}
 
 \printbibliography
 
