@@ -473,15 +473,59 @@ This will be implemented in the dataset preprocessing.
 
 \subsection{Dataset Preparation}
 
-To ensure contious datasets for our NN, we used IP2Vec to generate source IP based vectors that represent the similarity between IP addresses within a dataset.
-We used YAF and yafscii to create flow based csv files, which we used as an input for IP2Vecs preprocessing.
-This is the procedure for network flows as well as for packet data.
+\subsubsection{Sampling}
 
-Our model will get pairs of network flows and decide their similarity.
 % FIXME: wording matching/mismatching
-For this it needs to be trained with a significant amount of data, both matching and mismatching samples, so that it can make informed decisions.
-This could be provided by combining datasets?
-or just one big dataset with much variaty?
+The NN needs to be trained with a significant amount of data, both matching and mismatching samples, so that it can make informed decisions.
+This will be provided by combining datasets.
+As stated above we will take Data from popular datasets,
+such as:
+
+However instead of combining all of them into one unmanagable blob,
+we will sample each dataset with multiple patterns.
+This way we can decide later, which pattern yields the best results.
+For our purpose there are basically two approaches to sampling a network packet caputre for flows.
+Either by splitting the capture into intervals,
+or by sampling through the packet sequences within the caputres.
+
+Splitting the capture into intervals is the less time intense alternative,
+however it yields the problem of truncated flows.
+This might not be a problem,
+since a capture itself is truncated at beginning and end,
+so it should not be a problem.
+The second issue is, the length of the intervals.
+Should they be determined by percentage or by a fixed length.
+While the fixed length has better comparability,
+the percentage is the less time consuming.
+
+Extracting the packet sequences from a capture is the more time consuming,
+but might yield deeper results.
+In the sense that some flows might actually be complete
+and the variaty of sequence length might yield better results later on.
+
+For either of the above options it is to be decided,
+if the sampling will be done sequencially or randomly.
+And if it is done randomly, it is to be decided, to which degree the sampling is randomized.
+Do we pick random intervals, or do we pick the sequence of packets within each interval at random.
+Do we pick every 20th packet sequence, or do we pick each packet sequence at random.
+
+We suggest a variaty of patterns to choose the packet sequences taken into account,
+when creating the dataset.
+With adding a new meta boolean attribute \textbf{truncated},
+we also can mark the truncated flows.
+This will help the NN to seperate the two categories of packet sequences.
+
+%Detecting truncation:
+%- just assume? (since the catpure is split into intervals)
+%- or check given the sequence number and "stream number"
+% TODO: does this even work?
+
+\subsubsection{Creating Flows}
+
+%To ensure contious datasets for our NN, we used IP2Vec to generate source IP based vectors that represent the similarity between IP addresses within a dataset.
+We used YAF and yafscii to create flow based csv files, which we used as an input for IP2Vecs preprocessing.
+% FIXME
+This is the procedure for network flows as well as for packet data.
 
 \subsection{Dataset Criteria}
 
