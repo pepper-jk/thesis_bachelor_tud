@@ -451,8 +451,22 @@ It is to be determined, which of the two neural networks provides better results
 
 \section{Datasets}
 
-For our datasets we will create network flows and IP2Vec embeddings based on publicly available and well known network packet captures.
-This is necessary, since we can not create network packets from flows.
+%  IP2Vec embeddings
+For our datasets we will extract packet sequences from publicly available and well known network packet captures and create network flows from them.
+Each network packet sequence will be paired with its network flow,
+so that our NN can learn the connection between the two sets of data.
+
+Since the end goal in the future work GAN is to generate the complete packet sequences based of the flows,
+each sequence of packets will contain all header information of each packet.
+This way the NN is prepared to handle binary format packet captures and compare them to flows.
+
+However each header attribute is converted into an appropriate representation depending on its datastructure.
+Since the NN is most efficient with continous and numerical data,
+we will adapt the IP2Vec approach and extend it to handle not only flow attributes,
+but all header attributes.
+This will be implemented in the dataset preprocessing.
+
+%This is necessary, since we can not create network packets from flows.
 % TODO? Also we will implement an easy way to create positive and negative samples.
 
 % FIXME: only a certain percentage of the dataset for training, all of it for testing?
