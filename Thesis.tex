@@ -539,25 +539,27 @@ FLows created by YAF contain the following attributes:
 % start-time, end-time, duration, rtt, proto, sip, sp, dip, dp, iflags, uflags, riflags, ruflags, isn, risn, tag, rtag, pkt, oct, rpkt, roct, end-reason
 Timestamps for start and end time, duration, round trip time, protocol, source IP, source port, destination IP, destination port, TCP flags (forward and reverse), initial TCP sequence number (forward and reverse), first-packet 802.1q VLAN tag (forward and reverse), packet count (forward and reverse), octet/byte count (forward and reverse), the reason for the end of the packet sequence.
 
-Out of those the following are used by IP2Vec:
-Duration, protocol, source IP, source port, destination IP, destination port, packet count (forward), octet/byte count (forward)
+% FIXME: remove IP2Vec
+%Out of those the following are used by IP2Vec:
+%Duration, protocol, source IP, source port, destination IP, destination port, packet count (forward), octet/byte count (forward)
 
-% FIXME: mabye flags later?
+% FIXME: maybe flags? YES
 
-Additionally IP2Vec extracts the attriubtes Day and Time from the start timestamp,
-where Day is a boolean represening weekday or weekend
-and Time is the time of day, striped from the date.
-However IP2Vec only uses them temporarly.
-We will extract those attributes from IP2Vecs preprocessing and use them as opposed to the start timestamp,
-since they are more generic, therefore provide better comparability and still anker the flow to a specific time.
-% TODO: export these features for our NN
+% FIXME: remove ip2vec
+% Additionally IP2Vec extracts the attriubtes Day and Time from the start timestamp,
+% where Day is a boolean represening weekday or weekend
+% and Time is the time of day, striped from the date.
+% However IP2Vec only uses them temporarly.
+% We will extract those attributes from IP2Vecs preprocessing and use them as opposed to the start timestamp,
+% since they are more generic, therefore provide better comparability and still anker the flow to a specific time.
+% % TODO: export these features for our NN
 
-We now need to decide, which other attributes of a network flow are of value to our neural network.
-Since IP2Vec only helps us represent the categorical attributes, there are still bool, numerical and continous attributes left for us to use.
-We just need to look at their value for the NN.
+% We now need to decide, which other attributes of a network flow are of value to our neural network.
+% Since IP2Vec only helps us represent the categorical attributes, there are still bool, numerical and continous attributes left for us to use.
+% We just need to look at their value for the NN.
 
-After we decided over the flow attributes %(and they work with the NN)
-we might take a closer look at the packet level attributes, a flow does not provide and decide if the extra implementation is worth it.
+% After we decided over the flow attributes %(and they work with the NN)
+% we might take a closer look at the packet level attributes, a flow does not provide and decide if the extra implementation is worth it.
 
 % TODO: compare single flow from packet capture? or even extract "single flow" packet captures from the whole packet capture
 
