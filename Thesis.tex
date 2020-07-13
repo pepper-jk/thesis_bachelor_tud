@@ -488,37 +488,31 @@ For our purpose there are basically two approaches to sampling a network packet 
 Either by splitting the capture into intervals,
 or by sampling through the packet sequences within the caputres.
 
-Splitting the capture into intervals is the less time intense alternative,
-however it yields the problem of truncated flows.
-This might not be a problem,
-since a capture itself is truncated at beginning and end,
-so it should not be a problem.
-The second issue is, the length of the intervals.
-Should they be determined by percentage or by a fixed length.
-While the fixed length has better comparability,
-the percentage is the less time consuming.
+% Splitting the capture into intervals is the less time intense alternative,
+% however it yields the problem of truncated flows.
+% However this should not be a problem,
+% since a capture itself is truncated at beginning and end anyway.
+% The second issue is, the length of the intervals.
+% Should they be determined relative to the size of the capture or by a fixed length,
+% While a fixed length has better comparability,
+% the percentage is the less time-consuming.
 
-Extracting the packet sequences from a capture is the more time consuming,
-but might yield deeper results.
-In the sense that some flows might actually be complete
-and the variaty of sequence length might yield better results later on.
+% Extracting the packet sequences from a complete capture is the more time consuming,
+% but might yield deeper results.
+% In the sense that some flows might actually be complete
+% and the variety of sequence length might yield better results later on.
 
-For either of the above options it is to be decided,
-if the sampling will be done sequencially or randomly.
-And if it is done randomly, it is to be decided, to which degree the sampling is randomized.
-Do we pick random intervals, or do we pick the sequence of packets within each interval at random.
-Do we pick every 20th packet sequence, or do we pick each packet sequence at random.
+% For either of the above options it is to be decided,
+% if the sampling will be done sequentially or randomly.
+% And if it is done randomly, it is to be decided, to which degree the sampling is randomized.
+% Do we pick random intervals, or do we pick the sequence of packets within each interval at random.
+% Do we pick every 20th packet sequence, or do we pick each packet sequence at random.
 
-We suggest a variaty of patterns to choose the packet sequences taken into account,
-when creating the dataset.
-With adding a new meta boolean attribute \textbf{truncated},
-we also can mark the truncated flows.
-This will help the NN to seperate the two categories of packet sequences.
-
-%Detecting truncation:
-%- just assume? (since the catpure is split into intervals)
-%- or check given the sequence number and "stream number"
-% TODO: does this even work?
+% We suggest a variety of patterns to choose the packet sequences taken into account,
+% when creating the dataset.
+% With adding a new meta boolean attribute \textbf{truncated},
+% we also can mark the truncated flows.
+% This will help the NN to separate the two categories of packet sequences.
 
 \subsubsection{Creating Flows}
 
