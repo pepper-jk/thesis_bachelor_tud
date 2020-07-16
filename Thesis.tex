@@ -469,6 +469,12 @@ Both will be discussed further in the dataset preprocessing section.
 
 \subsection{Dataset Preparation}
 
+The NN needs to be trained with a significant amount of data, both positive and negative data points so that it can make informed decisions.
+This will be provided in two steps.
+First we sample flows from multiple packet captures we extracted from popular intrusion detection datasets with network traffic packets.
+Those samples represent the ground truth and will be our positive data points.
+Then we randomly apply modifications to those samples to create negative data points.
+
 \subsubsection{Sampling}
 
 % FIXME: wording matching/mismatching
