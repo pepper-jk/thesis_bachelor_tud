@@ -151,7 +151,8 @@ the countless terminals communicating,
 the interim devices, e.g. switches, and their bandwidth,
 gateways, subnets, and churn of terminals.
 To generate appropriate datasets one would need to simulate all those factors and their interactions.
-This is where the mixture of real and synthetic traffic comes in.
+Since this is particularly complicated,
+this is where the mixture of real and synthetic traffic comes in.
 With this method, one takes an already existing network packet capture and modifies it to fit their needs.
 %The idea is good, but the sentence needs work.
 % You also need to be carefull and not mix these two ideas:
@@ -166,6 +167,7 @@ Since it is difficult to create realistic network packet captures from scratch,
 one could propose to create these traffic captures based on network flows.
 
 The paper ''Flow-based Network Traffic Generation using Generative Adversarial Networks'' by Markus Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} provides a method to create synthetic network flows that mimic a given set of network flows.
+%This enables researchers to create network flows based on real network flows.
 Building on top of this method one could synthetically create labeled datasets of authentic network flows for NIDSs.
 However, it is still desirable to have traffic based datasets, since they provide more information than flows.
 Instead one could build on top of the method to create synthetic network flows proposed by Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} and
@@ -187,7 +189,7 @@ Two, a GN needs to be able to create network packet captures that are indistingu
 Three, the training of the GAN and the required datasets.
 To create a GAN, both the DN and GN need to perform well on their own.
 
-In this research, we focus on building a NN that can be used in later work as the DN of a GAN.
+In this research, we focus on building a NN that can be used in future work as the DN of a GAN.
 It is not obvious, however, how to create a DN that
 can verify that a network flow was created from a sequence of packets.
 This leads to the research questions presented next.
