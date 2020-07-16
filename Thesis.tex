@@ -626,6 +626,20 @@ If there is time left we might take a look into other NN architectures. % like D
 
 \subsubsection{Federated Learning}
 
+In the last couple of years, federated learning (FL) has become a widely used method to protect user data while training ML models.
+It still has flaws regarding privacy, but multiple researchers are working on improving the privacy of FL for example, with differential privacy.
+
+Once the GAN proposed above produces good results, one could combine it with FL.
+This way, multiple users could add their traffic datasets without exposing their data.
+One real-world application for the GAN could be to deploy it with NIDSs, routers of big ISPs, or the routers of personal users.
+This way, the GAN could be trained with real-world traffic without ever needing to see the data.
+Some libraries, e.g. PySyft, also provide homomorphic encryption, so the end-user might not have to train on their data themselves.
+Instead, they could send the encrypted data to an intermediate server, which computes the model with the encrypted data.
+Therefore also never seeing the data itself.
+
+With a GAN that also respects appropriately labeled intrusion detection network captures,
+combining this approach with FL could have the potential to solve the issue of creating synthetic network traffic for self learning anomaly based NIDSs.
+
 \printbibliography
 
 \end{document}
