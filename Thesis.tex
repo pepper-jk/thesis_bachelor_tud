@@ -453,27 +453,19 @@ It is to be determined, which of the two neural networks provides better results
 % TODO: what is the baseline for the datasets?
 % TODO: what is the baseline for the NN?
 
-\section{Datasets}
+\section{Dataset}
 
-%  IP2Vec embeddings
-For our datasets we will extract packet sequences from publicly available and well known network packet captures and create network flows from them.
-Each network packet sequence will be paired with its network flow,
-so that our NN can learn the connection between the two sets of data.
+For our dataset we will extract packet sequences from publicly available and well-known network packet captures and create network flows based on these sequences.
+Each network packet sequence will be paired with its network flow so that our NN can learn the connection between the two data structures.
 
 Since the end goal in the future work GAN is to generate the complete packet sequences based of the flows,
-each sequence of packets will contain all header information of each packet.
-This way the NN is prepared to handle binary format packet captures and compare them to flows.
+each sequence of packets will contain as much of the original header information of each packet as needed to reconstruct the network packet they were extracted from.
+This way, the DN is prepared to handle whole packet captures and compare them to flows.
 
-However each header attribute is converted into an appropriate representation depending on its datastructure.
-Since the NN is most efficient with continous and numerical data,
-we will adapt the IP2Vec approach and extend it to handle not only flow attributes,
-but all header attributes.
-This will be implemented in the dataset preprocessing.
-
-%This is necessary, since we can not create network packets from flows.
-% TODO? Also we will implement an easy way to create positive and negative samples.
-
-% FIXME: only a certain percentage of the dataset for training, all of it for testing?
+Each header attribute is converted into an appropriate representation depending on its data type.
+Since the NNs are most efficient with continuous and numerical data, we will convert all fields accordingly, if possible.
+Also, we will need to implement a way to create negative samples from the ground truth, which builds our positive samples.
+Both will be discussed further in the dataset preprocessing section.
 
 \subsection{Dataset Preparation}
 
