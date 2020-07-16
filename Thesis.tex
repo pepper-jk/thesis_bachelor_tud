@@ -555,6 +555,66 @@ Also we will focus on the TCP and UDP protocols for now.
 % % start-time, end-time, duration, rtt, proto, sip, sp, dip, dp, iflags, uflags, riflags, ruflags, isn, risn, tag, rtag, pkt, oct, rpkt, roct, end-reason
 % Timestamps for start and end time, duration, round trip time, protocol, source IP, source port, destination IP, destination port, TCP flags (forward and reverse), initial TCP sequence number (forward and reverse), first-packet 802.1q VLAN tag (forward and reverse), packet count (forward and reverse), octet/byte count (forward and reverse), the reason for the end of the packet sequence.
 
+\subsubsection{Packet sequence features}
+
+\definecolor{not}{HTML}{949698} % Gray
+\definecolor{trivial}{HTML}{ed1b23} % Red
+\definecolor{derivation}{HTML}{fff200} % Yellow
+\definecolor{feature}{HTML}{41b0e4} % CornflowerBlue
+
+Each packet contains a variety of header fields, which vary in importance.
+One could argue that to properly correlate between flows and packets we would need most of the header fields of each packet.
+%Ideally all of them, but some can be ignored and others simplified for the NN.
+However most of the header fields can be trivially compared to a flow or verified.
+
+The checksums are a perfect example of the later.
+It does not matter to the NN what the checksum reads.
+It only matters if the checksum matches the header.
+So instead of feeding the NN the raw checksum and therefore teaching it how checksums work, we will provide its validity with a simple boolean.
+The same goes for the header length.
+
+% FIXME: wording
+Some header fields are insubstantial for our use case, for example the addresses of the communicating end points.
+This includes MAC and IP addresses.
+
+Lets take a closer look at the header fields now.
+% TODO: link header tables
+Figures 5.1 to 5.5 presents an overview of the packet headers and their fields.
+% TODO: color the colors
+We color code them in four categories:
+\colorbox{not}{\textbf{{Not Used} (gray)}},
+useful but \colorbox{trivial}{\textbf{Trivial} (red)},
+\colorbox{derivation}{\textbf{Feature Derivations} (yellow)},
+and raw \colorbox{feature}{\textbf{Features} (blue)}.
+
+\paragraph{Not Used} are header fields that do not change either never or in our scenario.
+This includes the Version of the IP Header, since we only take IPv4 traffic into account,
+and the reserved bits in the IP flags and the TCP header.
+
+\paragraph{Trivial} fields might be useful, but should not be fed to the NN.
+Either because they can be easily checked/validated outside the NN and might slow the NN down for no benefit.
+Or they do not alter the behavior of a given network flow.
+% TODO QUESTION: what about IP class? this could be an interesting feature
+This includes checksums, header lengths, urgent pointer, as well as MAC and IP addresses.
+
+\paragraph{Feature Derivations} are fields, which are used as input to the NN,
+but are derived in some way before hand.
+They are not raw. % TODO: wording
+The type of derivation depends on the header field.
+The checksum and header lengths are just verified and passed to the NN as a boolean.
+The flags are concatenated in a bit stream.
+The data offset and IHL (??? same as hl above) are used as an indicating boolean for TCP and IP options respectively.
+
+% TODO
+The ports ...
+
+\paragraph{Features} are fields that we consider unmodified or raw input.
+Most of them are numerical and are therefore easily interpretable by the NN.
+This goes for the DSCP (ToS), ECN, total Length, ID, TTL, Protocol, and Window Size.
+Were as IP and TCP Options keep their binary structure that will be represented as hexadecimal strings.
+
+% Later: "data preprocessing"
+
 % FIXME: remove ip2vec
 % Additionally IP2Vec extracts the attriubtes Day and Time from the start timestamp,
 % where Day is a boolean represening weekday or weekend
