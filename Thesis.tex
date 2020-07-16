@@ -542,27 +542,18 @@ Both approaches have the problem of IPs that might be present in multiple source
 
 \subsection{Dataset Criteria}
 
-We will focus only on IPv4 traffic to keep it simple.
+In this section we discuss, which features will be part of your dataset. % and how the NN input will look like.
+Network traffic features influencing network flow behavior will be of importance to our neural network.
+This will therefore decide the criteria of the dataset features.
+Network flows and packet captures of packet sequences will be the source of our data points.
+
+% FIXME: move this UP?
+We will generally focus only on IPv4 traffic to keep it simple.
 Also we will focus on the TCP and UDP protocols for now.
 
-\subsubsection{packet sequence attributes}
-
-In this section we discuess, which network traffic attributes will be of importance to our neural network,
-and therefore decide the criteria of the dataset input of our neural network.
-
-Our main focus for the dataset attributes lies on the attributes already present in flows and packet captures.
-For this we propose that we can focus on network flows only for the beginning, since they hold all information that is directly comparable.
-For this every packet capture will first turned into flows.
-
-FLows created by YAF contain the following attributes:
-% start-time, end-time, duration, rtt, proto, sip, sp, dip, dp, iflags, uflags, riflags, ruflags, isn, risn, tag, rtag, pkt, oct, rpkt, roct, end-reason
-Timestamps for start and end time, duration, round trip time, protocol, source IP, source port, destination IP, destination port, TCP flags (forward and reverse), initial TCP sequence number (forward and reverse), first-packet 802.1q VLAN tag (forward and reverse), packet count (forward and reverse), octet/byte count (forward and reverse), the reason for the end of the packet sequence.
-
-% FIXME: remove IP2Vec
-%Out of those the following are used by IP2Vec:
-%Duration, protocol, source IP, source port, destination IP, destination port, packet count (forward), octet/byte count (forward)
-
-% FIXME: maybe flags? YES
+% Network flows created by YAF contain the following features:
+% % start-time, end-time, duration, rtt, proto, sip, sp, dip, dp, iflags, uflags, riflags, ruflags, isn, risn, tag, rtag, pkt, oct, rpkt, roct, end-reason
+% Timestamps for start and end time, duration, round trip time, protocol, source IP, source port, destination IP, destination port, TCP flags (forward and reverse), initial TCP sequence number (forward and reverse), first-packet 802.1q VLAN tag (forward and reverse), packet count (forward and reverse), octet/byte count (forward and reverse), the reason for the end of the packet sequence.
 
 % FIXME: remove ip2vec
 % Additionally IP2Vec extracts the attriubtes Day and Time from the start timestamp,
