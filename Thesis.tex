@@ -633,6 +633,95 @@ Were as IP and TCP Options keep their binary structure that will be represented 
 
 % TODO: compare single flow from packet capture? or even extract "single flow" packet captures from the whole packet capture
 
+\begin{table}
+    \centering
+    \begin{tabular}{|r*{32}{|c}|}
+        \hline
+        bit & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 \\
+        \hline
+        0   & \multicolumn{6}{|c|}{\cellcolor{trivial} Desitnation} & \multicolumn{6}{|c|}{\cellcolor{trivial} Source} & \multicolumn{2}{|c|}{\cellcolor{not} Type} \\
+        \hline
+    \end{tabular}
+    \caption{MAC Header (Ethernet II)}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|r*{32}{|c}|}
+        %\hline
+        %bit & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 & 27 & 28 & 29 & 30 & 31 \\
+        \hline
+        %bit & \multicolumn{8}{|l|}{0} & \multicolumn{8}{|l|}{8} & \multicolumn{8}{|l|}{16} & \multicolumn{8}{|l|}{24} \\
+        bit & \multicolumn{8}{|l|}{0} & \multicolumn{8}{|l|}{8} & \multicolumn{3}{|l|}{16} & \multicolumn{13}{|l|}{19} \\
+        \hline % \multicolumn{3}{|c|}{Flags} % \makecell{E\\C\\N}
+        0   & \multicolumn{4}{|c|}{\cellcolor{not} Version} & \multicolumn{4}{|c|}{\cellcolor{derivation} IHL} & \multicolumn{6}{|c|}{\cellcolor{feature} DSCP} & \multicolumn{2}{|c|}{\cellcolor{feature} ECN} & \multicolumn{16}{|c|}{\cellcolor{feature} Total Length} \\
+        \hline % \multicolumn{3}{|c|}{Flags} | \makecell{D\\F} \makecell{M\\F}
+        32  & \multicolumn{16}{|c|}{\cellcolor{feature} Identification} & \cellcolor{not} 0 & \cellcolor{derivation} DF & \cellcolor{derivation} MF & \multicolumn{13}{|c|}{\cellcolor{derivation} Fragment Offset} \\
+        \hline
+        64  & \multicolumn{8}{|c|}{\cellcolor{feature} Time To Live} & \multicolumn{8}{|c|}{\cellcolor{feature} Protocol} & \multicolumn{16}{|c|}{\cellcolor{derivation} Header Checksum} \\
+        \hline
+        96  & \multicolumn{32}{|c|}{\cellcolor{trivial} Source IP Address} \\
+        \hline
+        128 & \multicolumn{32}{|c|}{\cellcolor{trivial} Destination IP Address} \\
+        \hline
+        160 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
+        192 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
+        224 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
+        256 & \multicolumn{32}{|c|}{\multirow{-4}{*}{\cellcolor{feature} Options (if IHL > 5)}} \\
+        \hline
+    \end{tabular}
+    \caption{IPv4 Header}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|r*{32}{|c}|} % m{0.2pt}
+        \hline
+        %bit & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 & 27 & 28 & 29 & 30 & 31 \\
+        bit & \multicolumn{4}{|l|}{0} & \multicolumn{3}{|l|}{4} & \multicolumn{9}{|l|}{7} & \multicolumn{16}{|l|}{16} \\
+        \hline
+        0   & \multicolumn{16}{|c|}{\cellcolor{derivation} Source Port} & \multicolumn{16}{|c|}{\cellcolor{derivation} Desitnation Port} \\
+        \hline
+        32  & \multicolumn{32}{|c|}{\cellcolor{derivation} Sequence Number} \\
+        \hline
+        64  & \multicolumn{32}{|c|}{\cellcolor{derivation} Acknowledgement Number} \\
+        \hline % \makecell{Data \\Offset}
+        96  & \multicolumn{4}{|c|}{\cellcolor{derivation} Data Offset} & \multicolumn{3}{|c|}{\cellcolor{not} Reserved} & \multicolumn{9}{|c|}{\cellcolor{derivation} Flags} & \multicolumn{16}{|c|}{\cellcolor{feature} Windows Size} \\
+        \hline
+        128 & \multicolumn{16}{|c|}{\cellcolor{derivation} Checksum} & \multicolumn{16}{|c|}{\cellcolor{trivial} Urgent Pointer (if URG set)} \\
+        \hline
+        160 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
+        ... & \multicolumn{32}{|c|}{\multirow{-2}{*}{\cellcolor{feature} Options (if data offset > 5. Padded at the end with "0" bytes if necessary.)}} \\
+        \hline
+    \end{tabular}
+    \caption{TCP Header}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{*{9}{|c}|}
+        \hline
+        \cellcolor{derivation} \makecell{N\\S} & \cellcolor{derivation} \makecell{C\\W\\R} & \cellcolor{derivation} \makecell{E\\C\\E} & \cellcolor{derivation} \makecell{U\\R\\G} & \cellcolor{derivation} \makecell{A\\C\\K} & \cellcolor{derivation} \makecell{P\\S\\H} & \cellcolor{derivation} \makecell{R\\S\\T} & \cellcolor{derivation} \makecell{S\\Y\\N} & \cellcolor{derivation} \makecell{F\\I\\N} \\
+        \hline
+    \end{tabular}
+    \caption{TCP Flags}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|r*{32}{|c}|}
+        \hline
+        %bit & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 & 27 & 28 & 29 & 30 & 31 \\
+        bit & \multicolumn{16}{|l|}{0} & \multicolumn{16}{|l|}{16} \\
+        \hline
+        0   & \multicolumn{16}{|c|}{\cellcolor{derivation} Source Port} & \multicolumn{16}{|c|}{\cellcolor{derivation} Desitnation Port} \\
+        \hline
+        32  & \multicolumn{16}{|c|}{\cellcolor{trivial} Length} & \multicolumn{16}{|c|}{\cellcolor{derivation} Checksum} \\
+        \hline
+    \end{tabular}
+    \caption{UDP Header}
+\end{table}
+
 \subsection{Network Packet Captures used}
 
 For the creation of our datasets we need network packet captures.
