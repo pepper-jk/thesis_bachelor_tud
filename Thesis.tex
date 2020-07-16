@@ -351,27 +351,21 @@ It describes the connection on a more abstract level.
 
 \subsection{IP2Vec}
 
-Network flows consist of multiple features, some of which are categorical, e.g. IP addresses, ports and protocols.
-However NNs work best with numerical data.
-To effectively train a NN we therefore need to represent those categorical features as numerical data.
-For this we will use IP2Vec proposed by Ring et al. \cite{ringIP2VecLearningSimilarities2017}.
+Network flows consist of multiple features, some of which are categorical, e.g. IP addresses, ports, and protocols.
+However, NNs work best with continuous and numerical data.
+To effectively train a NN we, therefore, need to represent those categorical features as numerical data.
+For this we plan on using IP2Vec proposed by Ring et al. \cite{ringIP2VecLearningSimilarities2017}.
 This solution produces similarity values for IP addresses based on the behavior of the host.
-Their work is based on the concept of word2Vec from the field of natural language processing.
-%TODO: explain word2Vec shortly
 
-%TODO: explain IP2Vec in detail
+They based their work on the concept of word2Vec from the field of natural language processing.
+There the word is observed in the context of its neighbors instead of alone.
+Similarly, in IP2Vec IPs are not observed on their own, but on in the context of other features they correlate with.
 But instead of words IP2Vec processes network flow attributes,
 specifically source IP, destination IP, destination port and protocol.
-With this approach they are able to determine the differences between IPs based on their communication patterns (aka similar behavior).
 However one could change those attributes and determine the difference between IPs based on different attributes.
-%Which might be, what we have to do.
-
-Their experiments show, that provided the right dataset the data produced by IP2Vec can be used to distinguish between infected and non-infected host, as well as between servers, clients and even printers.
-
-We might need to improve the existing model though, since their model is not suitable for datasets, in which the behavior of a host changes over time.
-For our purpose we will need to adjust their model in a way, that they already suggest in their future work.
-We would want to retrain the IP2Vec model every time we input a new dataset into our DN.
-This behavior will be mandatory once the DN is used in a GAN after this thesis.
+With this approach they are able to determine the differences between IPs based on their communication patterns (aka similar behavior).
+For example, a destination IP that correlates with port 80 often can be easily classified as an HTTP server.
+Their experiments show that provided the right dataset, the data produced by IP2Vec can be used to distinguish between infected and non-infected hosts, as well as between servers, clients and even printers.
 
 \subsection{Recurrent Neural Networks}
 
