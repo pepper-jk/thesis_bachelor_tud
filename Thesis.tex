@@ -725,20 +725,24 @@ Were as IP and TCP Options keep their binary structure that will be represented 
 \subsection{Network Packet Captures used}
 
 For the creation of our datasets we need network packet captures.
-For this we take a look at intrusion detection datasets,
-as well as %TODO: what?
-
-Those most well known is DARPA, but since it is old and not representative of real world traffic we will only use it as a baseline.
-We will also use the
-MAWI,
-Simpleweb,
-etc. datasets.
-
+For this we take a look at publically available intrusion detection datasets.
+Since the goal of our future work is to produce network packet captures, that can be used in the field of NIDSs.
+As stated above we will extracted data from multiple popular datasets, such as: CDX, DARPA, MACCDC, MAWI, Simpleweb and UNSW.
 % TODO: maybe add a pcap from my personal network
-
-We chose these datasets because of their significant statistical differences, which have been shown in the paper
-"On generating network trafic datasets with synthetic atacks for intrusion detection" by Cordero et al..
+We chose these datasets because of their significant statistical differences, which has been shown in the paper "On generating network traffic datasets with synthetic attacks for intrusion detection" by Cordero et al.
 % TODO: OR double check with ID2T
+
+\paragraph{CDX:} the data capture from the U.S. National Security Agency (NSA) published in 2009.
+
+\paragraph{DARPA:} the Intrusion Detection Data Sets from 1998 and 1999.
+
+\paragraph{MACCDC:} the U.S. National CyberWatch Mid-Atlantic Collegiate Cyber Defense Competition (MACCDC) dataset from 2012
+
+\paragraph{MAWI:} backbone traffic from the MAWI labs in Japan? from 2015.
+
+\paragraph{Simpleweb:}
+
+\paragraph{UNSW,} specifically UNSW-NB15, with multiple attacks.
 
 \section{Model(s)}
 
