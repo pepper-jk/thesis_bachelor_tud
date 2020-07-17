@@ -671,7 +671,7 @@ This is because flows are a much higher abstraction of a packet sequence and we 
         \hline % \multicolumn{3}{|c|}{Flags} | \makecell{D\\F} \makecell{M\\F}
         32  & \multicolumn{16}{|c|}{\cellcolor{feature} Identification} & \cellcolor{not} 0 & \cellcolor{derivation} DF & \cellcolor{derivation} MF & \multicolumn{13}{|c|}{\cellcolor{derivation} Fragment Offset} \\
         \hline
-        64  & \multicolumn{8}{|c|}{\cellcolor{feature} Time To Live} & \multicolumn{8}{|c|}{\cellcolor{feature} Protocol} & \multicolumn{16}{|c|}{\cellcolor{derivation} Header Checksum} \\
+        64  & \multicolumn{8}{|c|}{\cellcolor{feature} Time To Live} & \multicolumn{8}{|c|}{\cellcolor{feature} Protocol} & \multicolumn{16}{|c|}{\cellcolor{trivial} Header Checksum} \\
         \hline
         96  & \multicolumn{32}{|c|}{\cellcolor{trivial} Source IP Address} \\
         \hline
@@ -694,14 +694,14 @@ This is because flows are a much higher abstraction of a packet sequence and we 
         bit & \multicolumn{4}{|l|}{0} & \multicolumn{3}{|l|}{4} & \multicolumn{9}{|l|}{7} & \multicolumn{16}{|l|}{16} \\
         \hline
         0   & \multicolumn{16}{|c|}{\cellcolor{derivation} Source Port} & \multicolumn{16}{|c|}{\cellcolor{derivation} Desitnation Port} \\
-        \hline
-        32  & \multicolumn{32}{|c|}{\cellcolor{derivation} Sequence Number} \\
-        \hline
-        64  & \multicolumn{32}{|c|}{\cellcolor{derivation} Acknowledgement Number} \\
+        \hline % \cellcolor{derivation}
+        32  & \multicolumn{32}{|c|}{ Sequence Number} \\
+        \hline % \cellcolor{derivation}
+        64  & \multicolumn{32}{|c|}{ Acknowledgement Number} \\
         \hline % \makecell{Data \\Offset}
         96  & \multicolumn{4}{|c|}{\cellcolor{derivation} Data Offset} & \multicolumn{3}{|c|}{\cellcolor{not} Reserved} & \multicolumn{9}{|c|}{\cellcolor{derivation} Flags} & \multicolumn{16}{|c|}{\cellcolor{feature} Windows Size} \\
         \hline
-        128 & \multicolumn{16}{|c|}{\cellcolor{derivation} Checksum} & \multicolumn{16}{|c|}{\cellcolor{trivial} Urgent Pointer (if URG set)} \\
+        128 & \multicolumn{16}{|c|}{\cellcolor{trivial} Checksum} & \multicolumn{16}{|c|}{\cellcolor{trivial} Urgent Pointer (if URG set)} \\
         \hline
         160 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
         ... & \multicolumn{32}{|c|}{\multirow{-2}{*}{\cellcolor{feature} Options (if data offset > 5. Padded at the end with "0" bytes if necessary.)}} \\
