@@ -512,7 +512,22 @@ Then we use YAF to extract the flow information and yafscii to create flow-based
 
 \subsubsection{Creation of negative samples}
 
-% TODO
+To create negative samples we use multiple different methods.
+The first is falsifying packet and flow features by either sampling them from another datapoint of the dataset or generating random values, which lie within a rough frame of expectation for the feature.
+Both processes are randomized.
+And both produce three different types of negative samples:
+
+\begin{itemize}
+    \item a datapoint, which has modified (falsified) packets
+    \item a datapoint, which has a modified (falsified) flow
+    \item a datapoint, which has both
+\end{itemize}
+
+The second is randomizing the packet order within the packet sequence of a given data point.
+The third is to decrease or increase the number of packets of a sequence in a given data point.
+To decrease the number of packets we just remove a random number of packets at a random position.
+To increase the number of packets we again sample from another datapoint in the dataset and add some of its packets to the current sequence.
+And the fourth and final method is mismatching network flows with a different sequence of packets.
 
 \subsection{Conclusion on IP2Vec}
 
