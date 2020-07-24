@@ -710,9 +710,9 @@ This is because flows are a much higher abstraction of a packet sequence and we 
         \hline
         0   & \multicolumn{16}{|c|}{\cellcolor{derivation} Source Port} & \multicolumn{16}{|c|}{\cellcolor{derivation} Desitnation Port} \\
         \hline % \cellcolor{derivation}
-        32  & \multicolumn{32}{|c|}{ Sequence Number} \\
+        32  & \multicolumn{32}{|c|}{\cellcolor{trivial} Sequence Number} \\
         \hline % \cellcolor{derivation}
-        64  & \multicolumn{32}{|c|}{ Acknowledgement Number} \\
+        64  & \multicolumn{32}{|c|}{\cellcolor{trivial} Acknowledgement Number} \\
         \hline % \makecell{Data \\Offset}
         96  & \multicolumn{4}{|c|}{\cellcolor{derivation} Data Offset} & \multicolumn{3}{|c|}{\cellcolor{not} Reserved} & \multicolumn{9}{|c|}{\cellcolor{derivation} Flags} & \multicolumn{16}{|c|}{\cellcolor{feature} Windows Size} \\
         \hline
@@ -744,7 +744,7 @@ This is because flows are a much higher abstraction of a packet sequence and we 
         \hline
         0   & \multicolumn{16}{|c|}{\cellcolor{derivation} Source Port} & \multicolumn{16}{|c|}{\cellcolor{derivation} Desitnation Port} \\
         \hline
-        32  & \multicolumn{16}{|c|}{\cellcolor{trivial} Length} & \multicolumn{16}{|c|}{\cellcolor{derivation} Checksum} \\
+        32  & \multicolumn{16}{|c|}{\cellcolor{trivial} Length} & \multicolumn{16}{|c|}{\cellcolor{trivial} Checksum} \\
         \hline
     \end{tabular}
     \caption{UDP Header}
