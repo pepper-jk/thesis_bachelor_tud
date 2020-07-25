@@ -583,6 +583,7 @@ Also we will focus on the TCP and UDP protocols for now.
 \definecolor{trivial}{HTML}{ed1b23} % Red
 \definecolor{derivation}{HTML}{fff200} % Yellow
 \definecolor{feature}{HTML}{41b0e4} % CornflowerBlue
+\definecolor{dropped}{HTML}{99479b} % purple
 
 Each packet contains a variety of header fields of varying importance to our work.
 One could argue that to properly correlate between flows and packets we would need most of the header fields of each packet.
@@ -602,9 +603,10 @@ This includes MAC and IP addresses.
 % TODO: link header tables
 Figures 5.1 to 5.5 presents an overview of the packet headers and their fields.
 % TODO: color the colors
-We color code them in four categories:
+We color code them in five categories:
 \colorbox{not}{\textbf{{Not Used} (gray)}},
 useful but \colorbox{trivial}{\textbf{Trivial} (red)},
+\colorbox{dropped}{\textbf{Dropped} (purple)},
 \colorbox{derivation}{\textbf{Feature Derivations} (yellow)},
 and raw \colorbox{feature}{\textbf{Features} (blue)}.
 
@@ -620,7 +622,18 @@ Or they do not alter the behavior of a given network flow.
 This would include checksums, header lengths, urgent pointer, as well as MAC and IP addresses.
 % The checksum and header lengths are just verified and passed to the NN as a boolean.
 
-\paragraph{To be decided} fields, might either add to the \colorbox{trivial}{\textbf{Trivial} (red)} or \colorbox{derivation}{\textbf{Feature Derivations} (yellow)} category.
+\paragraph{\colorbox{dropped}{\textbf{Dropped} (purple)}} fields might have been \colorbox{derivation}{\textbf{Feature Derivations} (yellow)}, but were omitted due to a lack of data.
+A NN needs a large amount of data to make proper decisions, if the data is not sufficient and it encounters a feature for the first time it would at best classify the data point correctly with a 50\%.
+For IP options and the TCP flag NS, the ECN-nonce, the data is inconclusive.
+As both are rarely used in practice.
+Our dataset, although constructed from numerous network packet captures, does not contain any flows with IP options and only three with the NS flag set.
+Additionally network flows do contain neither of these features.
+IP options might still influence the behavior of a flow, but without sufficient data, we can not train our NN.
+It would just be a dead feature.
+The ECN-nonce is the more acute problem since there are three datapoints, which use it.
+But it is less problematic to omit since it should not impact the behavior of the flow.
+
+% FIXME: where do we put these? I still want them to be features
 The Sequence and Acknowledgement Numbers can be easily checked outside the NN and can be omitted as well.
 However their validity or even position in the flow can make a flow special.
 
@@ -699,10 +712,10 @@ This is because flows are a much higher abstraction of a packet sequence and we 
         \hline
         128 & \multicolumn{32}{|c|}{\cellcolor{trivial} Destination IP Address} \\
         \hline
-        160 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
-        192 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
-        224 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
-        256 & \multicolumn{32}{|c|}{\multirow{-4}{*}{\cellcolor{feature} Options (if IHL > 5)}} \\
+        160 & \multicolumn{32}{|c|}{\cellcolor{dropped}}\\\cline{1-1}
+        192 & \multicolumn{32}{|c|}{\cellcolor{dropped}}\\\cline{1-1}
+        224 & \multicolumn{32}{|c|}{\cellcolor{dropped}}\\\cline{1-1}
+        256 & \multicolumn{32}{|c|}{\multirow{-4}{*}{\cellcolor{dropped} Options (if IHL > 5)}} \\
         \hline
     \end{tabular}
     \caption{IPv4 Header}
@@ -736,7 +749,7 @@ This is because flows are a much higher abstraction of a packet sequence and we 
     \centering
     \begin{tabular}{*{9}{|c}|}
         \hline
-        \cellcolor{derivation} \makecell{N\\S} & \cellcolor{derivation} \makecell{C\\W\\R} & \cellcolor{derivation} \makecell{E\\C\\E} & \cellcolor{derivation} \makecell{U\\R\\G} & \cellcolor{derivation} \makecell{A\\C\\K} & \cellcolor{derivation} \makecell{P\\S\\H} & \cellcolor{derivation} \makecell{R\\S\\T} & \cellcolor{derivation} \makecell{S\\Y\\N} & \cellcolor{derivation} \makecell{F\\I\\N} \\
+        \cellcolor{dropped} \makecell{N\\S} & \cellcolor{derivation} \makecell{C\\W\\R} & \cellcolor{derivation} \makecell{E\\C\\E} & \cellcolor{derivation} \makecell{U\\R\\G} & \cellcolor{derivation} \makecell{A\\C\\K} & \cellcolor{derivation} \makecell{P\\S\\H} & \cellcolor{derivation} \makecell{R\\S\\T} & \cellcolor{derivation} \makecell{S\\Y\\N} & \cellcolor{derivation} \makecell{F\\I\\N} \\
         \hline
     \end{tabular}
     \caption{TCP Flags}
