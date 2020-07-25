@@ -180,12 +180,6 @@ Instead one could build on top of the method to create synthetic network flows p
 use the already authentic flows to create authentic synthetic network traffic at the packet level.
 One approach to this could be a Generative Adversarial Network (GAN) that generates network packet captures based on network flows.
 
-A GAN consists of two NNs that compete against each other to maximize the quality of the generated data:
-a generator network (GN) and a discriminative network (DN).
-The GN is constantly trying to fool the DN with data it generates synthetically,
-while the DN is constantly trying to figure out if the data it was given is real or synthetic.
-If correctly optimized, a GAN may create synthetic data indistinguishable from real data.
-
 \section{Problem}
 
 If we would want to propose a GAN that can create the packets from which a network flow was constructed,
@@ -413,7 +407,13 @@ This benefits the memory since low impact data is multiplied by 0 and therefore 
 % \end{itemize}
 
 \subsection{GANs}
-% TODO
+
+To create a NN that could later be used as a DN we first need to understand how a GAN operates.
+A GAN consists of two NNs that compete against each other to maximize the quality of the generated data:
+a generator network (GN) and a discriminative network (DN).
+The GN is constantly trying to fool the DN with data it generates synthetically,
+while the DN is constantly trying to figure out if the data it was given is real or synthetic.
+If correctly optimized, a GAN may create synthetic data indistinguishable from real data.
 
 \chapter{Related Work}
 
