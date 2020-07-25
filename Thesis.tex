@@ -313,7 +313,18 @@ which can be used to distinguish if packets belong to a certain flow.
 %and the datasets they get trained with.
 
 \section{network flows}
-% TODO
+
+If we want to extract features from network flows
+we first need to understand the difference between network flows and network traffic caputres.
+A network packet capture is a recording of network traffic at the packet level.
+It is limited by a start and end time.
+Each packet within the capture contains all headers it contained during actual transmission.
+The payload of the packets is omitted if its size gets too large to be reasonably stored otherwise, the packets are unaltered.
+A network flow is an artificial logical equivalent to only one network connection \cite{brownleeTrafficFlowMeasurement}.
+This connection may be between two terminals, a multicast group or a terminal and a broadcast address \cite{rajahalmeIPv6FlowLabel}.
+Like a network packet capture, a flow is limited by a start and end time,
+but it does not contain information on individual packets.
+It describes the connection on a more abstract level.
 
 \section{Network traffic datasets}
 
@@ -331,18 +342,6 @@ The former present the problem of non-attack traffic being of a unique network i
 Also, they most likely get anonymized and are therefore do not represent the ground truth.
 Thus these datasets are not sufficient to train or test NIDS.
 And no matter the origin the dataset will only describe the network and the behavior of its traffic at the time of recording or creation, hence it might not be applicable in future networks \cite{ringFlowbasedNetworkTraffic2019a}.
-
-If we want to extract features from network flows
-we first need to understand the difference between network flows and network traffic caputres.
-A network packet capture is a recording of network traffic at the packet level.
-It is limited by a start and end time.
-Each packet within the capture contains all headers it contained during actual transmission.
-The payload of the packets is omitted if its size gets too large to be reasonably stored otherwise, the packets are unaltered.
-A network flow is an artificial logical equivalent to only one network connection \cite{brownleeTrafficFlowMeasurement}.
-This connection may be between two terminals, a multicast group or a terminal and a broadcast address \cite{rajahalmeIPv6FlowLabel}.
-Like a network packet capture, a flow is limited by a start and end time,
-but it does not contain information on individual packets.
-It describes the connection on a more abstract level.
 
 % packets > flow - possible
 % flow > packets - not possible yet
