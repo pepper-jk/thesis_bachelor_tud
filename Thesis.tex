@@ -184,16 +184,16 @@ The paper ''Flow-based Network Traffic Generation using Generative Adversarial N
 %This enables researchers to create network flows based on real network flows.
 Building on top of this method one could synthetically create labeled datasets of authentic network flows for NIDSs.
 However, it is still desirable to have traffic based datasets, since they provide more information than flows.
-Instead one could build on top of the method to create synthetic network flows proposed by Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} and
-use the already authentic flows to create authentic synthetic network traffic at the packet level.
+Instead one could create synthetic network flows like proposed by Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} and
+use these already authentic flows to create authentic synthetic network traffic at the packet level.
 One approach to this could be a Generative Adversarial Network (GAN) that generates network packet captures based on network flows.
 
 \section{Problem}
 
 If we would want to propose a GAN that can create the packets from which a network flow was constructed,
 three major challenges need to be addressed.
-One, the DN needs to be defined such that it can determine if a network flow could have been created by a sequence of network packets.
-Two, a GN needs to be able to create network packet captures that are indistinguishable (in some statistical sense) from the packets the network flow was created from.
+One, the DN of the GAN needs to be defined such that it can determine if a network flow could have been created by a sequence of network packets.
+Two, the generative network (GN) of the GAN needs to be able to create network packet captures that are indistinguishable (in some statistical sense) from the packets the network flow was created from.
 Three, the training of the GAN and the required datasets.
 To create a GAN, both the DN and GN need to perform well on their own.
 
