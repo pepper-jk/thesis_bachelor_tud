@@ -517,6 +517,17 @@ Each sampled packet sequence will be exported as a capture first.
 The header fields of the packets belonging to the sequence will be stored as a csv file for easier parsing.
 Then we use YAF to extract the flow information and yafscii to create flow-based csv files.
 
+\subsubsection{A Padding supported Conversion from UDP to TCP}
+
+Each datapoint in our dataset can either be a TCP or a UDP packet.
+Compared to UDP packets, TCP packets have much more features derived from them.
+This results in an uneven length of packets within a datapoint.
+To make packets of both protocols comparable, we will add padding to the UDP packets.
+We add the TCP flags and options as if they are not set.
+We also add the sequence number and window size with a masking value (-15) , more on that in the model section.
+To round it up we convert the UDP length to TCP header length and TCP segment size (aka payload length).
+The last part is especially important so that the NN can make the right decisions based on the data.
+
 \subsubsection{Creation of negative samples}
 
 To create negative samples we use multiple different methods.
@@ -808,6 +819,11 @@ This is why for our first model we choose % TODO: WHAT?
 
 Afterwards we will compare the results of various RRNs, such as LSTMs and GRUs, to our baseline.
 If there is time left we might take a look into other NN architectures. % like DNN and CNN?
+
+To use our dataset with a NN we also need to add padding to the packet sequences of each data point to the maximum sequence size, 500 in our case.
+Therefore the model needs two Masking layers.
+One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
+And one for ignoring the padding of the packet sequence length.
 
 % FIXME: depending on the size of the training split into seperate sections, like before
 
