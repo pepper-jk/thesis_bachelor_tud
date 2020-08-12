@@ -644,8 +644,8 @@ The ECN-nonce is the more acute problem since there are three datapoints, which 
 But it is less problematic to omit since it should not impact the behavior of the flow.
 
 % FIXME: where do we put these? I still want them to be features
-The Sequence and Acknowledgement Numbers can be easily checked outside the NN and can be omitted as well.
-However their validity or even position in the flow can make a flow special.
+The acknowledgement number can be easily checked outside the NN and can be omitted as well.
+However the sequence number validity or even position in the flow can make a flow special.
 
 \paragraph{\colorbox{derivation}{\textbf{Feature Derivations} (yellow)}} are fields, which are used as input to the NN,
 but are derived in some way beforehand.
@@ -743,7 +743,7 @@ Please not however that the reverse features of a YAF flow will be omitted due t
         \hline
         0   & \multicolumn{16}{|c|}{\cellcolor{derivation} Source Port} & \multicolumn{16}{|c|}{\cellcolor{derivation} Desitnation Port} \\
         \hline % \cellcolor{derivation}
-        32  & \multicolumn{32}{|c|}{\cellcolor{trivial} Sequence Number} \\
+        32  & \multicolumn{32}{|c|}{\cellcolor{derivation} Sequence Number} \\
         \hline % \cellcolor{derivation}
         64  & \multicolumn{32}{|c|}{\cellcolor{trivial} Acknowledgement Number} \\
         \hline % \makecell{Data \\Offset}
