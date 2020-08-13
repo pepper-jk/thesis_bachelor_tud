@@ -655,9 +655,43 @@ The flags are concatenated in a bit stream.
 The data offset and IP header length (IHL) are also used as an indicating boolean for TCP and IP options respectively.
 The ports are categorical and might need to be abstracted in a useful way.
 
+The Explicit Congestion Notification (ECN) header field is a simple example.
+It consists of two bits that are interpreted as an integer from wireshark.
+However the bits are a categorical feature comparable with the IP and TCP Flags.
+If neither bit is set, ECN is not supported by the sender.
+If either one bit is set by itself, ECN is supported by the sender.
+If both bits are set, there is a network congestion on the route between source and destination.
+This leaves us with two boolean features as input for our NN: ECN capable transport and congestion encountered.
+If we look into the documentation of ECN, we will see that those are the only attributes the ECN provides.
+% TODO: reference the ECN doc (RFC)
+
+% TODO: explain categorical feature abstraction
+
+The Differentiated Services Code Point (DSCP), formerly Type of Service (ToS), header field is the more complicated example.
+Its specification is open for experimental and future standard values.
+% TODO: reference the ECN docs (RFCs)
+% https://www.iana.org/assignments/dscp-registry/dscp-registry.xhtml
+It is first divided into 3 pools of values, specified by the values last two bits.
+The first pool (xxxxx0) contains standard codepoints and still unassigned values, reserved for later standards.
+The second pool (xxxx11) is reserved for local use or experimental codepoints.
+The third pool (xxxx01) contains codepoints for local use or experimental, but will be used for standard codepoints once the first pool is exhausted.
+We abstract this behavior with two features: local (or experimental) and standard.
+This allows us to keep the parameters for the pool category minimal.
+But the pools are not the only scheme by which DSCPs are categorized.
+There are five major categories of standardized DSCPs, of which two have ranked subcategories.
+The five categories Low Effort, Class Selector, Assured Forwarding, Voice Admit, and Expedited Forwarding will again be used as bool features for the NN input.
+However Class Selector and Assured Forwarding are again ranked within their own.
+Both have are given an IP precedence class, which is ranked from 1 to 7, where packets of class 7 have the highest priority and packets with class 1 have the lowest.
+Assured Forwarding only allows the first 4 classes (1-4).
+% higher relative order (in the queue?)
+Assured Forwarding also has the drop precedence probability, which is ranked "Low", "Medium", and "High", or in our abstraction 1 to 3, and is used within one class, so to not overwrite the priority set by the IP precedence.
+As the name suggests the higher the class the more likely the packet is dropped, so here the higher number has the least priority.
+% Two solutions: one hot or integer % which?
+Both of these classifications will be be represented as an integer value.
+
 \paragraph{\colorbox{feature}{\textbf{Features} (blue)}} are fields that we consider unmodified or raw input.
 Most of them are numerical and are therefore easily interpretable by the NN.
-This goes for the DSCP (ToS), ECN, total Length, ID, TTL, Protocol, and Window Size.
+This goes for the total Length, ID, TTL, Protocol, and Window Size.
 Were as IP and TCP Options keep their binary structure that will be represented as hexadecimal strings.
 
 We also consider the relative time offset of the packets, this feature will match with the duration of the flow.
@@ -715,7 +749,7 @@ Please not however that the reverse features of a YAF flow will be omitted due t
         %bit & \multicolumn{8}{|l|}{0} & \multicolumn{8}{|l|}{8} & \multicolumn{8}{|l|}{16} & \multicolumn{8}{|l|}{24} \\
         bit & \multicolumn{8}{|l|}{0} & \multicolumn{8}{|l|}{8} & \multicolumn{3}{|l|}{16} & \multicolumn{13}{|l|}{19} \\
         \hline % \multicolumn{3}{|c|}{Flags} % \makecell{E\\C\\N}
-        0   & \multicolumn{4}{|c|}{\cellcolor{not} Version} & \multicolumn{4}{|c|}{\cellcolor{derivation} IHL} & \multicolumn{6}{|c|}{\cellcolor{feature} DSCP} & \multicolumn{2}{|c|}{\cellcolor{feature} ECN} & \multicolumn{16}{|c|}{\cellcolor{feature} Total Length} \\
+        0   & \multicolumn{4}{|c|}{\cellcolor{not} Version} & \multicolumn{4}{|c|}{\cellcolor{derivation} IHL} & \multicolumn{6}{|c|}{\cellcolor{derivation} DSCP} & \multicolumn{2}{|c|}{\cellcolor{derivation} ECN} & \multicolumn{16}{|c|}{\cellcolor{feature} Total Length} \\
         \hline % \multicolumn{3}{|c|}{Flags} | \makecell{D\\F} \makecell{M\\F}
         32  & \multicolumn{16}{|c|}{\cellcolor{feature} Identification} & \cellcolor{not} 0 & \cellcolor{derivation} DF & \cellcolor{derivation} MF & \multicolumn{13}{|c|}{\cellcolor{derivation} Fragment Offset} \\
         \hline
