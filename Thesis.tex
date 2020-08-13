@@ -883,10 +883,25 @@ Afterwards we will compare the results of various RRNs, such as LSTMs and GRUs, 
 If there is time left we might take a look into other NN architectures. % like DNN and CNN?
 
 % TODO: talk about UDP/TCP splitting
+A RNN needs sequences of data that have the same input shape (length, number of features) in each batch.
+Since UDP and TCP packets have a different number of features associated with them UDP packets need to be padded in order to coexist with TCP packets within one dataset.
+As this allows us to compare the behavior of UDP and TCP packets this is our goto solution.
+Additionally a NN handling both protocols allows us to have negative samples where the protocol was changed.
+However it might be interesting to compare our results to a NN model that consists of two RNNs, where one is handling UDP and one is handling TCP packet sequences later on.
+
 % TODO: talk about flow+packet concat as another "sanity check" experiment?
+As described in the Input section above, we will try to avoid a concatenation of each packet with the flow data.
+However it might be interesting to see if it even has an impact on the performance.
+
 % TODO: masking with one or two layers?
+As described in the dataset preparation section of this work, our NN will need two masking layers.
+One for the UDP padding and one for the padding of the packet sequence length.
+To decrease calculation overhead, we propose to use only one masking layer and only one masking value instead of two.
+This idea might be flawed so experiments comparing both approaches are in order.
+
 % TODO: another experiment would be to not convert the categorical data, but instead just use a int/bool mix vector and see where it goes
 %       also easy todo as this is what we did so far anyway
+Also skipping the conversion of categorical data into a continuous vector could yield interesting results.
 
 % FIXME: depending on the size of the training split into seperate sections, like before
 
