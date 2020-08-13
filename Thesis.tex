@@ -841,7 +841,16 @@ We chose these datasets because of their significant statistical differences, wh
 
 \paragraph{UNSW,} specifically UNSW-NB15, with multiple attacks.
 
-\section{Model(s)}
+\section{Neural Network}
+
+\subsection{Input}
+
+To use our dataset with a NN we also need to add padding to the packet sequences of each data point to the maximum sequence size, 500 in our case.
+Therefore the model needs two Masking layers.
+One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
+And one for ignoring the padding of the packet sequence length.
+
+\subsection{Model(s)}
 
 % TODO: what are the tweaks
 
@@ -852,11 +861,6 @@ This is why for our first model we choose % TODO: WHAT?
 
 Afterwards we will compare the results of various RRNs, such as LSTMs and GRUs, to our baseline.
 If there is time left we might take a look into other NN architectures. % like DNN and CNN?
-
-To use our dataset with a NN we also need to add padding to the packet sequences of each data point to the maximum sequence size, 500 in our case.
-Therefore the model needs two Masking layers.
-One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
-And one for ignoring the padding of the packet sequence length.
 
 % FIXME: depending on the size of the training split into seperate sections, like before
 
