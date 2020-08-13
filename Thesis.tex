@@ -845,10 +845,30 @@ We chose these datasets because of their significant statistical differences, wh
 
 \subsection{Input}
 
-To use our dataset with a NN we also need to add padding to the packet sequences of each data point to the maximum sequence size, 500 in our case.
+To use our dataset with a NN we need to convert the datapoints into a data structure that suited as NN input.
+As our NN works best with continuous data we face the following problems when converting the data:
+First the data that is only available as bytes and strings.
+Those features need to be converted to integer, floats or what data researchers call a binary representation, which is basically a sequence of boolean values that describe a categorical feature.
+This is already solved in the preprocessing.
+Second those sequences of binary representations need to be converted into continuous sequences, before being concatenated with the features, which are continuous by design. %eh, from the beginning is what I mean
+For this we will apply a naive approach, which has proven to be very effective.
+We will create two RNN layers, one of which will convert the categorical data into a continuous vector.
+The other one will get a vector of continuous data, which consists of the original continuous data and the newly created conversion vector.
+
+Furthermore we need to add padding to the packet sequences of each datapoint to the maximum sequence size, 500 in case of our initial dataset.
+% TODO: mention the decision to cut data > 500 out
 Therefore the model needs two Masking layers.
 One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
 And one for ignoring the padding of the packet sequence length.
+
+Our data has a general structure of flow data concatenated with a sequence of packets.
+As RNNs work with sequential data, in our case only the sequence of packets, we need a more sophisticated solution to take our flow data into account.
+There are multiple approaches to this problem.
+One is the append the flow data to each packet in the sequence.
+But this creates an enormous amount of overhead.
+Another approach would be to use a different Layer to learn about the flow data, but as the flow data directly impacts the packet sequence data, separating them would not be a good idea.
+The only liable approach is to modify the (initial) state of the RNN with the flow data as proposed by Vinyals et al. and by Karpathy and Fei-Fei.
+% TODO: references
 
 \subsection{Model(s)}
 
