@@ -818,7 +818,48 @@ Please not however that the reverse features of a YAF flow will be omitted due t
     \caption{UDP Header}
 \end{table}
 
-% TODO: create table for YAF fields
+\begin{table}
+    \centering
+    \begin{tabular}{|c|}
+        \hline
+        % FIXME: remove demo stuff, adjust for YAF
+        % start-time, end-time, duration, rtt, proto, sip, sp, dip, dp, iflags, uflags, riflags, ruflags, isn, risn, tag, rtag, pkt, oct, rpkt, roct, end-reason
+        \cellcolor{trivial} Start Timestamps \\
+        \hline
+        \cellcolor{trivial} End Timestamps \\
+        \hline
+        \cellcolor{feature} Duration \\
+        \hline
+        % OR trivial?
+        \cellcolor{derivation} round trip time \\
+        \hline
+        \cellcolor{feature} protocol \\
+        \hline
+        \cellcolor{trivial} source IP \\
+        \hline
+        \cellcolor{derivation} source port \\
+        \hline
+        \cellcolor{trivial} destination IP \\
+        \hline
+        \cellcolor{derivation} destination port \\
+        \hline
+        \cellcolor{derivation} TCP flags (forward only) \\
+        \hline
+        \cellcolor{derivation} initial TCP sequence number (forward only) \\
+        \hline
+        % TODO: what exactly does this store/return; is it useful?
+        \cellcolor{derivation} first-packet 802.1q VLAN tag (forward only) \\
+        \hline
+        \cellcolor{feature} packet count (forward only) \\
+        \hline
+        \cellcolor{feature} octet/byte count (forward only) \\
+        \hline
+        % TODO: what exactly does this store/return; is it useful?
+        \cellcolor{derivation} the reason for the end of the packet sequence. \\
+        \hline
+    \end{tabular}
+    \caption{YAF IPFIX Template}
+\end{table}
 
 \subsection{Network Packet Captures used}
 
