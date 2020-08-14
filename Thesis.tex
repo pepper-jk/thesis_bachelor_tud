@@ -512,6 +512,7 @@ For the first iteration of our dataset we decided, that splitting the capture in
 We split the captures into intervals relative to its size.
 This way we will preserve the behavior of the sampled flows within the larger network within each specific interval.
 Afterwards, we will randomly sample up to 250 of TCP and UDP packet sequences alike within those intervals.
+% TODO: mention that not all sources provide "enough" flows per protocol, specifically UDP
 
 Each sampled packet sequence will be exported as a capture first.
 The header fields of the packets belonging to the sequence will be stored as a csv file for easier parsing.
