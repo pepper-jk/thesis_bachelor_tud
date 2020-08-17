@@ -892,12 +892,12 @@ We chose these datasets because of their significant statistical differences, wh
 
 \subsection{Input}
 
-To use our dataset with a NN we need to convert the datapoints into a data structure that suited as NN input.
-As our NN works best with continuous data we face the following problems when converting the data:
+To use our dataset with a NN we need to convert the datapoints into a data structure that suitable as NN input.
+As NNs works best with continuous data we face the following problems when converting the data:
 First the data that is only available as bytes and strings.
 Those features need to be converted to integer, floats or what data researchers call a binary representation, which is basically a sequence of boolean values that describe a categorical feature.
 This is already solved in the preprocessing.
-Second those sequences of binary representations need to be converted into continuous sequences, before being concatenated with the features, which are continuous by design. %eh, from the beginning is what I mean
+Second those sequences of binary representations need to be converted into continuous sequences, before being concatenated with the features, which are continuous by default.
 For this we will apply a naive approach, which has proven to be very effective.
 We will create two RNN layers, one of which will convert the categorical data into a continuous vector.
 The other one will get a vector of continuous data, which consists of the original continuous data and the newly created conversion vector.
@@ -908,14 +908,17 @@ Therefore the model needs two Masking layers.
 One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
 And one for ignoring the padding of the packet sequence length.
 
-Our data has a general structure of flow data concatenated with a sequence of packets.
-As RNNs work with sequential data, in our case only the sequence of packets, we need a more sophisticated solution to take our flow data into account.
+Each data point has a general structure of a list of flow features and a sequence of packets.
+As RNNs work with sequential data and in our case only the sequence of packets is sequential, we need a more sophisticated solution to take our flow data into account.
 There are multiple approaches to this problem.
 One is the append the flow data to each packet in the sequence.
-But this creates an enormous amount of overhead.
-Another approach would be to use a different Layer to learn about the flow data, but as the flow data directly impacts the packet sequence data, separating them would not be a good idea.
-The only liable approach is to modify the (initial) state of the RNN with the flow data as proposed by Vinyals et al. and by Karpathy and Fei-Fei.
-% TODO: references
+But this creates an enormous amount of overhead and has also proven to be an ineffective solution in the past.
+Both Vinyals et al. \cite{vinyalsShowTellNeural2015} and Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015} claim that passing the condition to the NN with each timestamp of the sequence was less effective in providing results.
+Another approach would be to use two different NN layers in parallel to learn about the flow attributes and the packet sequence and merge the results afterwards.
+In our case the  packet sequence can only be verified as belonging to a given flow if the layer knows the flow attributes.
+Therefore the flow data should directly impact the packet sequence, so separating them would not be a good idea.
+The only liable approach is to modify the initial state of the RNN with the flow data as proposed by Vinyals et al. \cite{vinyalsShowTellNeural2015} and by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015}.
+Both used the output of a CNN, that provided a continuous vector representation of an image, as the conditional input for their RNN.
 
 \subsection{Model(s)}
 
