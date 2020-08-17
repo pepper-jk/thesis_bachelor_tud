@@ -920,6 +920,29 @@ Therefore the flow data should directly impact the packet sequence, so separatin
 The only liable approach is to modify the initial state of the RNN with the flow data as proposed by Vinyals et al. \cite{vinyalsShowTellNeural2015} and by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015}.
 Both used the output of a CNN, that provided a continuous vector representation of an image, as the conditional input for their RNN.
 
+% The image I is only input once, at t = −1, to inform the LSTM about the image contents. We empirically verified that feeding the image at each time step as an extra input yields inferior results, as the network can explicitly exploit noise in the image and overfits more easily.
+% - Vinyals et al.
+
+% All weights were randomly initialized except for the CNN weights, which we left unchanged because changing them had a negative impact. We used 512 dimensions for the embeddings and the size of the LSTM memory.
+% - Vinyals et al.
+
+% We first describe neural networks that map words and image regions into a common, multimodal embedding.
+% Then we introduce our novel objective, which learns the embedding representations so that semantically similar concepts across the two modalities occupy nearby regions of the space.
+% - Karpathy and Fei-Fei
+
+% We explore a simple but effective extension that additionally conditions the generative process on the content of an input image.
+% More formally, during training our Multimodal RNN takes the image pixels I and a sequence of input vectors (x1, . . . , xT ).
+% Note that we provide the image context vector bv to the RNN only at the first iteration, which we found to work better than at each time step.
+% In practice we also found that it can help to also pass both bv, (Whxxt) through the activation function.
+% A typical size of the hidden layer of the RNN is 512 neurons.
+% - Karpathy and Fei-Fei
+
+% We condition the RNN’s predictions on the image information (bv) via bias interactions on the first step.
+% - Karpathy and Fei-Fei
+
+% sentence. The RNN is conditioned on the image information at the first time step.
+% - Karpathy and Fei-Fei
+
 \subsection{Model(s)}
 
 % TODO: what are the tweaks
