@@ -689,7 +689,7 @@ Assured Forwarding only allows the first 4 classes (1-4).
 Assured Forwarding also has the drop precedence probability, which is ranked "Low", "Medium", and "High", or in our abstraction 1 to 3, and is used within one class, so to not overwrite the priority set by the IP precedence.
 As the name suggests the higher the class the more likely the packet is dropped, so here the higher number has the least priority.
 % Two solutions: one hot or integer % which?
-Both of these classifications will be be represented as an integer value.
+Both of these classifications will be represented as an integer value.
 
 \paragraph{\colorbox{feature}{\textbf{Features} (blue)}} are fields that we consider unmodified or raw input.
 Most of them are numerical and are therefore easily interpretable by the NN.
@@ -943,7 +943,7 @@ Both used the output of a CNN, that provided a continuous vector representation 
 
 % TODO: what are the tweaks
 
-For our NN model we will most likely use a form of Recurrent Neural Network (RNN).
+For our NN model we will (most likely) use a form of Recurrent Neural Network (RNN).
 This will help with the vanishing gradient problem and make sure all our previous results will be taken into account.
 However it is important to establish a baseline, which will help us establish a measure of progress. % or even success.
 This is why for our first model we can use a Softmax Layer.
@@ -972,7 +972,7 @@ This idea might be flawed so experiments comparing both approaches are in order.
 %       also easy todo as this is what we did so far anyway
 Also skipping the conversion of categorical data into a continuous vector could yield interesting results.
 
-% FIXME: depending on the size of the training split into seperate sections, like before
+% FIXME: depending on the size of the training split into separate sections, like before
 
 \section{Training}
 
