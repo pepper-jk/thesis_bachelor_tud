@@ -657,7 +657,7 @@ The flags are concatenated in a bit stream.
 The data offset and IP header length (IHL) are also used as an indicating boolean for TCP and IP options respectively.
 The ports are categorical and might need to be abstracted in a useful way.
 
-The Explicit Congestion Notification (ECN) header field is a simple example.
+The Explicit Congestion Notification (ECN) \cite{floydAdditionExplicitCongestion} header field is a simple example.
 It consists of two bits that are interpreted as an integer from wireshark.
 However the bits are a categorical feature comparable with the IP and TCP Flags.
 If neither bit is set, ECN is not supported by the sender.
@@ -673,7 +673,7 @@ The Differentiated Services Code Point (DSCP), formerly Type of Service (ToS), h
 Its specification is open for experimental and future standard values.
 % TODO: reference the ECN docs (RFCs)
 % https://www.iana.org/assignments/dscp-registry/dscp-registry.xhtml
-It is first divided into 3 pools of values, specified by the values last two bits.
+It is first divided into 3 pools of values, specified by the values last two bits \cite{DifferentiatedServicesField}.
 The first pool (xxxxx0) contains standard codepoints and still unassigned values, reserved for later standards.
 The second pool (xxxx11) is reserved for local use or experimental codepoints.
 The third pool (xxxx01) contains codepoints for local use or experimental, but will be used for standard codepoints once the first pool is exhausted.
@@ -681,7 +681,7 @@ We abstract this behavior with two features: local (or experimental) and standar
 This allows us to keep the parameters for the pool category minimal.
 But the pools are not the only scheme by which DSCPs are categorized.
 There are five major categories of standardized DSCPs, of which two have ranked subcategories.
-The five categories Low Effort, Class Selector, Assured Forwarding, Voice Admit, and Expedited Forwarding will again be used as bool features for the NN input.
+The five categories Low Effort \cite{blessLowerEffortPerHopBehavior}, Class Selector \cite{nicholsDefinitionDifferentiatedServices}, Assured Forwarding \cite{wroclawskiAssuredForwardingPHB}, Voice Admit \cite{bakerDifferentiatedServicesCode}, and Expedited Forwarding \cite{firoiuExpeditedForwardingPHB} will again be used as bool features for the NN input.
 However Class Selector and Assured Forwarding are again ranked within their own.
 Both have are given an IP precedence class, which is ranked from 1 to 7, where packets of class 7 have the highest priority and packets with class 1 have the lowest.
 Assured Forwarding only allows the first 4 classes (1-4).
