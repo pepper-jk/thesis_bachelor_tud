@@ -904,7 +904,7 @@ Therefore the model needs two Masking layers.
 One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
 And one for ignoring the padding of the packet sequence length.
 
-Each data point has a general structure of a list of flow features and a sequence of packets.
+Each data point has a general structure of a list of flow features and a sequence of packets, where each packet consists of a list of attributes derived from the data.
 As RNNs work with sequential data and in our case only the sequence of packets is sequential, we need a more sophisticated solution to take our flow data into account.
 There are multiple approaches to this problem.
 One is the append the flow data to each packet in the sequence.
@@ -914,7 +914,7 @@ Another approach would be to use two different NN layers in parallel to learn ab
 In our case the  packet sequence can only be verified as belonging to a given flow if the layer knows the flow attributes.
 Therefore the flow data should directly impact the packet sequence, so separating them would not be a good idea.
 The only liable approach is to modify the initial state of the RNN with the flow data as proposed by Vinyals et al. \cite{vinyalsShowTellNeural2015} and by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015}.
-Both used the output of a CNN, that provided a continuous vector representation of an image, as the conditional input for their RNN.
+Both used the output of a CNN, that provided a continuous vector representation of an image, as a conditional input for their RNN.
 
 % The image I is only input once, at t = −1, to inform the LSTM about the image contents. We empirically verified that feeding the image at each time step as an extra input yields inferior results, as the network can explicitly exploit noise in the image and overfits more easily.
 % - Vinyals et al.
@@ -948,7 +948,7 @@ This will help with the vanishing gradient problem and make sure all our previou
 However it is important to establish a baseline, which will help us establish a measure of progress. % or even success.
 This is why for our first model we can use a Softmax Layer.
 
-Afterwards we will compare the results of various RRNs, such as LSTMs and GRUs, to our baseline.
+Afterwards we will compare the results of various RNNs, such as LSTMs and GRUs, to our baseline.
 If there is time left we might take a look into other NN architectures. % like DNN and CNN?
 
 % TODO: talk about UDP/TCP splitting
@@ -958,19 +958,19 @@ As this allows us to compare the behavior of UDP and TCP packets this is our got
 Additionally a NN handling both protocols allows us to have negative samples where the protocol was changed.
 However it might be interesting to compare our results to a NN model that consists of two RNNs, where one is handling UDP and one is handling TCP packet sequences later on.
 
-% TODO: talk about flow+packet concat as another "sanity check" experiment?
-As described in the Input section above, we will try to avoid a concatenation of each packet with the flow data.
-However it might be interesting to see if it even has an impact on the performance.
+% % TODO: talk about flow+packet concat as another "sanity check" experiment?
+% As described in the Input section above, we will try to avoid a concatenation of each packet with the flow data.
+% However it might be interesting to see if it even has an impact on the performance.
 
-% TODO: masking with one or two layers?
-As described in the dataset preparation section of this work, our NN will need two masking layers.
-One for the UDP padding and one for the padding of the packet sequence length.
-To decrease calculation overhead, we propose to use only one masking layer and only one masking value instead of two.
-This idea might be flawed so experiments comparing both approaches are in order.
+% % TODO: masking with one or two layers?
+% As described in the dataset preparation section of this work, our NN will need two masking layers.
+% One for the UDP padding and one for the padding of the packet sequence length.
+% To decrease calculation overhead, we propose to use only one masking layer and only one masking value instead of two.
+% This idea might be flawed so experiments comparing both approaches are in order.
 
-% TODO: another experiment would be to not convert the categorical data, but instead just use a int/bool mix vector and see where it goes
-%       also easy todo as this is what we did so far anyway
-Also skipping the conversion of categorical data into a continuous vector could yield interesting results.
+% % TODO: another experiment would be to not convert the categorical data, but instead just use a int/bool mix vector and see where it goes
+% %       also easy todo as this is what we did so far anyway
+% Also skipping the conversion of categorical data into a continuous vector could yield interesting results.
 
 % FIXME: depending on the size of the training split into separate sections, like before
 
