@@ -964,6 +964,10 @@ As this allows us to compare the behavior of UDP and TCP packets this is our got
 Additionally a NN handling both protocols allows us to have negative samples where the protocol was changed.
 However it might be interesting to compare our results to a NN model that consists of two RNNs, where one is handling UDP and one is handling TCP packet sequences later on.
 
+As described in the Input section above, we will use a NN model, which accepts flows as conditional input and packets as sequential input.
+This conditional RNN \cite{remyPhilipperemyCondRnn2020} will empower us to diced if a network flow could have been created by a sequence of network packets.
+
+
 % % TODO: talk about flow+packet concat as another "sanity check" experiment?
 % As described in the Input section above, we will try to avoid a concatenation of each packet with the flow data.
 % However it might be interesting to see if it even has an impact on the performance.
