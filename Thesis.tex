@@ -657,6 +657,11 @@ The flags are concatenated in a binary representation.
 The data offset and IP header length (IHL) are also used as an indicating boolean for TCP and IP options respectively.
 The protocol will be represented as a single boolean as we are only looking at TCP and UDP and can set it to 1 for TCP and 0 for UDP.
 The ports are categorical and might need to be abstracted in a useful way.
+As TCP options such as maximum segment size (MSS) and selective acknowledgment (SACK) may impact a network flows behavior,
+while others may never occure, just like the IP options described above,
+it is important that we derivate TCP options to remove dead features and preserve the information important to us.
+We collect the MSS, SACK and the timestamp options.
+As they are the most prominent and frequent options.
 
 The Explicit Congestion Notification (ECN) \cite{floydAdditionExplicitCongestion} header field is a simple example.
 It consists of two bits that are interpreted as an integer from wireshark.
@@ -787,8 +792,8 @@ Please not however that the reverse features of a YAF flow will be omitted due t
         \hline
         128 & \multicolumn{16}{|c|}{\cellcolor{trivial} Checksum} & \multicolumn{16}{|c|}{\cellcolor{trivial} Urgent Pointer (if URG set)} \\
         \hline
-        160 & \multicolumn{32}{|c|}{\cellcolor{feature}}\\\cline{1-1}
-        ... & \multicolumn{32}{|c|}{\multirow{-2}{*}{\cellcolor{feature} Options (if data offset > 5. Padded at the end with "0" bytes if necessary.)}} \\
+        160 & \multicolumn{32}{|c|}{\cellcolor{derivation}}\\\cline{1-1}
+        ... & \multicolumn{32}{|c|}{\multirow{-2}{*}{\cellcolor{derivation} Options (if data offset > 5. Padded at the end with "0" bytes if necessary.)}} \\
         \hline
     \end{tabular}
     \caption{TCP Header}
