@@ -653,8 +653,9 @@ However the sequence number validity or even position in the flow can make a flo
 but are derived in some way beforehand.
 Their raw data representation either needs to be adjusted, since it is not optimal as NN input, or can be abstracted in a certain way.
 The type of derivation depends on the header field.
-The flags are concatenated in a bit stream.
+The flags are concatenated in a binary representation.
 The data offset and IP header length (IHL) are also used as an indicating boolean for TCP and IP options respectively.
+The protocol will be represented as a single boolean as we are only looking at TCP and UDP and can set it to 1 for TCP and 0 for UDP.
 The ports are categorical and might need to be abstracted in a useful way.
 
 The Explicit Congestion Notification (ECN) \cite{floydAdditionExplicitCongestion} header field is a simple example.
@@ -693,8 +694,7 @@ Both of these classifications will be represented as an integer value.
 
 \paragraph{\colorbox{feature}{\textbf{Features} (blue)}} are fields that we consider unmodified or raw input.
 Most of them are numerical and are therefore easily interpretable by the NN.
-This goes for the total Length, ID, TTL, Protocol, and Window Size.
-Were as IP and TCP Options keep their binary structure that will be represented as hexadecimal strings.
+This goes for the total Length, ID, TTL, and Window Size.
 
 We also consider the relative time offset of the packets, this feature will match with the duration of the flow.
 
@@ -704,8 +704,8 @@ In this work, we want to compare flow behavior to a sequence of packets.
 IP addresses and timestamps might mislead our classifier.
 Additionally if they match the header fields in the packet sequence could be easily checked without using a NN.
 Therefore both are marked \colorbox{trivial}{\textbf{trivial} (red)}.
-Duration, protocol as well as packet and byte count are already present as numerical data, therefore, they can be used as raw \colorbox{feature}{\textbf{features} (blue)}.
-The rest of the features are to be \colorbox{derivation}{\textbf{feature derivations} (yellow)}.
+Duration as well as packet and byte count are already present as numerical data, therefore, they can be used as raw \colorbox{feature}{\textbf{features} (blue)}.
+The rest of the features are to be \colorbox{derivation}{\textbf{feature derivations} (yellow)} and will be derived in a way that fits the derivations of their packet field counterparts.
 There are less parts of the flow that are omitted.
 This is because flows are a much higher abstraction of a packet sequence and we try to use as many of its data in order to make up for that.
 Please not however that the reverse features of a YAF flow will be omitted due to the fact that it does not relate to the packet sequence of the flow, but to the counter part of it.
@@ -755,7 +755,7 @@ Please not however that the reverse features of a YAF flow will be omitted due t
         \hline % \multicolumn{3}{|c|}{Flags} | \makecell{D\\F} \makecell{M\\F}
         32  & \multicolumn{16}{|c|}{\cellcolor{feature} Identification} & \cellcolor{not} 0 & \cellcolor{derivation} DF & \cellcolor{derivation} MF & \multicolumn{13}{|c|}{\cellcolor{derivation} Fragment Offset} \\
         \hline
-        64  & \multicolumn{8}{|c|}{\cellcolor{feature} Time To Live} & \multicolumn{8}{|c|}{\cellcolor{feature} Protocol} & \multicolumn{16}{|c|}{\cellcolor{trivial} Header Checksum} \\
+        64  & \multicolumn{8}{|c|}{\cellcolor{feature} Time To Live} & \multicolumn{8}{|c|}{\cellcolor{derivation} Protocol} & \multicolumn{16}{|c|}{\cellcolor{trivial} Header Checksum} \\
         \hline
         96  & \multicolumn{32}{|c|}{\cellcolor{trivial} Source IP Address} \\
         \hline
@@ -834,7 +834,7 @@ Please not however that the reverse features of a YAF flow will be omitted due t
         % OR trivial?
         \cellcolor{derivation} round trip time \\
         \hline
-        \cellcolor{feature} protocol \\
+        \cellcolor{derivation} protocol \\
         \hline
         \cellcolor{trivial} source IP \\
         \hline
