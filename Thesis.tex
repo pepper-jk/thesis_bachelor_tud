@@ -129,9 +129,10 @@
 
 \chapter{Abstract}
 
-This thesis aims to design a neural network (NN), that is capable of discriminating if a network flow could have been created based on a sequence of packets and can later be used as a discriminative network (DN) for a GAN.
+This thesis aims to design a neural network (NN), that is capable of discriminating if a network flow could have been created based on a sequence of packets and can be used as a discriminative network (DN) for a Generative Adversarial Network (GAN) in future work.
+
 For this we first determined the features of network flows and packets a like, which are relevant to this task.
-We then created a dataset with extracting the relevant features from well-known network traffic datasets from the field of intrusion detection.
+We then created a dataset by extracting the relevant features from well-known network traffic datasets from the field of intrusion detection, as well as falsifying said data points to provide negative samples.
 
 ... about the NN model we used ...
 
@@ -182,7 +183,7 @@ Building on top of this method one could synthetically create labeled datasets o
 However, it is still desirable to have traffic based datasets, since they provide more information than flows.
 Instead one could create synthetic network flows like proposed by Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} and
 use these already authentic flows to create authentic synthetic network traffic at the packet level.
-One approach to this could be a Generative Adversarial Network (GAN) that generates network packet captures based on network flows.
+One approach to this could be a GAN that generates network packet captures based on network flows.
 
 \section{Problem}
 
