@@ -221,32 +221,32 @@ This thesis will attempt to answer the following research questions.
 % x 2) Figure out what is needed to distinguish if packets belong to a certain flow, and
 % x 3) Come up with an architecture capable of making correct decisions.
 
-This thesis focuses on creating a Neural Network (NN) model
+This thesis focuses on creating a NN model
 that can be used as the DN of a GAN
 that takes network flows as input and produces network packets as output.
 The NN gets an array of network packets and at least one network flow as input
 and provides the probability that a specific network flow was created from the given sequence of packets.
 To achieve this goal, we might need to consider additional input,
 such as labels for either the network flows, the network packets, or both.
-Therefore the goal of this thesis is to create a DN model that distinguishes
+Therefore the goal of this thesis is to create a NN model that distinguishes
 if a specific network flow could have been created from a given sequence of packets, or not.
 
 It will not only be necessary to create the NN architecture,
 but also the datasets needed to train and test the system.
 For this, we need suitable representations of network flows and packets that a NN can process.
-To test the reliability of our DN, diverse datasets from sufficiently distinct networks need to be constructed.
+To test the reliability of our model, diverse datasets from sufficiently distinct networks need to be constructed.
 % During the development of the NN model, these features will be adjusted to create appropriate datasets.
 So to reach the goal, we need to reach the following objectives:
 
 \begin{itemize}
   \item Collecting diverse packet captures, representing a wide range of networks.
   \item Extracting flows from said packet captures.
-  \item Creating fake flows by modifying the extracted ones based on those features.
   \item Extracting features from packets and flows alike,
 which can be used to distinguish if packets belong to a certain flow.
-  \item Creating a NN model based on those features.
-  \item Choosing a NN architecture that is capable of making correct decisions.
-  \item Testing the effectiveness of the NN architectures to work as discriminators.
+  \item Creating fake flows by modifying the extracted ones based on those features.
+  \item Creating a NN model that is able to compute those features.
+  \item Testing the effectiveness of NN architectures to work as discriminators.
+  \item Deciding which NN architecture is capable of making correct decisions.
 \end{itemize}
 
 %%% THESIS TOPIC END
