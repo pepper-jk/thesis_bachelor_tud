@@ -189,14 +189,14 @@ One approach to this could be a GAN that generates network packet captures based
 
 \section{Problem}
 
-If we would want to propose a GAN that can create the packets from which a network flow was constructed,
+If we would want to create a GAN that is able to create the packets from which a network flow was constructed,
 three major challenges need to be addressed.
 One, the DN of the GAN needs to be defined such that it can determine if a network flow could have been created by a sequence of network packets.
 Two, the generative network (GN) of the GAN needs to be able to create network packet captures that are indistinguishable (in some statistical sense) from the packets the network flow was created from.
 Three, the training of the GAN and the required datasets.
 To create a GAN, both the DN and GN need to perform well on their own.
 
-In this research, we focus on building a NN that can be used in future work as the DN of a GAN.
+In this research, we focus on building a NN that can be used as the DN of a GAN in future work.
 It is not obvious, however, how to create a DN that
 can verify that a network flow was created from a sequence of packets.
 This leads to the research questions presented next.
