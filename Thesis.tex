@@ -330,6 +330,12 @@ Like a network packet capture, a flow is limited by a start and end time,
 but it does not contain information on individual packets.
 It describes the connection on a more abstract level.
 
+For example it will only keep track of a minimum of header information, like source and destination address and port
+It will contain the flags used by the first and last packet of the communication,
+but it will not contain the falgs of each individual packet within the communication.
+It will know the duration and average round trip time of the communicating, but not the time intervals between two packets.
+Additionally it might have information the packets themselves do not provide, e.g. the reason for the end of the communication.
+
 \section{Network traffic datasets}
 
 This thesis aims to lay the groundwork for a new method of the creation of authentic synthetic network packet captures
