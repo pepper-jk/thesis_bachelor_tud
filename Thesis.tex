@@ -132,7 +132,7 @@
 This thesis aims to design a neural network (NN), that is capable of discriminating if a network flow could have been created based on a sequence of packets and can be used as a discriminative network (DN) for a Generative Adversarial Network (GAN) in future work.
 
 For this we first determined the features of network flows and packets a like, which are relevant to this task.
-We then created a dataset by extracting the relevant features from well-known network traffic datasets from the field of intrusion detection, as well as falsifying said data points to provide negative samples.
+We then created a dataset by extracting the relevant features from well-known network traffic datasets from the field of intrusion detection, as well as falsifying said datapoints to provide negative samples.
 
 For our NN model we compared multiple architectures of recurrent neural networks (RNNs).
 Further our model uses a special kind of RNN called a conditional RNN (condRNN) \cite{remyPhilipperemyCondRnn2020}, which already has provided good results for a mixture of conditional and sequential input in the field of image region classification \cite{karpathyDeepVisualSemanticAlignments2015} \cite{vinyalsShowTellNeural2015}.
@@ -491,11 +491,11 @@ Both will be discussed further in the dataset preprocessing section.
 
 \subsection{Dataset Preparation}
 
-The NN needs to be trained with a significant amount of data, both positive and negative data points so that it can make informed decisions.
+The NN needs to be trained with a significant amount of data, both positive and negative datapoints so that it can make informed decisions.
 This will be provided in two steps.
 First we sample flows from multiple packet captures we extracted from popular intrusion detection datasets with network traffic packets.
-Those samples represent the ground truth and will be our positive data points.
-Later we randomly apply modifications to those samples to create negative data points.
+Those samples represent the ground truth and will be our positive datapoints.
+Later we randomly apply modifications to those samples to create negative datapoints.
 
 \subsubsection{Sampling}
 
@@ -547,7 +547,7 @@ This results in an uneven timestamp size (length of packet entries) between data
 To make packets of both protocols comparable, we will add padding to the UDP packets.
 We add the TCP flags and options as well as the sequence number and window size with a masking value (-15) , more on that in the model section.
 To round it up we convert the UDP length to TCP header length and TCP segment size (aka payload length).
-The last part is especially important to keep the data points comparable.
+The last part is especially important to keep the datapoints comparable.
 This way, the NN can make the right decisions based on the data.
 
 \subsubsection{Creation of negative samples}
@@ -563,8 +563,8 @@ And both produce three different types of negative samples:
     \item a datapoint, which has both
 \end{itemize}
 
-The second is randomizing the packet order within the packet sequence of a given data point.
-The third is to decrease or increase the number of packets of a sequence in a given data point.
+The second method is randomizing the packet order within the packet sequence of a given datapoint.
+The third is to decrease or increase the number of packets of a sequence in a given datapoint.
 To decrease the number of packets we just remove a random number of packets at a random position.
 To increase the number of packets we again sample from another datapoint in the dataset and add some of its packets to the current sequence.
 And the fourth and final method is mismatching network flows with a different sequence of packets.
@@ -600,7 +600,7 @@ Both approaches have the problem of IPs that might be present in multiple source
 In this section we discuss, which features will be part of your dataset. % and how the NN input will look like.
 Network traffic features influencing network flow behavior will be of importance to our neural network.
 This will therefore decide the criteria of the dataset features.
-Network flows and packet captures of packet sequences will be the source of our data points.
+Network flows and packet captures of packet sequences will be the source of our datapoints.
 
 % FIXME: move this UP?
 We will generally focus only on IPv4 traffic to keep it simple.
@@ -655,7 +655,7 @@ This would include checksums, header lengths, urgent pointer, as well as MAC and
 % The checksum and header lengths are just verified and passed to the NN as a boolean.
 
 \paragraph{\colorbox{dropped}{\textbf{Dropped} (purple)}} fields might have been \colorbox{derivation}{\textbf{Feature Derivations} (yellow)}, but were omitted due to a lack of data.
-A NN needs a large amount of data to make proper decisions, if the data is not sufficient and it encounters a feature for the first time it would at best classify the data point correctly with a 50\%.
+A NN needs a large amount of data to make proper decisions, if the data is not sufficient and it encounters a feature for the first time it would at best classify the datapoint correctly with a 50\%.
 For IP options and the TCP flag NS, the ECN-nonce, the data is inconclusive.
 As both are rarely used in practice.
 Our dataset, although constructed from numerous network packet captures, does not contain any flows with IP options and only three with the NS flag set.
@@ -930,7 +930,7 @@ Therefore the model needs two Masking layers.
 One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
 And one for ignoring the padding of the packet sequence length.
 
-Each data point has a general structure of a list of flow features and a sequence of packets, where each packet consists of a list of attributes derived from the data.
+Each datapoint has a general structure of a list of flow features and a sequence of packets, where each packet consists of a list of attributes derived from the data.
 As RNNs work with sequential data and in our case only the sequence of packets is sequential, we need a more sophisticated solution to take our flow data into account.
 There are multiple approaches to this problem.
 One is the append the flow data to each packet in the sequence.
