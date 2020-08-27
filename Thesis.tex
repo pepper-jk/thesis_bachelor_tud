@@ -398,6 +398,7 @@ This is where Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTe
 Both similarly tackle the short-term memory issue,
 also known as the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
 Where the weight of the memory is changed so little, that it becomes insignificant.
+% TODO: maybe talk about vanishing gradiant problem more?
 Both models provide a gated approach.
 They also both rely on the Sigmoid function in addition to the hyperbolic tangent function.
 While the hyperbolic tangent function produces values between -1 and 1,
@@ -431,17 +432,20 @@ a generator network (GN) and a discriminative network (DN).
 The GN is constantly trying to fool the DN with data it generates synthetically,
 while the DN is constantly trying to figure out if the data it was given is real or synthetic.
 If correctly optimized, a GAN may create synthetic data indistinguishable from real data.
+% TODO: more
 
 \chapter{Related Work}
 
 \section{Flow-based Network Traffic Generation using Generative Adversarial Networks}
 
 Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} introduce a GAN to generate synthetic network flows.
-Not only is their work interesting as the source of input for the proposed GAN at a later time,
-but as a resource regarding feature extraction for network flows,
-which is needed by this thesis.
+% FIXME: this is no longer true
+% Not only is their work interesting as the source of input for the proposed GAN at a later time,
+% but as a resource regarding feature extraction for network flows,
+% which is needed by this thesis.
 So even though Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} do not create network packet captures,
 their choice of network flow features is immensely valuable to this thesis.
+% TODO: explain more?
 
 \section{Related Neural Network Models}
 
