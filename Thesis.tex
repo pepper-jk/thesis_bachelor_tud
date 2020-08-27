@@ -378,6 +378,32 @@ With this approach they are able to determine the differences between IPs based 
 For example, a destination IP that correlates with port 80 often can be easily classified as an HTTP server.
 Their experiments show that provided the right dataset, the data produced by IP2Vec can be used to distinguish between infected and non-infected hosts, as well as between servers, clients and even printers.
 
+\subsubsection{Conclusion on IP2Vec}
+
+% We had planned to adapt the IP2Vec approach and extend it to handle not only flow attributes but all packet header attributes.
+% However since this approach seems fundamentally flawed.
+
+% used IP2Vec to generate source IP based vectors that represent the similarity between IP addresses within a dataset.
+
+% Out of the YAF flow features the following are used by IP2Vec:
+% Duration, protocol, source IP, source port, destination IP, destination port, packet count (forward), octet/byte count (forward)
+
+After due consideration, we decided not to use the IP2Vec approach.
+This is mainly to the fact that IPs do not influence the flow behavior too much.
+The only feature of them that influences a flow significantly is if they are public or local (aka private).
+Additionally, IP2Vec sees IPs in the context of a series of packet flows, which represent a network traffic capture,
+meaning that it relates the IPs to one another depending on the behavior of their flows within one network.
+
+This is not applicable to our use case, since we use traffic of multiple network packet capture datasets.
+To use IP2Vec we would either have to apply it before extracting the flows and mixing the results,
+or mix the flows and then apply IP2Vec to it.
+The former bares two problems:
+First we would risk introducing false correlations between IPs from different datasets.
+Second we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
+% FIXME: is this really the problem? THINK ABOUT IT
+The later has the problem, that IPs will correlated to each other without ever having been in the same network.
+Both approaches have the problem of IPs that might be present in multiple source datasets.
+
 \subsection{Recurrent Neural Networks}
 
 To solve the problem stated in this thesis we are required to find an appropriate NN architecture
@@ -573,32 +599,6 @@ This procedure provides us with a wide range of negative datapoints.
 This is important in order to efficiently train the NN.
 However it is important to falsify the data in a realistic way, so that the NN is efficiently tested for the future use within a GAN.
 For this we need to provide a good representation for each feature of packets and flows.
-
-\subsection{Conclusion on IP2Vec}
-
-% We had planned to adapt the IP2Vec approach and extend it to handle not only flow attributes but all packet header attributes.
-% However since this approach seems fundamentally flawed.
-
-% used IP2Vec to generate source IP based vectors that represent the similarity between IP addresses within a dataset.
-
-% Out of the YAF flow features the following are used by IP2Vec:
-% Duration, protocol, source IP, source port, destination IP, destination port, packet count (forward), octet/byte count (forward)
-
-After due consideration, we decided not to use the IP2Vec approach.
-This is mainly to the fact that IPs do not influence the flow behavior too much.
-The only feature of them that influences a flow significantly is if they are public or local (aka private).
-Additionally, IP2Vec sees IPs in the context of a series of packet flows, which represent a network traffic capture,
-meaning that it relates the IPs to one another depending on the behavior of their flows within one network.
-
-This is not applicable to our use case, since we use traffic of multiple network packet capture datasets.
-To use IP2Vec we would either have to apply it before extracting the flows and mixing the results,
-or mix the flows and then apply IP2Vec to it.
-The former bares two problems:
-First we would risk introducing false correlations between IPs from different datasets.
-Second we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
-% FIXME: is this really the problem? THINK ABOUT IT
-The later has the problem, that IPs will correlated to each other without ever having been in the same network.
-Both approaches have the problem of IPs that might be present in multiple source datasets.
 
 \subsection{Dataset Criteria}
 
