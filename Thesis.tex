@@ -480,14 +480,13 @@ Before we can persue the experiments however we need data to train an test with.
 
 For our dataset we will extract packet sequences from publicly available and well-known network packet captures and create network flows based on these sequences.
 Each network packet sequence will be paired with its network flow so that our NN can learn the connection between the two data structures.
-
 Since the end goal in the future work GAN is to generate the complete packet sequences based of the flows,
-each sequence of packets will contain as much of the original header information of each packet as needed to reconstruct the network packet they were extracted from.
-This way, the DN is prepared to handle whole packet captures and compare them to flows.
+each sequence of packet features will contain as much of the original header information as needed to reconstruct a packet sequence from them.
+This way, no crucial information gets lost and the DN is prepared to handle whole packet captures and compare them to flows.
 
-Each header attribute is converted into an appropriate representation depending on its data type.
-Since the NNs are most efficient with continuous and numerical data, we will convert all fields accordingly, if possible.
-Also, we will need to implement a way to create negative samples from the ground truth, which builds our positive samples.
+Each header attribute is converted into an appropriate representation depending on its data type and meaning.
+Since the NNs are most efficient with continuous and numerical data, we will convert all fields accordingly, whereever possible.
+We will also implement a way to create negative samples from the ground truth, which builds our positive samples.
 Both will be discussed further in the dataset preprocessing section.
 
 \subsection{Dataset Preparation}
