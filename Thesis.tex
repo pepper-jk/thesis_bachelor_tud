@@ -542,13 +542,13 @@ Then we use YAF to extract the flow information and yafscii to create flow-based
 \subsubsection{A Padding supported Conversion from UDP to TCP}
 
 Each datapoint in our dataset can either be a TCP or a UDP packet.
-Compared to UDP packets, TCP packets have much more features derived from them.
-This results in an uneven length of packets within a datapoint.
+Compared to UDP packets, TCP packets have much more header fields and therefore more (derived) features.
+This results in an uneven timestamp size (length of packet entries) between datapoints, if one is based on a UDP packet and one is a TCP packet.
 To make packets of both protocols comparable, we will add padding to the UDP packets.
-We add the TCP flags and options as if they are not set.
-We also add the sequence number and window size with a masking value (-15) , more on that in the model section.
+We add the TCP flags and options as well as the sequence number and window size with a masking value (-15) , more on that in the model section.
 To round it up we convert the UDP length to TCP header length and TCP segment size (aka payload length).
-The last part is especially important so that the NN can make the right decisions based on the data.
+The last part is especially important to keep the data points comparable.
+This way, the NN can make the right decisions based on the data.
 
 \subsubsection{Creation of negative samples}
 
