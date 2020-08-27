@@ -569,6 +569,11 @@ To decrease the number of packets we just remove a random number of packets at a
 To increase the number of packets we again sample from another datapoint in the dataset and add some of its packets to the current sequence.
 And the fourth and final method is mismatching network flows with a different sequence of packets.
 
+This procedure provides us with a wide range of negative datapoints.
+This is important in order to efficiently train the NN.
+However it is important to falsify the data in a realistic way, so that the NN is efficiently tested for the future use within a GAN.
+For this we need to provide a good representation for each feature of packets and flows.
+
 \subsection{Conclusion on IP2Vec}
 
 % We had planned to adapt the IP2Vec approach and extend it to handle not only flow attributes but all packet header attributes.
