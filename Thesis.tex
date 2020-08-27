@@ -500,28 +500,34 @@ Later we randomly apply modifications to those samples to create negative data p
 \subsubsection{Sampling}
 
 % FIXME: one capture each might be bad (sound bad)
-Instead of combining all flows from our source datasets, we pick only one packet capture each and sample sequences of packets from it.
-The sampled packet sequences and flows are stored separately as csv files, as network packet captures are usually slow to process.
-
-For our purpose there are basically two approaches to sampling a network packet capture for flows.
+Instead of combining all flows from our source captures, we sample sequences of packets from only one packet capture of each dataset.
+The sampled packet sequences and flows are stored separately as csv files for further preprocessing, as network packet captures are usually slow to process.
+For our purpose we considered two approaches for sampling a network packet capture for flows.
 Either by sampling through the packet sequences within the captures or by splitting the capture into intervals and sampling through those partial captures.
-Splitting the capture into intervals is less time-intensive, since the resulting packet captures are smaller and much quicker to parse.
+Splitting the capture into intervals is less compute-heavy and therefore time-intensive, since the resulting packet captures are smaller and much quicker to parse.
 Truncated flows should not be a problem, since a capture itself is truncated at beginning and end anyway.
+Additionally we also do not need any flow longer than the intervals themselves,
+as we use timeouts for the flow collecting.
+Later in the preprocessing we also drop any flow longer than 500 packets, to ensure a maixmum length and therefore an equal length for the packet sequences.
+
 The question however is the length of the intervals.
 Should they be determined relative to the size of the capture or should they have a fixed length?
-While a fixed-length has better comparability, the percentage is less time-consuming.
-Additionally, the variation between packet captures in packet frequency may proof to be problematic.
-Setting the fixed length to low might yield the problem that some captures return empty intervals.
-Setting it too high might result in too large intervals and therefore partial captures.
-Extracting the packet sequences from a complete capture is more time-consuming.
-In addition, extracting packet sequences with a relative offset within a capture might provide sequences with different behavior.
+A fixed-length may provide better comparability between the flows of different captures,
+but the variation between packet captures regarding packet rate (frequency) may proof to be problematic.
+As setting the fixed length to low may yield the problem that some captures return empty intervals
+and setting it too high might result in too large intervals and therefore partial captures to be efficiently parsed later on.
+An interval length based on the percentage of each individual capture does not have those faults.
+Even though it might shrink the flow duration of smaller capures, it appears to be the better approach.
+In addition, extracting packet sequences with a relative offset within a capture might provide sequences with a wider range of flow behavior.
 
 Now that we know we want to split the capture first, it is to be decided, how we sample the packet sequences within an interval.
-We can make an educated guess that randomly selected samples will yield better results than sequential sampling.
+We can make an educated guess that randomly selected samples will yield better results than sequential sampling, as it again provides a wider range of flow behavior.
 Still the degree to which the sampling is randomized should be determined.
+% FIXME: drop everything below here?
 Do we pick random intervals, or do we pick the sequence of packets within each interval at random.
 Do we pick every 20th packet sequence, or do we pick each packet sequence at random.
 We might test a variety of those methods to choose the packet sequences, when improving the dataset, once we have some results from the NN.
+% to here
 
 For the first iteration of our dataset we decided, that splitting the capture into intervals first would be the right approach.
 We split the captures into intervals relative to its size.
@@ -531,7 +537,7 @@ Afterwards, we will randomly sample up to 250 of TCP and UDP packet sequences al
 
 Each sampled packet sequence will be exported as a capture first.
 The header fields of the packets belonging to the sequence will be stored as a csv file for easier parsing.
-Then we use YAF to extract the flow information and yafscii to create flow-based csv files.
+Then we use YAF to extract the flow information and yafscii to create flow-based csv files form the exported capture.
 
 \subsubsection{A Padding supported Conversion from UDP to TCP}
 
