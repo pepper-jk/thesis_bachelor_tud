@@ -484,6 +484,21 @@ This will become clearer once the feature sets of network flows and packets are 
 
 % Bidirectional RNN?
 
+\section{Conditional Recurrent Neural Network}
+
+On first glance the field of image description may look out of scope of this thesis.
+However in computer sience and machine learning in perticular, it is not unlikely for two very separate problems to have the same solution.
+The process of teaching a NN to describe an image or even different regions of the image using natural language is a big and complex problem.
+The papers "Show and Tell: A Neural Image Caption Generator" by Vinyals et al. \cite{vinyalsShowTellNeural2015} and "Deep Visual-Semantic Alignments for Generating Image Descriptions" by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015} both solve this problem in 2015.
+However the problem we were interested in is much smaller.
+
+How did both Vinyals and Karpathy solve the problem of multiple inputs for RNNs?
+They had the image data and the natural language descriptions.
+While the sequence of descriptions is sequential the image data is not, but it still needed to be included as input for the RNN.
+This is where both parties simultaniously create a condRNN, that took the image as conditional input in the beginning and the descriptions as seqeuntial input.
+The conditional input conditions the state of the RNN before the seqeunce is read.
+% TODO: explain the conditional RNN better
+
 % TODO: search and add some more GANs network flow papaers
 
 \chapter{Approach}
