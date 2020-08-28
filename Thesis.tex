@@ -1053,10 +1053,11 @@ This conditional RNN \cite{remyPhilipperemyCondRnn2020} will empower us to diced
 \section{Research Contribution}
 
 We discussed the features of packets and flows and their importance to the flow behavior and therefore the classifier.
-We created a pipeline that creates datasets of network flows and network packet sequences for NNs.
-We proofed that it is possible to classify if a flow could have been created by a sequence of packets.
-We created a NN that can distinguish if a flow could have been created from a given sequence of packets and can be used as a DN for a GAN.
-We also evaluated the effectiveness of different NN architectures for this task.
+We created a pipeline that creates datasets, where each datapoint is a pair of a network flow and a network packet sequence, for use with NNs.
+Said pipeline is capable of sampling random flows from network packet captures, extracting flow and packet features and creating negative datapoints
+We provided a proof of concept classifier that can distinguish if a flow could have been created by a sequence of packets.
+This NN model could be used as a DN for a GAN that creates network packet seqeunces from a network flow.
+We also evaluated the effectiveness of different NN layer architectures for this task.
 
 \section{Future Work}
 
