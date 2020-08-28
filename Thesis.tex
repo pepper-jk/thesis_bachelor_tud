@@ -1068,18 +1068,24 @@ The next step for this would be implement a GN that can be used in combination w
 It is also advised to gather more data to be more representative of the real world.
 The dataset we created is limited by its source data, which was fine for a proof of concept, but will not be sufficient when applied to real-world problems.
 
-\subsubsection{Federated Learning}
+\subsection{Federated Learning}
 
-In the last couple of years, federated learning (FL) has become a widely used method to protect user data while training ML models.
-It still has flaws regarding privacy, but multiple researchers are working on improving the privacy of FL for example, with differential privacy.
-
-Once the GAN proposed above produces good results, one could combine it with FL.
+Once the GAN proposed above produces good results, one could combine it with federated learning (FL).
+% explain FL
+In the last couple of years, FL has become a widely used method to protect user data while training ML models.
+So one real-world application for the GAN could be to deploy it with NIDSs, routers of big ISPs, or the routers of personal users.
+This way, the GAN could be trained with real-world traffic without compromising the privacy of the data.
+The paper "FedGAN: Federated Generative Adversarial Networks for Distributed Data" by Rasouli et al. \cite{rasouliFedGANFederatedGenerative2020} introduces a federated GAN (FedGAN) that uses local generators and discriminators.
 This way, multiple users could add their traffic datasets without exposing their data.
-One real-world application for the GAN could be to deploy it with NIDSs, routers of big ISPs, or the routers of personal users.
-This way, the GAN could be trained with real-world traffic without ever needing to see the data.
+
+FL in general still has flaws regarding privacy, but multiple researchers are working on improving the privacy of FL for example, in the form of differential privacy (DP).
+DP tries to preserve the users privacy by compromising accuracy.
+The most common methods to achieve DP are clipping the weights, which will be send to the server, and the addition of noise before averaging weights in order to anonymize the single contributions and minimize the information about the user that is extractable.
 Some libraries, e.g. PySyft, also provide homomorphic encryption, so the end-user might not have to train on their data themselves.
 Instead, they could send the encrypted data to an intermediate server, which computes the model with the encrypted data.
-Therefore also never seeing the data itself.
+Therefore also never seeing the data itself, while the computation heavy part is not done locally.
+This is specifically interesting if we consider using a FedGAN to train on data collected by consumer routers,
+as those usually do not have much computation power to begin with.
 
 With a GAN that also respects appropriately labeled intrusion detection network captures,
 combining this approach with FL could have the potential to solve the issue of creating synthetic network traffic for self learning anomaly based NIDSs.
