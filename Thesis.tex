@@ -653,8 +653,7 @@ Some header fields are insubstantial for our use case, for example the addresses
 This includes MAC and IP addresses.
 
 \paragraph{packet header fields}
-% TODO: link header tables
-Tables 5.1 to 5.5 presents an overview of the packet headers and their fields.
+Tables \ref{mac} to \ref{udp} presents an overview of the packet headers and their fields.
 We color code them in five categories:
 \colorbox{not}{\textbf{{Not Used} (gray)}},
 useful but \colorbox{trivial}{\textbf{Trivial} (red)},
@@ -786,6 +785,7 @@ Meaning the flow from destination to source.
         \hline
     \end{tabular}
     \caption{MAC Header (Ethernet II)}
+    \label{mac}
 \end{table}
 
 \begin{table}
@@ -814,6 +814,7 @@ Meaning the flow from destination to source.
         \hline
     \end{tabular}
     \caption{IPv4 Header}
+    \label{ip}
 \end{table}
 
 \begin{table}
@@ -838,6 +839,7 @@ Meaning the flow from destination to source.
         \hline
     \end{tabular}
     \caption{TCP Header}
+    \label{tcp}
 \end{table}
 
 \begin{table}
@@ -848,6 +850,7 @@ Meaning the flow from destination to source.
         \hline
     \end{tabular}
     \caption{TCP Flags}
+    \label{flags}
 \end{table}
 
 \begin{table}
@@ -863,6 +866,7 @@ Meaning the flow from destination to source.
         \hline
     \end{tabular}
     \caption{UDP Header}
+    \label{udp}
 \end{table}
 
 \begin{table}
@@ -906,6 +910,7 @@ Meaning the flow from destination to source.
         \hline
     \end{tabular}
     \caption{YAF IPFIX Template}
+    \label{flow}
 \end{table}
 
 \subsection{Network Packet Captures used}
