@@ -1090,6 +1090,18 @@ as those usually do not have much computation power to begin with.
 With a GAN that also respects appropriately labeled intrusion detection network captures,
 combining this approach with FL could have the potential to solve the issue of creating synthetic network traffic for self learning anomaly based NIDSs.
 
+\subsection{More features}
+
+As this thesis was a proof of concept for a NN that is capable of discriminating if a network flow could have been created from a given sequence of network packets, it leaves some opportunity for future work regarding improvements or optimizations.
+Besides improvements to the NN model additions or removal of packet and flow features might yield interesting results.
+We see three categories where the work could be improved.
+Tailoring an IP2Vec approach for MAC addresses, IPs and ports. ...
+Especially in conjunction with FL.
+Adding the trivial features as binary representation (valid/invalid).
+Brining in more meta data extracted from statistics or general network flow behavior.
+
+Also interesting if ohter network flow representations yield the same results.
+
 \printbibliography
 
 \end{document}
