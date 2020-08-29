@@ -78,6 +78,7 @@
 \usepackage{multicol}
 \usepackage{makecell}
 \usepackage{xcolor}
+\usepackage{listings}
 
 %%%%%%%%%%%%%%%%%%%
 %Paketvorschläge Mathematik
@@ -687,14 +688,38 @@ The ECN-nonce is the more acute problem since less than 0.0009\% of datapoints u
 Which would add an additional risk for our NN to misinterpret the data, once it comes accross such a datapoint.
 Omitting the ECN-nonce however should not be a problem, as the feature does not impact the behavior of the flow in any way that is not already indicated by the ECN value, see later in this section.
 
-\paragraph{\colorbox{derivation}{\textbf{Feature Derivations} (yellow)}} are fields, which are used as input to the NN,
-but are derived in some way beforehand.
-Their raw data representation either needs to be adjusted, since it is not optimal as NN input, or can be abstracted in a certain way.
-The type of derivation depends on the header field.
-The flags are concatenated in a binary representation.
+\paragraph{\colorbox{derivation}{\textbf{Feature Derivations} (yellow)}} are fields, which can not be used as direct input to the NN,
+but need to be derived in some way beforehand.
+The raw data representation of those features is not optimal as NN input and needs to be abstracted in a certain way.
+The most prominent feature type is the categorical feature, but simple byte or string conversion can also already qualify for this category.
+The type of derivation can vary from header field to header field.
+
+% FIXME: move this to features?
 The data offset and IP header length (IHL) are also used as an indicating boolean for TCP and IP options respectively.
-The protocol will be represented as a single boolean as we are only looking at TCP and UDP and can set it to 1 for TCP and 0 for UDP.
-The ports are categorical and might need to be abstracted in a useful way.
+
+The protocol will be represented as a single boolean as our dataset only contains TCP and UDP, where 1 stands for TCP and 0 for UDP.
+
+The ports are categorical and need to be converted to continuous features.
+This is done by sorting the port based into the following categories based on port ranges defined by the IANA \cite{ServiceNameTransport}:
+% \textbf{system} ports (0-1023), \textbf{registered} or user ports (1024-49151) and \textbf{ephemeral} or dynamic ports (49152-65535) \cite{ServiceNameTransport}.
+\begin{itemize}
+    \item \textbf{system} ports (0-1023)
+    \item \textbf{registered} or user ports (1024-49151)
+    \item \textbf{ephemeral} or dynamic ports (49152-65535)
+\end{itemize}
+Additionally the ephemeral category is split into the following subcategories:
+\begin{itemize}
+    \item \textbf{IANA} (49152-65535): the range of ports assigned as dynamic by the Internet Assigned Numbers Authority (IANA) \cite{ServiceNameTransport}
+    \item \textbf{linux} (32768-60999): ephemeral ports accessable through \lstinline{/proc/sys/net/ipv4/ip_local_port_range} on linux based systems
+    \item \textbf{bsdold} (1024-5000): ephemeral ports used by older (Free)BSD implementations (version < 4.6) \cite{EphemeralPortRange}
+    \item \textbf{winserver} (1025–65535): dynamic ports used by Windows Server 2000 \cite{DefaultDynamicPort} \cite{WhenYouTry}
+    \item \textbf{winxp} (1025–5000): dynamic ports used by Windows XP \cite{CableGuyDecember} and Server 2003 (until update MS08-037) \cite{YouExperienceIssues}
+\end{itemize}
+Newer versions of Windows use the IANA range \cite{DefaultDynamicPort}.
+Only Windows Server 2008 with Exchange Server 2007 uses 1025–60000, which is still within the \textbf{winserver} category \cite{DefaultDynamicPort}.
+In future work one could expand this binary representation by adding subcategories to the system and registered ports.
+But this is out of the scope of this thesis.
+
 As TCP options such as maximum segment size (MSS) and selective acknowledgment (SACK) may impact a network flows behavior,
 while others may never occure, just like the IP options described above,
 it is important that we derivate TCP options to remove dead features and preserve the information important to us.
