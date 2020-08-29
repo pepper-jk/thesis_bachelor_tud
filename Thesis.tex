@@ -663,13 +663,14 @@ and raw \colorbox{feature}{\textbf{Features} (blue)}.
 This includes the Version of the IP Header, since we only take IPv4 traffic into account,
 and the reserved bits in the IP flags and the TCP header.
 
-\paragraph{\colorbox{trivial}{\textbf{Trivial} (red)}} fields might be useful, but should not be fed to the NN.
-Either because they can be easily checked/validated outside the NN and might slow the NN down for no benefit.
-Or they do not alter the behavior of a given network flow.
+\paragraph{\colorbox{trivial}{\textbf{Trivial} (red)}} header fields might be useful, but should not be fed to the NN.
+Either because they can easily be checked/validated outside the NN and might slow the NN down for no benefit.
+Or they do not alter the behavior of the network flow.
 % TODO QUESTION: what about IP class? this could be an interesting feature
 % No, but difference between public and local.
 This would include header lengths, urgent pointer, as well as MAC and IP addresses.
-% The checksum and header lengths are just verified and passed to the NN as a boolean.
+% FIXME: header lengths
+The acknowledgement number order can be easily checked outside the NN and can be omitted as well.
 
 \paragraph{\colorbox{dropped}{\textbf{Dropped} (purple)}} fields might have been \colorbox{derivation}{\textbf{Feature Derivations} (yellow)}, but were omitted due to a lack of data.
 A NN needs a large amount of data to make proper decisions, if the data is not sufficient and it encounters a feature for the first time it would at best classify the datapoint correctly with a 50\%.
@@ -681,10 +682,6 @@ IP options might still influence the behavior of a flow, but without sufficient 
 It would just be a dead feature.
 The ECN-nonce is the more acute problem since there are three datapoints, which use it.
 But it is less problematic to omit since it should not impact the behavior of the flow.
-
-% FIXME: where do we put these? I still want them to be features
-The acknowledgement number can be easily checked outside the NN and can be omitted as well.
-However the sequence number validity or even position in the flow can make a flow special.
 
 \paragraph{\colorbox{derivation}{\textbf{Feature Derivations} (yellow)}} are fields, which are used as input to the NN,
 but are derived in some way beforehand.
@@ -709,6 +706,9 @@ The actual checksum could be easily calculated after those fields have been gene
 % The same would go for the header length if it would not provide the offset information for IP and TCP options.
 % as well as the differnce for the payload. % not needed
 So instead of feeding the NN the raw checksum and therefore teaching it how checksums work, we will provide its validity with a simple boolean.
+
+% FIXME: where do we put these? I still want them to be features
+However the sequence number validity or even position in the flow can make a flow special.
 
 The Explicit Congestion Notification (ECN) \cite{floydAdditionExplicitCongestion} header field is a simple example.
 It consists of two bits that are interpreted as an integer from wireshark.
