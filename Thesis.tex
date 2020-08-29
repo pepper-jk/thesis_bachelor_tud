@@ -672,16 +672,20 @@ This would include header lengths, urgent pointer, as well as MAC and IP address
 % FIXME: header lengths
 The acknowledgement number order can be easily checked outside the NN and can be omitted as well.
 
-\paragraph{\colorbox{dropped}{\textbf{Dropped} (purple)}} fields might have been \colorbox{derivation}{\textbf{Feature Derivations} (yellow)}, but were omitted due to a lack of data.
-A NN needs a large amount of data to make proper decisions, if the data is not sufficient and it encounters a feature for the first time it would at best classify the datapoint correctly with a 50\%.
-For IP options and the TCP flag NS, the ECN-nonce, the data is inconclusive.
-As both are rarely used in practice.
-Our dataset, although constructed from numerous network packet captures, does not contain any flows with IP options and only three with the NS flag set.
-Additionally network flows do contain neither of these features.
-IP options might still influence the behavior of a flow, but without sufficient data, we can not train our NN.
-It would just be a dead feature.
-The ECN-nonce is the more acute problem since there are three datapoints, which use it.
-But it is less problematic to omit since it should not impact the behavior of the flow.
+\paragraph{\colorbox{dropped}{\textbf{Dropped} (purple)}} fields could have been \colorbox{derivation}{\textbf{Feature Derivations} (yellow)}, but were omitted due to a lack of data.
+A NN needs a large amount of data to make proper decisions, if the data is not sufficient and it encounters a feature for the first time it would at best classify the datapoint correctly with a 50\% chance.
+Without sufficient data, we can not train our NN and they would just be a dead feature.
+For IP options and the TCP flag NS, also called the ECN-nonce, the data is inconclusive,
+as our dataset does not contain any flows with IP options and only three with the NS flag set.
+This however is not unusual, as those fields are rarely used in practice anyway.
+Since our dataset is constructed from numerous network packet captures from statistically different intrusion detection datasets,
+it supports our research results that this is indeed just normal network traffic behavior.
+Luckily network flows do not contain either of those features, meaning it should not impact our results.
+IP options would influence the behavior of a flow, but as our dataset does not contain any IP options, omitting them does not result in bad training results.
+It only means that in order to take IP options into account in the future our NN and preprocessing needs to be expanded.
+The ECN-nonce is the more acute problem since less than 0.0009\% of datapoints use it. % FIXME: double check this number?
+Which would add an additional risk for our NN to misinterpret the data, once it comes accross such a datapoint.
+Omitting the ECN-nonce however should not be a problem, as the feature does not impact the behavior of the flow in any way that is not already indicated by the ECN value, see later in this section.
 
 \paragraph{\colorbox{derivation}{\textbf{Feature Derivations} (yellow)}} are fields, which are used as input to the NN,
 but are derived in some way beforehand.
