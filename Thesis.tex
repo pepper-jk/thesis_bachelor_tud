@@ -737,9 +737,6 @@ The actual checksum could be easily calculated after those fields have been gene
 % as well as the differnce for the payload. % not needed
 So instead of feeding the NN the raw checksum and therefore teaching it how checksums work, we will provide its validity with a simple boolean.
 
-% FIXME: where do we put these? I still want them to be features
-However the sequence number validity or even position in the flow can make a flow special.
-
 The Explicit Congestion Notification (ECN) \cite{floydAdditionExplicitCongestion} header field is a simple example.
 It consists of two bits that are interpreted as an integer from wireshark.
 However the bits are a categorical feature comparable with the IP and TCP Flags.
@@ -747,15 +744,11 @@ If neither bit is set, ECN is not supported by the sender.
 If either one bit is set by itself, ECN is supported by the sender.
 If both bits are set, there is a network congestion on the route between source and destination.
 This leaves us with two boolean features as input for our NN: ECN capable transport and congestion encountered.
-If we look into the documentation of ECN, we will see that those are the only attributes the ECN provides.
-% TODO: reference the ECN doc (RFC)
-
+If we look into the documentation of ECN, we will see that those are the only attributes the ECN provides \cite{DifferentiatedServicesField}.
 % TODO: explain categorical feature abstraction
 
 The Differentiated Services Code Point (DSCP), formerly Type of Service (ToS), header field is the more complicated example.
 Its specification is open for experimental and future standard values.
-% TODO: reference the ECN docs (RFCs)
-% https://www.iana.org/assignments/dscp-registry/dscp-registry.xhtml
 It is first divided into 3 pools of values, specified by the values last two bits \cite{DifferentiatedServicesField}.
 The first pool (xxxxx0) contains standard codepoints and still unassigned values, reserved for later standards.
 The second pool (xxxx11) is reserved for local use or experimental codepoints.
