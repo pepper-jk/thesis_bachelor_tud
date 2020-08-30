@@ -803,17 +803,41 @@ As the UDP length will have been converted to TCP length and data offest, packet
 \subsubsection{Network flow features}
 
 Network flow features will be classified in the same categories.
-Table 5.6 shows the color-coded flow features.
+Table \ref{flow} shows the color-coded flow features.
 In this work, we want to compare flow behavior to a sequence of packets.
-IP addresses and timestamps might mislead our classifier.
-Additionally if they match the header fields in the packet sequence could be easily checked without using a NN.
-Therefore both are marked \colorbox{trivial}{\textbf{trivial} (red)}.
-Duration as well as packet and byte count are already present as numerical data, therefore, they can be used as raw \colorbox{feature}{\textbf{features} (blue)}.
-The rest of the features are to be \colorbox{derivation}{\textbf{feature derivations} (yellow)} and will be derived in a way that fits the derivations of their packet field counterparts.
 There are less parts of the flow that are omitted.
 This is because flows are a much higher abstraction of a packet sequence and we try to use as many of its data in order to make up for that.
 Please note however that the reverse features of a YAF flow will be omitted due to the fact that it does not relate to the packet sequence of the flow, but to the counter part of it.
 Meaning the flow from destination to source.
+
+IP addresses and timestamps might mislead our classifier, as a flow might have the almost or exact same behavior even though it has two different end points communicating or was sent at another time.
+As mentioned before (IP) addresses can be easily compared outside of the NN and are therefore \colorbox{trivial}{\textbf{trivial} (red)}.
+The same applies for the timestamps.
+Although timestamps have an additional problem. As they are large floating point numbers, they might slow the NN down.
+
+Duration, round trip time as well as packet and byte count are already present as numerical data, therefore, they can be used as raw \colorbox{feature}{\textbf{features} (blue)}.
+
+% FIXME: initial seqeunce number
+
+The rest of the features are to be \colorbox{derivation}{\textbf{feature derivations} (yellow)} and will be derived in a way that fits the derivations of their packet field counterparts.
+% TODO: how are they derived?
+The protocol and ports are derived the same way the packet derivations did it.
+A YAF flow contains the TCP flags of the first and last packet of the seqeunce of packets is was created from.
+The flags are provided as strings by yaf containing the initial letter of each active flag:
+\textbf{F}IN, \textbf{S}YN, \textbf{R}ST, \textbf{P}SH, \textbf{A}CK, \textbf{U}RG, \textbf{E}CE, \textbf{C}WR.
+While a \textbf{0} means no flags were active.
+To conform with our previous binary representation, we create a boolean for each flag in the same order a TCP packet contains them.
+The end-reason describes the reaseon for the end of the packet seqeunce.
+It is given as a string and can have five different values:
+\begin{itemize}
+    \item \textbf{idle} timeout
+    \item \textbf{active} timeout
+    % % FIXME: yaf specific reasons
+    \item \textbf{eof} interuped by yafs timeout
+    \item \textbf{rsrc} -
+    \item \textbf{force} -
+\end{itemize}
+As this is a categorical feature and each end reason mutually excludes all others, we decided to use a one hot encoding for the binary representation.
 
 % Later: "data preprocessing"
 
