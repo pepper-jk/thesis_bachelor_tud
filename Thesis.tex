@@ -857,11 +857,11 @@ Meaning the flow from destination to source.
         %bit & \multicolumn{8}{|l|}{0} & \multicolumn{8}{|l|}{8} & \multicolumn{8}{|l|}{16} & \multicolumn{8}{|l|}{24} \\
         bit & \multicolumn{8}{|l|}{0} & \multicolumn{8}{|l|}{8} & \multicolumn{3}{|l|}{16} & \multicolumn{13}{|l|}{19} \\
         \hline % \multicolumn{3}{|c|}{Flags} % \makecell{E\\C\\N}
-        0   & \multicolumn{4}{|c|}{\cellcolor{not} Version} & \multicolumn{4}{|c|}{\cellcolor{derivation} IHL} & \multicolumn{6}{|c|}{\cellcolor{derivation} DSCP} & \multicolumn{2}{|c|}{\cellcolor{derivation} ECN} & \multicolumn{16}{|c|}{\cellcolor{feature} Total Length} \\
+        0   & \multicolumn{4}{|c|}{\cellcolor{not} Version} & \multicolumn{4}{|c|}{\cellcolor{feature} IHL} & \multicolumn{6}{|c|}{\cellcolor{derivation} DSCP} & \multicolumn{2}{|c|}{\cellcolor{derivation} ECN} & \multicolumn{16}{|c|}{\cellcolor{feature} Total Length} \\
         \hline % \multicolumn{3}{|c|}{Flags} | \makecell{D\\F} \makecell{M\\F}
-        32  & \multicolumn{16}{|c|}{\cellcolor{feature} Identification} & \cellcolor{not} 0 & \cellcolor{derivation} DF & \cellcolor{derivation} MF & \multicolumn{13}{|c|}{\cellcolor{derivation} Fragment Offset} \\
+        32  & \multicolumn{16}{|c|}{\cellcolor{feature} Identification} & \cellcolor{not} 0 & \cellcolor{feature} DF & \cellcolor{feature} MF & \multicolumn{13}{|c|}{\cellcolor{feature} Fragment Offset} \\
         \hline
-        64  & \multicolumn{8}{|c|}{\cellcolor{feature} Time To Live} & \multicolumn{8}{|c|}{\cellcolor{derivation} Protocol} & \multicolumn{16}{|c|}{\cellcolor{trivial} Header Checksum} \\
+        64  & \multicolumn{8}{|c|}{\cellcolor{feature} Time To Live} & \multicolumn{8}{|c|}{\cellcolor{derivation} Protocol} & \multicolumn{16}{|c|}{\cellcolor{derivation} Header Checksum} \\
         \hline
         96  & \multicolumn{32}{|c|}{\cellcolor{trivial} Source IP Address} \\
         \hline
@@ -886,13 +886,13 @@ Meaning the flow from destination to source.
         \hline
         0   & \multicolumn{16}{|c|}{\cellcolor{derivation} Source Port} & \multicolumn{16}{|c|}{\cellcolor{derivation} Desitnation Port} \\
         \hline % \cellcolor{derivation}
-        32  & \multicolumn{32}{|c|}{\cellcolor{derivation} Sequence Number} \\
+        32  & \multicolumn{32}{|c|}{\cellcolor{feature} Sequence Number} \\
         \hline % \cellcolor{derivation}
         64  & \multicolumn{32}{|c|}{\cellcolor{trivial} Acknowledgement Number} \\
         \hline % \makecell{Data \\Offset}
-        96  & \multicolumn{4}{|c|}{\cellcolor{derivation} Data Offset} & \multicolumn{3}{|c|}{\cellcolor{not} Reserved} & \multicolumn{9}{|c|}{\cellcolor{derivation} Flags} & \multicolumn{16}{|c|}{\cellcolor{feature} Windows Size} \\
+        96  & \multicolumn{4}{|c|}{\cellcolor{feature} Data Offset} & \multicolumn{3}{|c|}{\cellcolor{not} Reserved} & \multicolumn{9}{|c|}{\cellcolor{feature} Flags} & \multicolumn{16}{|c|}{\cellcolor{feature} Window Size} \\
         \hline
-        128 & \multicolumn{16}{|c|}{\cellcolor{trivial} Checksum} & \multicolumn{16}{|c|}{\cellcolor{trivial} Urgent Pointer (if URG set)} \\
+        128 & \multicolumn{16}{|c|}{\cellcolor{derivation} Checksum} & \multicolumn{16}{|c|}{\cellcolor{trivial} Urgent Pointer (if URG set)} \\
         \hline
         160 & \multicolumn{32}{|c|}{\cellcolor{derivation}}\\\cline{1-1}
         ... & \multicolumn{32}{|c|}{\multirow{-2}{*}{\cellcolor{derivation} Options (if data offset > 5. Padded at the end with "0" bytes if necessary.)}} \\
@@ -906,7 +906,7 @@ Meaning the flow from destination to source.
     \centering
     \begin{tabular}{*{9}{|c}|}
         \hline
-        \cellcolor{dropped} \makecell{N\\S} & \cellcolor{derivation} \makecell{C\\W\\R} & \cellcolor{derivation} \makecell{E\\C\\E} & \cellcolor{derivation} \makecell{U\\R\\G} & \cellcolor{derivation} \makecell{A\\C\\K} & \cellcolor{derivation} \makecell{P\\S\\H} & \cellcolor{derivation} \makecell{R\\S\\T} & \cellcolor{derivation} \makecell{S\\Y\\N} & \cellcolor{derivation} \makecell{F\\I\\N} \\
+        \cellcolor{dropped} \makecell{N\\S} & \cellcolor{feature} \makecell{C\\W\\R} & \cellcolor{feature} \makecell{E\\C\\E} & \cellcolor{feature} \makecell{U\\R\\G} & \cellcolor{feature} \makecell{A\\C\\K} & \cellcolor{feature} \makecell{P\\S\\H} & \cellcolor{feature} \makecell{R\\S\\T} & \cellcolor{feature} \makecell{S\\Y\\N} & \cellcolor{feature} \makecell{F\\I\\N} \\
         \hline
     \end{tabular}
     \caption{TCP Flags}
@@ -922,7 +922,7 @@ Meaning the flow from destination to source.
         \hline
         0   & \multicolumn{16}{|c|}{\cellcolor{derivation} Source Port} & \multicolumn{16}{|c|}{\cellcolor{derivation} Desitnation Port} \\
         \hline
-        32  & \multicolumn{16}{|c|}{\cellcolor{trivial} Length} & \multicolumn{16}{|c|}{\cellcolor{trivial} Checksum} \\
+        32  & \multicolumn{16}{|c|}{\cellcolor{derivation} Length} & \multicolumn{16}{|c|}{\cellcolor{derivation} Checksum} \\
         \hline
     \end{tabular}
     \caption{UDP Header}
@@ -942,7 +942,7 @@ Meaning the flow from destination to source.
         \cellcolor{feature} Duration \\
         \hline
         % OR trivial?
-        \cellcolor{derivation} round trip time \\
+        \cellcolor{feature} round trip time \\
         \hline
         \cellcolor{derivation} protocol \\
         \hline
@@ -956,10 +956,10 @@ Meaning the flow from destination to source.
         \hline
         \cellcolor{derivation} TCP flags (forward only) \\
         \hline
-        \cellcolor{derivation} initial TCP sequence number (forward only) \\
+        \cellcolor{feature} initial TCP sequence number (forward only) \\
         \hline
         % TODO: what exactly does this store/return; is it useful?
-        \cellcolor{derivation} first-packet 802.1q VLAN tag (forward only) \\
+        \cellcolor{feature} first-packet 802.1q VLAN tag (forward only) \\
         \hline
         \cellcolor{feature} packet count (forward only) \\
         \hline
