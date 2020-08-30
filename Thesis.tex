@@ -724,7 +724,8 @@ As TCP options such as maximum segment size (MSS) and selective acknowledgment (
 while others may never occure, just like the IP options described above,
 it is important that we derivate TCP options to remove dead features and preserve the information important to us.
 We collect the MSS, SACK and the timestamp options.
-As they are the most prominent and frequent options.
+As they are the most prominent and frequent options used.
+Our dataset also does not contain any other TCP options.
 
 The checksums are a perfect example for a feature derivation.
 It does not matter to the NN what the checksum reads as the future work GAN should not have to generate checksums at all.
