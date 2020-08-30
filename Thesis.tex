@@ -588,7 +588,7 @@ Compared to UDP packets, TCP packets have much more header fields and therefore 
 This results in an uneven timestamp size (length of packet entries) between datapoints, if one is based on a UDP packet and one is a TCP packet.
 To make packets of both protocols comparable, we will add padding to the UDP packets.
 We add the TCP flags and options as well as the sequence number and window size with a masking value (-15) , more on that in the model section.
-To round it up we convert the UDP length to TCP header length and TCP segment size (aka payload length).
+To round it up we convert the UDP length to TCP header length and TCP payload length, see Dataset Criteria paragraph derviation.
 The last part is especially important to keep the datapoints comparable.
 This way, the NN can make the right decisions based on the data.
 
@@ -693,11 +693,9 @@ but need to be derived in some way beforehand.
 The raw data representation of those features is not optimal as NN input and needs to be abstracted in a certain way.
 The most prominent feature type is the categorical feature, but simple byte or string conversion can also already qualify for this category.
 The type of derivation can vary from header field to header field.
-
-% FIXME: move this to features?
-The data offset and IP header length (IHL) are also used as an indicating boolean for TCP and IP options respectively.
-
-The protocol will be represented as a single boolean as our dataset only contains TCP and UDP, where 1 stands for TCP and 0 for UDP.
+The protocol for example will be represented as a single boolean as our dataset only contains TCP and UDP, where 1 stands for TCP and 0 for UDP.
+Take note that UDP length, which describes the total length of the UDP frame, will be derived to TCP length, a wireshark filter describing the payload size of TCP packets, and the data offest, which is equivalent to the TCP header length.
+This way packets of different protocols are comparable.
 
 The ports are categorical and need to be converted to continuous features.
 This is done by sorting the port based into the following categories based on port ranges defined by the IANA \cite{ServiceNameTransport}:
