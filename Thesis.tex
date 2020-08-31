@@ -999,25 +999,40 @@ As this is a categorical feature and each end reason mutually excludes all other
 
 \subsection{Network Packet Captures used}
 
-For the creation of our datasets we need network packet captures.
+For the creation of our datasets we need network packet captures as source.
 For this we take a look at publically available intrusion detection datasets.
 Since the goal of our future work is to produce network packet captures, that can be used in the field of NIDSs.
-As stated above we will extracted data from multiple popular datasets, such as: CDX, DARPA, MACCDC, MAWI, Simpleweb and UNSW.
+As stated above we will extracted data from multiple popular datasets, such as: \textbf{CDX}, \textbf{DARPA}, \textbf{MACCDC}, \textbf{MAWI}, \textbf{Simpleweb}, and \textbf{UNSW}.
 % TODO: maybe add a pcap from my personal network
-We chose these datasets because of their significant statistical differences, which has been shown in the paper "On generating network traffic datasets with synthetic attacks for intrusion detection" by Cordero et al.
-% TODO: OR double check with ID2T
+We chose these datasets because of their significant statistical differences, which has been shown in the paper "On generating network traffic datasets with synthetic attacks for intrusion detection" by Cordero et al. \cite{corderoGeneratingNetworkTraffic2019}.
+% FIXME: wording
+This is important as we need to provide the NN with enough data to distinguish flow behavior in order to match packets to them.
+% or so we though
 
-\paragraph{CDX:} the data capture from the U.S. National Security Agency (NSA) published in 2009.
+\paragraph{CDX} The data capture from the U.S. National Security Agency (NSA) published in 2009 \cite{CyberResearchCenter}.
+% TODO: write some more here
+\lstinline{CDX westpoint/2009-04-21-04-06-19.dmp12}
 
-\paragraph{DARPA:} the Intrusion Detection Data Sets from 1998 and 1999.
+\paragraph{DARPA} The Intrusion Detection Data Sets from 1998 and 1999 \cite{1999DARPAIntrusion}.
+This dataset provides pcap files that were captured in a simulation network.
+We chose a training capture that does not contain any attacks from friday of week one, specifically the outside caputre \cite{MITLincolnLaboratory}.
 
-\paragraph{MACCDC:} the U.S. National CyberWatch Mid-Atlantic Collegiate Cyber Defense Competition (MACCDC) dataset from 2012
+\paragraph{MACCDC} The U.S. National CyberWatch Mid-Atlantic Collegiate Cyber Defense Competition (MACCDC) dataset.
+% TODO: write some more here
+We sampled from pcap 03 from 2012 \cite{PCAPFilesUS}.
 
-\paragraph{MAWI:} backbone traffic from the MAWI labs in Japan? from 2015.
+\paragraph{MAWI} The MAWILab dataset is backbone traffic with labeled anomalies from the Fukuda lab in Japan \cite{MAWILabHome}.
+They provide fifteen minutes of traffic every day since 2010. The capture we used is from June 2015 \cite{MAWILabDataSeta}.
 
-\paragraph{Simpleweb:}
+\paragraph{Simpleweb} This dataset contains mostly flow data, but also provides some network captures.
+% FIXME: this was almost a copy paste
+The traffic was collected at a honeypot hosted in the network of the University of Twente in September 2008 \cite{LabeledDatasetIntrusiona}.
+Sadly the source of the capture we used is no longer online.
+It was the \lstinline{Simpleweb/traces_TCP-IP_location1/loc1-20020523-1835} tcpdump.
 
-\paragraph{UNSW,} specifically UNSW-NB15, with multiple attacks.
+\paragraph{UNSW-NB15} A NIDS dataset with over 100GB of network traffic at packet level that includes multiple types of attacks, such as Fuzzers, Analysis, Backdoors, DoS, Exploits, Generic, Reconnaissance, Shellcode and Worms \cite{UNSWNB15DataSet}.
+We sampled through a 1.9 GB network packet capture from this dataset.
+Pcap number 9 from 17.02.2015.
 
 \section{Neural Network}
 
