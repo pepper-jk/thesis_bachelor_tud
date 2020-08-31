@@ -1134,6 +1134,36 @@ This conditional RNN \cite{remyPhilipperemyCondRnn2020} will empower us to decid
 
 \section{Training}
 
+Our basic model consists of two masking layers, which provide the RNN layer with the mask for UDP and packet padding,
+a condRNN layer with 128 units,
+a dense layer with relu activation and 128 units,
+and a dense layer with softmax activation and 2 units for the output.
+This is implemented as a \lstinline{keras.Model}, since the condRNN layer from the cond-rnn library is incompatible with \lstinline{keras.Sequential} at this point in time with its two inputs.
+
+We tried 64, 128, and 256 RNN units.
+The data was split 70, 10, 20 for training, validation and testing.
+For epochs we started with 5 and went up as far as 1000, but still no change.
+Usually the accuracy grows over the first three epochs, depending on the run, and then hovers around 57\%.
+
+Training the NN appeared as a problematic task.
+The model did not seem to achieve more than 60\% accuracy.
+We assume its accuracy is at best 50\%, so not better as a coin toss,
+as its accuracy was pending around 57\% over multiple runs and the data used for training had around the same ratio of positive to negative datapoints.
+Initially our data was only around 3\% of the sampled data, but we achieved the same results with the complete dataset.
+We also tried a dataset using data from only one of the afore mentioned NIDS dataset captures with no improvements.
+
+This results led us to believe that our NN model implementation was at fault.
+Changing the architecture from the conditional RNN to a normal RNN did not change the results, so a problem with the \lstinline{cond-rnn} library can be excluded.
+This holds true also for the manual model implementation, as a simple \lstinline{keras.Sequential} implementation yields the same results.
+We also tried running without the masking layers, anticipating worse results, as our masking values -10 and -15 were no longer excluded from the NN layer operations.
+However we still saw no changes to the accuracy.
+
+This made us believe that the architecture of our model is inherintly flawed.
+Either that or our chosen features are not optimal.
+The possibility that the data is not enough to obtain good results also remains.
+
+% FIXME: Something is wrong. But what?
+
 \section{Testing}
 
 \section{Results}
