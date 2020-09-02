@@ -425,14 +425,14 @@ Both approaches have the problem of IPs that might be present in multiple source
 
 \subsection{Recurrent Neural Networks}
 
-To solve the problem stated in this thesis we are required to find an appropriate NN architecture
-that is capable of making correct decisions about network flows created from network packet captures.
-Neural Networks usually process each input independently from previous inputs.
-This behavior is not necessarily what you want depending on your problem.
-Recurrent Neural Networks (RNNs) store previous results (output) of the NN and uses them to process the new input.
-Natural language processing usually profits from this.
+To solve the problem stated in this thesis we are required to find an appropriate NN architecture.
+Our NN model should be able to decide if a network flow could have been created from a sequence of network packets.
+The most commonly used NN architecture for sequential data are recurrent neural networks (RNNs).
+A feed-forward NN usually processes each input independently from previous inputs.
+RNNs store a hidden state obtained from the previous result of the NN and uses them to process the next input.
+Natural language processing usually benefits from this, as this allows to draw connections between the words within a seqeunce.
 In theory, this ''memory'' can hold information about all previous calculations,
-but in practice, it only keeps track of the last few steps.
+but in practice, it can only keep track of the last few steps.
 % new hidden state = tanh(input + previous hidden state)
 This is due to the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
 %A basic RNN uses the hyperbolic tangent function
