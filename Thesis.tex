@@ -559,7 +559,7 @@ But depending on the use case, LSTMs might still produce better results.
 It is to be determined, which of the two neural networks provides better results for the problem in this thesis.
 
 For this we will run experiments with the \textbf{SimpleRNN}, \textbf{LSTM} and \textbf{GRU} layers provided in Tensorflow.
-\textbf{SimpleRNN} will provide the baseline for the real contendors \textbf{LSTM} and \textbf{GRU} during the experiments, as it will most likely provide the least optimal results.
+\textbf{SimpleRNN} will provide the baseline for the real contenders \textbf{LSTM} and \textbf{GRU} during the experiments, as it will most likely provide the least optimal results.
 Before we can persue the experiments however we need data to train an test with.
 
 % TODO: what is the baseline for the datasets?
@@ -779,7 +779,7 @@ In future work one could expand this binary representation by adding subcategori
 But this is out of the scope of this thesis.
 
 As TCP options such as maximum segment size (MSS) and selective acknowledgment (SACK) may impact a network flows behavior,
-while others may never occure, just like the IP options described above,
+while others may never occur, just like the IP options described above,
 it is important that we derivate TCP options to remove dead features and preserve the information important to us.
 We collect the MSS, SACK and the timestamp options.
 As they are the most prominent and frequent options used.
@@ -818,7 +818,7 @@ Both of these classifications will be represented as an integer value.
 \paragraph{\colorbox{feature}{\textbf{Features} (blue)}} are fields that we can use as unmodified or raw input.
 They are numerical (int, float) or truth based (boolean) and can therefore be interpreted by a NN.
 But not all numerical or boolean fields automatically qualify as features.
-For example the IP protocol is represented as a numerical value, but is would be ineffective to train a NN based on that number.
+For example the transport protocol is represented as a numerical value, but is would be ineffective to train a NN based on that number.
 It would try to perform operations on it like on any integer value, but that would lead to no or wrong results.
 The fields qualifying for this category need to be continuous data.
 Additionally to the packet header fields shown in the table we also considered some meta data.
@@ -1065,7 +1065,7 @@ This is important as we need to provide the NN with enough data to distinguish f
 
 \paragraph{DARPA} The Intrusion Detection Data Sets from 1998 and 1999 \cite{1999DARPAIntrusion}.
 This dataset provides pcap files that were captured in a simulation network.
-We chose a training capture that does not contain any attacks from friday of week one, specifically the outside caputre \cite{MITLincolnLaboratory}.
+We chose a training capture that does not contain any attacks from Friday of week one, specifically the outside capture \cite{MITLincolnLaboratory}.
 
 \paragraph{MACCDC} The U.S. National CyberWatch Mid-Atlantic Collegiate Cyber Defense Competition (MACCDC) dataset.
 % TODO: write some more here
