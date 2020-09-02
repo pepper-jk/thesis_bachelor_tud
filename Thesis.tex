@@ -407,14 +407,20 @@ The only feature of them that influences a flow significantly is if they are pub
 Additionally, IP2Vec sees IPs in the context of a series of packet flows, which represent a network traffic capture,
 meaning that it relates the IPs to one another depending on the behavior of their flows within one network.
 
-This is not applicable to our use case, since we use traffic of multiple network packet capture datasets.
+This is not applicable to our use case, since we use the traffic of multiple network packet capture datasets.
 To use IP2Vec we would either have to apply it before extracting the flows and mixing the results,
 or mix the flows and then apply IP2Vec to it.
 The former bares two problems:
-First we would risk introducing false correlations between IPs from different datasets.
-Second we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
+Firstly we would risk introducing false correlations between IPs from different datasets.
+As an IP address could appear in more than one network capture and have completely different behavior.
+Mixing the information IP2Vec extracted from both of the captures would distort the results of the NN regarding the affected flows.
+Secondly we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
+This will most likely not be the case, as we the GN of the GAN would try to create a seqeunce of packets based on the input of one flow.
 % FIXME: is this really the problem? THINK ABOUT IT
-The later has the problem, that IPs will correlated to each other without ever having been in the same network.
+The later IP2Vec apporach has the problem, that IPs will correlated to each other without ever having been in the same network.
+IP2Vec does not account for problems that might result from this.
+The best case scenario is that two IPs from different captures will be classified as being unknown to each other.
+But even this holds the issue that a later flow may have communication between those IP addresses and the GAN will have problems generating packet data that will satisfy the DN, because to the DN this will look like an anomaly.
 Both approaches have the problem of IPs that might be present in multiple source datasets.
 
 \subsection{Recurrent Neural Networks}
