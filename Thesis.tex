@@ -324,22 +324,30 @@ A \textit{network packet capture} might be called \textit{network capture}, \tex
 \section{network flows}
 
 If we want to extract features from network flows
-we first need to understand the difference between network flows and network traffic caputres.
+we first need to understand the difference between network flows and network traffic captures.
 A network packet capture is a recording of network traffic at the packet level.
 It is limited by a start and end time.
-Each packet within the capture contains all headers it contained during actual transmission.
+Each packet within the capture contains all header information it contained during actual transmission.
 The payload of the packets is omitted if its size gets too large to be reasonably stored otherwise, the packets are unaltered.
-A network flow is an artificial logical equivalent to only one network connection \cite{brownleeTrafficFlowMeasurement}.
+A network flow on the other hand is an artificial logical equivalent to only one network connection \cite{brownleeTrafficFlowMeasurement}.
+
 This connection may be between two terminals, a multicast group or a terminal and a broadcast address \cite{rajahalmeIPv6FlowLabel}.
 Like a network packet capture, a flow is limited by a start and end time,
 but it does not contain information on individual packets.
-It describes the connection on a more abstract level.
+It holds aggregated information of the network packets within the connection.
+For a packet to classify as belonging to a flow the packets typically need to share properties like transport protocol, source and destination IP as well as source and destination port \cite{FlowbasedNetworkTraffic} \cite{claiseSpecificationIPFlow}.
+So it describes the connection on a more abstract level and provides less information than a network packet capture.
 
-For example it will only keep track of a minimum of header information, like source and destination address and port
+For example a flow in the YAF format will only keep track of a minimum of header information, like source and destination IP address and port.
 It will contain the flags used by the first and last packet of the communication,
-but it will not contain the falgs of each individual packet within the communication.
+but it will not contain the flags of each individual packet within the communication.
 It will know the duration and average round trip time of the communicating, but not the time intervals between two packets.
-Additionally it might have information the packets themselves do not provide, e.g. the reason for the end of the communication.
+Additionally it might have information the packets themselves do not provide, e.g. the reason for the end of the communication \cite{YAFDocumentation}.
+
+%  aggregation of transmitted network packets  which share some properties [16].
+% Typically, all transmitted network packets with the same source IP address, source port, destination IP address, destination port and transport protocol within a time window are aggregated into one flow.
+% NetFlow [15] aggregates all network packets which share these five properties into one flow until an active or inactive timeout is reached. In order to consolidate contiguous streams the aggregation of network packets stops if no further packet is received within a time window of α second (inactive timeout).
+% The active timeout stops the aggregation of network packets after β seconds, even if further network packets are observed to avoid unlikely long entries.
 
 \section{Network traffic datasets}
 
