@@ -469,6 +469,16 @@ This benefits the memory since low impact data is multiplied by 0 and therefore 
 %   \item ''output gate'': tanh(input + reset gate) * sigmoid(input + previous hidden state)
 % \end{itemize}
 
+\subsection{Conditional Recurrent Neural Network}
+
+% TODO
+This is where the conditional recurrent neural network (condRNN) comes in.
+Compared to the earlier explained RNN, it allows a second input, a conditional input.
+Just what we need for our flow data.
+The conditional input gets used to set the initial state of the RNN for each datapoint.
+% TODO: explain how the initial state is set
+This allows the conditional data to be taken into account without appending it to each timestamp in the seqeunce.
+
 \subsection{GANs}
 
 To create a NN that could later be used as a DN we first need to understand how a GAN operates.
