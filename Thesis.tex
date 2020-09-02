@@ -498,9 +498,11 @@ Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} introduce a GAN to generate 
 % Not only is their work interesting as the source of input for the proposed GAN at a later time,
 % but as a resource regarding feature extraction for network flows,
 % which is needed by this thesis.
-So even though Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} do not create network packet captures,
-their choice of network flow features is immensely valuable to this thesis.
+Even though Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} do not create network packet captures,
+their choice and classification of network flow features is valuable research for this thesis.
 % TODO: explain more?
+They classify transport protocol, IP addresses and ports as categorical features, duration as continuous, the number of bytes, and packets as numeric.
+TCP Flags could either by seen as binary attributes or one categorical value.
 
 \section{Related Neural Network Models}
 
