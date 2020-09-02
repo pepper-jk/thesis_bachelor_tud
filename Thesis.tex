@@ -443,12 +443,14 @@ This is where Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTe
 Both similarly tackle the short-term memory issue,
 also known as the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
 Where the weight of the memory is changed so little, that it becomes insignificant.
-% TODO: maybe talk about vanishing gradiant problem more?
+% TODO: maybe talk about the vanishing gradient problem more?
 Both models provide a gated approach.
 They also both rely on the Sigmoid function in addition to the hyperbolic tangent function.
 While the hyperbolic tangent function produces values between -1 and 1,
 the Sigmoid function produces values from 0 to 1.
 This benefits the memory since low impact data is multiplied by 0 and therefore left out of the equation.
+So using LSTMs or GRUs solve the vanishing gradient problem for seqeuntial input.
+In our case however, we do provide more than one input and not all of it is sequential.
 
 % LSTM
 % new cell state = (previous cell state * forget gate) + input gate
