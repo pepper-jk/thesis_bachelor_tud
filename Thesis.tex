@@ -1350,6 +1350,17 @@ as those usually do not have much computation power to begin with.
 With a GAN that also respects appropriately labeled intrusion detection network captures,
 combining this approach with FL could have the potential to solve the issue of creating synthetic network traffic for self learning anomaly based NIDSs.
 
+\subsection{Model adjustments}
+
+As described already in the thesis a condRNN uses the conditional input to initiate the state of the RNN layer before the seqeuntial input gets processed.
+This behavior was appropriate to the task of image description generation \cite{vinyalsShowTellNeural2015} \cite{karpathyDeepVisualSemanticAlignments2015} as the sequence data only consisted of one or two sentences.
+At most those were 50 words long.
+Even with word2vec this would most likely never be as much as the data we used.
+Our sequential data is only limited to 500 packets and each packet has around 66 features.
+It is possible that the RNN has forgotten all the flow information from the conditional input by the time it reaches the end of the sequence.
+One could propose an advanced condRNN that feeds the conditional input into the state every X number of timestamps or even with every timestamp of the sequence.
+In the future we might explore this and look into how it affects the results of our NN model.
+
 \subsection{More features}
 
 As this thesis was a proof of concept for a NN that is capable of discriminating if a network flow could have been created from a given sequence of network packets, it leaves some opportunity for future work regarding improvements or optimizations.
