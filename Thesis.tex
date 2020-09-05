@@ -1217,8 +1217,32 @@ Afterwards we will compare our baseline results to the results of LSTMs and GRUs
 % If there is time left we might take a look into other NN architectures. % like DNN and CNN?
 
 As described in the Input section above, we will use a NN model, which accepts flows as conditional input and packets as sequential input.
-This conditional RNN \cite{remyPhilipperemyCondRnn2020} will empower us to decide if a network flow could have been created by a sequence of network packets.
+The \lstinline{cond-rnn} library \cite{remyPhilipperemyCondRnn2020} written for Keras and Tensorflow supports simpleRNNs, LSTMs and GRUs as cells for conditional RNNs.
+Those condRNNs will empower us to decide if a network flow could have been created by a sequence of network packets.
 
+Now that we know which NN architectures will be used in our experiments, we need to figure out the structure of our model as well as the number of units an layers.
+As mentioned above we need two masking layers, which filter the UDP and packet sequence padding.
+The masks are concatenated and passed to the next layer.
+For output we use a dense layer with two units, as we try to sort the data into two categories (matching and not matching).
+As this might be a bit hard of a transition depending on the number of units used in the RNN layer(s), we introduce a second dense layer.
+This layer gets half as many units than the RNN layer(s) and outputs to the two-unit dense layer.
+The first dense layer uses the relu activation function, while the second layer uses softmax.
+We started with a simple model: the two masking layers at the beginning followed by a condRNN layer and two dense layers.
+
+% TODO: mention that we used LSTM
+% TODO: we only used 10% of the library
+We used a variety of units for the RNN layer.
+We tested up to 256 units however, we found anything above 128 did not provide better results.
+We believed the optimal number of units lay between 64 and 128.
+Since we still only reached an accuracy of 59\% at best, it became clear that one RNN layer would not be enough to solve the problem.
+During our experiments, we concluded 3 or 4 layers to produce the best results again going any higher than 4 usually did not improve the accuracy.
+% only produced additional overhead.
+With 3 layers and 64 per layer we were able to produce an accuracy of 60\% to 63\% within the first 15 epochs, while the loss was consistently decreasing.
+
+% TODO: talk about the data split?
+
+For our other hyperparameters, we found a batch size of 300 to 350 to be most effective to achieve a good decrease of loss.
+The
 
 % % TODO: talk about flow+packet concat as another "sanity check" experiment?
 % As described in the Input section above, we will try to avoid a concatenation of each packet with the flow data.
