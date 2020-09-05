@@ -1339,7 +1339,7 @@ The paper "FedGAN: Federated Generative Adversarial Networks for Distributed Dat
 This way, multiple users could add their traffic datasets without exposing their data.
 
 FL in general still has flaws regarding privacy, but multiple researchers are working on improving the privacy of FL for example, in the form of differential privacy (DP).
-DP tries to preserve the users privacy by compromising accuracy.
+DP tries to preserve the user's privacy by compromising accuracy.
 The most common methods to achieve DP are clipping the weights, which will be send to the server, and the addition of noise before averaging weights in order to anonymize the single contributions and minimize the information about the user that is extractable.
 Some libraries, e.g. PySyft, also provide homomorphic encryption, so the end-user might not have to train on their data themselves.
 Instead, they could send the encrypted data to an intermediate server, which computes the model with the encrypted data.
