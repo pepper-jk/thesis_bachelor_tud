@@ -1158,6 +1158,12 @@ This is already solved in the preprocessing.
 % We will create two RNN layers, one of which will convert the categorical data into a continuous vector.
 % The other one will get a vector of continuous data, which consists of the original continuous data and the newly created conversion vector.
 
+A RNN needs sequences of data that have the same input shape (length, number of features) in each batch.
+Since UDP and TCP packets have a different number of features associated with them UDP packets need to be padded in order to coexist with TCP packets within one dataset.
+As this allows us to compare the behavior of UDP and TCP packets this is our goto solution.
+Additionally a NN handling both protocols allows us to have negative samples where the transport protocol was changed.
+However it might be interesting to compare our results to a NN model that consists of two RNNs, where one is handling UDP and one is handling TCP packet sequences later on.
+
 Furthermore we need to add padding to the packet sequences of each datapoint to the maximum sequence size, 500 in case of our initial dataset.
 % TODO: mention the decision to cut data > 500 out
 Therefore the model needs two Masking layers.
@@ -1210,13 +1216,6 @@ This is why for our first model we can use a Softmax Layer.
 
 Afterwards we will compare the results of various RNNs, such as LSTMs and GRUs, to our baseline.
 If there is time left we might take a look into other NN architectures. % like DNN and CNN?
-
-% TODO: talk about UDP/TCP splitting
-A RNN needs sequences of data that have the same input shape (length, number of features) in each batch.
-Since UDP and TCP packets have a different number of features associated with them UDP packets need to be padded in order to coexist with TCP packets within one dataset.
-As this allows us to compare the behavior of UDP and TCP packets this is our goto solution.
-Additionally a NN handling both protocols allows us to have negative samples where the protocol was changed.
-However it might be interesting to compare our results to a NN model that consists of two RNNs, where one is handling UDP and one is handling TCP packet sequences later on.
 
 As described in the Input section above, we will use a NN model, which accepts flows as conditional input and packets as sequential input.
 This conditional RNN \cite{remyPhilipperemyCondRnn2020} will empower us to decide if a network flow could have been created by a sequence of network packets.
