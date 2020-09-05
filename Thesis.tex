@@ -1205,17 +1205,16 @@ Both used the output of a CNN, that provided a continuous vector representation 
 % sentence. The RNN is conditioned on the image information at the first time step.
 % - Karpathy and Fei-Fei
 
-\subsection{Model(s)}
+\subsection{Model}
 
 % TODO: what are the tweaks
 
-For our NN model we will (most likely) use a form of Recurrent Neural Network (RNN).
-This will help with the vanishing gradient problem and make sure all our previous results will be taken into account.
+For our NN model compare different architectures of Recurrent Neural Networks (RNNs).
+This will make sure all our previous results will be taken into account and in case of LSTMs and GRUs also help with the vanishing gradient problem.
 However it is important to establish a baseline, which will help us establish a measure of progress. % or even success.
-This is why for our first model we can use a Softmax Layer.
-
-Afterwards we will compare the results of various RNNs, such as LSTMs and GRUs, to our baseline.
-If there is time left we might take a look into other NN architectures. % like DNN and CNN?
+For our baseline we use simpleRNNs.
+Afterwards we will compare our baseline results to the results of LSTMs and GRUs.
+% If there is time left we might take a look into other NN architectures. % like DNN and CNN?
 
 As described in the Input section above, we will use a NN model, which accepts flows as conditional input and packets as sequential input.
 This conditional RNN \cite{remyPhilipperemyCondRnn2020} will empower us to decide if a network flow could have been created by a sequence of network packets.
