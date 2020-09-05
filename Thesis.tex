@@ -446,12 +446,19 @@ Our NN model should be able to decide if a network flow could have been created 
 The most commonly used NN architecture for sequential data are recurrent neural networks (RNNs).
 A feed-forward NN usually processes each input independently from previous inputs.
 RNNs store a hidden state obtained from the previous result of the NN and uses them to process the next input.
-Natural language processing usually benefits from this, as this allows to draw connections between the words within a seqeunce.
+Natural language processing usually benefits from this, as this allows to draw connections between the words within a sequence.
 In theory, this ''memory'' can hold information about all previous calculations,
 but in practice, it can only keep track of the last few steps.
-% new hidden state = tanh(input + previous hidden state)
 This is due to the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
-%A basic RNN uses the hyperbolic tangent function
+
+\subsubsection{Vanishing Gradient Problem}
+
+The vanishing gradient problem describes an RNNs tendency to forget earlier timestamps of a longer sequence.
+It is also as the short term memory problem.
+To understand how is problem manifests one needs to understand how an RNN operates.
+To ensure single values within one timestamp do not lose their relation to each other but also do not make other values less significant, for example by growing too much, RNNs use the hyperbolic tangent function to ensure the values stay between -1 and 1.
+% TODO: maybe talk about the vanishing gradient problem more?
+This ...
 
 \subsection{Long Short Term Memory \& Gated Recurrent Units}
 
@@ -459,14 +466,50 @@ This is where Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTe
 Both similarly tackle the short-term memory issue,
 also known as the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
 Where the weight of the memory is changed so little, that it becomes insignificant.
-% TODO: maybe talk about the vanishing gradient problem more?
 Both models provide a gated approach.
-They also both rely on the Sigmoid function in addition to the hyperbolic tangent function.
+They also both rely on the sigmoid function in addition to the hyperbolic tangent function a simple RNN (SimpleRNN) uses.
 While the hyperbolic tangent function produces values between -1 and 1,
-the Sigmoid function produces values from 0 to 1.
+the sigmoid function produces values from 0 to 1.
 This benefits the memory since low impact data is multiplied by 0 and therefore left out of the equation.
-So using LSTMs or GRUs solve the vanishing gradient problem for seqeuntial input.
-In our case however, we do provide more than one input and not all of it is sequential.
+If the value is multiplied by 1 it stays the same.
+So the internal gates help the NN to learn what data is important and what data can be forgotten, while keeping the important data in memory.
+The difference between LSTMs and GRUs lies in how they use the sigmoid function in their internal gates.
+%, see figure \ref{fig:LSTMvGRU}.
+
+LSTMs have three gates, the forget gate, the input gate and the output gate, and two states, the cell state and the hidden states. \cite{phiIllustratedGuideLSTM2020}
+The forget gate performs a sigmoid operation on the previous hidden state and the current input.
+The result is than used as a multiplier for the cell state, effectively letting the NN forget any information that is no longer relevant after taking the new input into account.
+The input gate gets the same input, but uses the hyperbolic tangent and sigmoid functions in parallel and than multiplies their results.
+The sigmoid function helps to decide which of the current data, provided by the hyperbolic tangent function, is important to keep, as this result will be added to the cell state.
+The output gate decides what information the next hidden state should carry.
+It calculates the sigmoid function on the concatenation of the previous hidden state and the current input, just as the other gates.
+The results gets used as weights for a hyperbolic tangent operation on the new cell state, meaning simple multiplication.
+The newly calculated cell state and hidden state get passed to the next timestamp.
+
+GRUs have only two gates, the reset gate, and the update gate, and the cell state. \cite{phiIllustratedGuideLSTM2020}
+In short the update gate combines the forget and update gate of a LSTM, while the reset gate provides a part of the function of the LSTMs output gate.
+The update gate uses a sigmoid activation over the current input and the previous cell state, as the GRU has no hidden state.
+The inverted values are than used to weight the cell state.
+% TODO: explain why
+The reset gate again uses the same sigmoid unit and data as the update gate
+This result gets multiplied with the current cell state and concatenated with the current input.
+This concatenation is processed by a hyperbolic tangent and multiplied by the non-inverted values of the update gate, before being added to the current cell state.
+
+Now we have seen how different RNNs operate and how LSTMs and GRUs solve the vanishing gradient problem for sequential input.
+In our case however, we do provide more than one input and not all of our inputs are sequential.
+
+% \includegraphics[width=.5\textwidth]{LSTM.jpg}
+
+% \includegraphics[width=.5\textwidth]{GRU.jpg}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{LSTMvGRU.png}
+    \caption{Schematic comparison of LSTMs and GRUs, created by Micheal Phi \cite{phiIllustratedGuideLSTM2020}}
+    \label{fig:LSTMvGRU}
+\end{figure}
+
+% RNN
+% new cell state = tanh(input + previous cell state)
 
 % LSTM
 % new cell state = (previous cell state * forget gate) + input gate
@@ -479,12 +522,12 @@ In our case however, we do provide more than one input and not all of it is sequ
 % \end{itemize}
 
 % GRU
-% new hidden state = (previous hidden state * update gate) + output gate
+% new cell state = (previous cell state * update gate) + output gate
 % gates:
 % \begin{itemize}
-%   \item reset gate: sigmoid(input + previous hidden state) * previous hidden state
-%   \item update gate: 1 - sigmoid(input + previous hidden state)
-%   \item ''output gate'': tanh(input + reset gate) * sigmoid(input + previous hidden state)
+%   \item reset gate: sigmoid(input + previous cell state) * previous cell state
+%   \item update gate: 1 - sigmoid(input + previous cell state)
+%   \item ''output gate'': tanh(input + reset gate) * sigmoid(input + previous cell state)
 % \end{itemize}
 
 \subsection{Conditional Recurrent Neural Network}
