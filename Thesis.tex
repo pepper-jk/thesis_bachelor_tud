@@ -496,15 +496,14 @@ If correctly optimized, a GAN may create synthetic data indistinguishable from r
 \section{Flow-based Network Traffic Generation using Generative Adversarial Networks}
 
 Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} introduce a GAN to generate synthetic network flows.
-% FIXME: this is no longer true
-% Not only is their work interesting as the source of input for the proposed GAN at a later time,
-% but as a resource regarding feature extraction for network flows,
-% which is needed by this thesis.
-Even though Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} do not create network packet captures,
-their choice and classification of network flow features is valuable research for this thesis.
+Not only are their synthetically created network flows interesting as the source of input for the proposed GAN in future work,
+their choice and classification of network flow features might be valuable resource for this thesis.
 % TODO: explain more?
 They classify transport protocol, IP addresses and ports as categorical features, duration as continuous, the number of bytes, and packets as numeric.
 TCP Flags could either by seen as binary attributes or one categorical value.
+Even though Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} do not create network packet captures, most of their classification is applicable to our problem.
+In addition they reference and apply a novel approach for the conversion of categorical features of network flows.
+They call it IP2Vec.
 
 \section{Related Neural Network Models}
 
