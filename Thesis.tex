@@ -538,7 +538,7 @@ Compared to the earlier explained RNN, it allows a second input, a conditional i
 Just what we need for our flow data.
 The conditional input gets used to set the initial state of the RNN for each datapoint.
 % TODO: explain how the initial state is set
-This allows the conditional data to be taken into account without appending it to each timestamp in the seqeunce.
+This allows the conditional data to be taken into account without appending it to each timestamp in the sequence.
 
 \subsection{GANs}
 
@@ -620,7 +620,7 @@ It is to be determined, which of the two neural networks provides better results
 
 For this we will run experiments with the \textbf{SimpleRNN}, \textbf{LSTM} and \textbf{GRU} layers provided in Tensorflow.
 \textbf{SimpleRNN} will provide the baseline for the real contenders \textbf{LSTM} and \textbf{GRU} during the experiments, as it will most likely provide the least optimal results.
-Before we can persue the experiments however we need data to train an test with.
+Before we can pursue the experiments however we need data to train an test with.
 
 % TODO: what is the baseline for the datasets?
 
@@ -656,7 +656,7 @@ Splitting the capture into intervals is less compute-heavy and therefore time-in
 Truncated flows should not be a problem, since a capture itself is truncated at beginning and end anyway.
 Additionally we also do not need any flow longer than the intervals themselves,
 as we use timeouts for the flow collecting.
-Later in the preprocessing we also drop any flow longer than 500 packets, to ensure a maixmum length and therefore an equal length for the packet sequences.
+Later in the preprocessing we also drop any flow longer than 500 packets, to ensure a maximum length and therefore an equal length for the packet sequences.
 
 The question however is the length of the intervals.
 Should they be determined relative to the size of the capture or should they have a fixed length?
@@ -665,7 +665,7 @@ but the variation between packet captures regarding packet rate (frequency) may 
 As setting the fixed length to low may yield the problem that some captures return empty intervals
 and setting it too high might result in too large intervals and therefore partial captures to be efficiently parsed later on.
 An interval length based on the percentage of each individual capture does not have those faults.
-Even though it might shrink the flow duration of smaller capures, it appears to be the better approach.
+Even though it might shrink the flow duration of smaller captures, it appears to be the better approach.
 In addition, extracting packet sequences with a relative offset within a capture might provide sequences with a wider range of flow behavior.
 
 Now that we know we want to split the capture first, it is to be decided, how we sample the packet sequences within an interval.
@@ -694,7 +694,7 @@ Compared to UDP packets, TCP packets have much more header fields and therefore 
 This results in an uneven timestamp size (length of packet entries) between datapoints, if one is based on a UDP packet and one is a TCP packet.
 To make packets of both protocols comparable, we will add padding to the UDP packets.
 We add the TCP flags and options as well as the sequence number and window size with a masking value (-15) , more on that in the model section.
-To round it up we convert the UDP length to TCP header length and TCP payload length, see Dataset Criteria paragraph derviation.
+To round it up we convert the UDP length to TCP header length and TCP payload length, see Dataset Criteria paragraph derivation.
 The last part is especially important to keep the datapoints comparable.
 This way, the NN can make the right decisions based on the data.
 
@@ -712,7 +712,7 @@ And both produce three different types of negative samples:
 \end{itemize}
 
 % double check, but this actually makes sense
-We decided not to alter the flow as the RNN should learn if a packet seqeunce could have been created by a given flow.
+We decided not to alter the flow as the RNN should learn if a packet sequence could have been created by a given flow.
 In this scenario the flow is authentic and does not need to be classified itself for authenticity.
 
 The second method is randomizing the packet order within the packet sequence of a given datapoint.
@@ -893,7 +893,7 @@ This would require a more sofisticated approach for generating IDs for sinthetic
 Therefore we suggest letting the GAN learn to create such an ID itself, in this case our NN needs to learn the relationship between those IDs too.
 
 % FIXME: maybe trivial after all?
-The sequence number can just as easily be compared to the initial seqeunce number contained in the flow data.
+The sequence number can just as easily be compared to the initial sequence number contained in the flow data.
 % FIXME: where do we put these? I still want them to be features
 However the sequence number validity or even position in the flow can make a flow special.
 
@@ -927,17 +927,17 @@ Although timestamps have an additional problem. As they are large floating point
 
 Duration, round trip time as well as packet and byte count are already present as numerical data, therefore, they can be used as raw \colorbox{feature}{\textbf{features} (blue)}.
 
-% FIXME: initial seqeunce number
+% FIXME: initial sequence number
 
 The rest of the features are to be \colorbox{derivation}{\textbf{feature derivations} (yellow)} and will be derived in a way that fits the derivations of their packet field counterparts.
 % TODO: how are they derived?
 The protocol and ports are derived the same way the packet derivations did it.
-A YAF flow contains the TCP flags of the first and last packet of the seqeunce of packets is was created from.
+A YAF flow contains the TCP flags of the first and last packet of the sequence of packets is was created from.
 The flags are provided as strings by yaf containing the initial letter of each active flag:
 \textbf{F}IN, \textbf{S}YN, \textbf{R}ST, \textbf{P}SH, \textbf{A}CK, \textbf{U}RG, \textbf{E}CE, \textbf{C}WR.
 While a \textbf{0} means no flags were active.
 To conform with our previous binary representation, we create a boolean for each flag in the same order a TCP packet contains them.
-The end-reason describes the reaseon for the end of the packet seqeunce.
+The end-reason describes the reaseon for the end of the packet sequence.
 It is given as a string and can have five different values:
 \begin{itemize}
     \item \textbf{idle} timeout
