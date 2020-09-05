@@ -349,6 +349,22 @@ Additionally it might have information the packets themselves do not provide, e.
 % NetFlow [15] aggregates all network packets which share these five properties into one flow until an active or inactive timeout is reached. In order to consolidate contiguous streams the aggregation of network packets stops if no further packet is received within a time window of α second (inactive timeout).
 % The active timeout stops the aggregation of network packets after β seconds, even if further network packets are observed to avoid unlikely long entries.
 
+\subsection{YAF}
+
+Yet another Flowmeter (YAF) is a tool to create network flows based on network traffic.
+It is capable of saving flow data of an active link or extracting flows from an offline capture file.
+We will use the later functionality will help us to create a dataset for our use case.
+With \lstinline{yafscii} YAF provides a tool to export YAF network flow data as plain text.
+This will also come in handy.
+% TODO: more
+
+\subsection{Wireshark}
+
+Wireshark is probably the most well-known network traffic tool out there.
+It is capable of capturing and displaying network traffic, as well as editing network packet captures.
+It comes with a GUI but also provides a CLI tool called \lstinline{tshark} that is theoretically capable of doing everything the GUI does, but quicker.
+% TODO: more
+
 \section{Network traffic datasets}
 
 This thesis aims to lay the groundwork for a new method of the creation of authentic synthetic network packet captures
