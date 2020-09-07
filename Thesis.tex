@@ -129,6 +129,7 @@
 \tableofcontents
 
 \chapter{Abstract}
+\label{sec:abstract}
 
 This thesis aims to design a neural network (NN), that is capable of discriminating if a network flow could have been created based on a sequence of packets and can be used as a discriminative network (DN) for a Generative Adversarial Network (GAN) in future work.
 
@@ -142,8 +143,10 @@ This is necessary as a flow is the conditional counterpart to a sequence of pack
 % During the phase of testing we optimized dataset and model to be most effective.
 
 \chapter{Introduction}
+\label{sec:intro}
 
 \section{Motivation}
+\label{sec:motivation}
 
 Network intrusion detection systems (NIDSs) require datasets to be trained and tested.
 However, appropriate datasets for NIDSs are hard to come by
@@ -189,6 +192,7 @@ use these already authentic flows to create authentic synthetic network traffic 
 One approach to this could be a GAN that generates network packet captures based on network flows.
 
 \section{Problem}
+\label{sec:problem}
 
 If we would want to create a GAN that is able to create the packets from which a network flow was constructed,
 three major challenges need to be addressed.
@@ -203,6 +207,7 @@ can verify that a network flow was created from a sequence of packets.
 This leads to the research questions presented next.
 
 \section{Research Questions}
+\label{sec:researchQuestions}
 
 This thesis will attempt to answer the following research questions.
 
@@ -214,6 +219,7 @@ This thesis will attempt to answer the following research questions.
 \end{itemize}
 
 \section{Goals and Objectives}
+\label{sec:goals}
 
 % Was wird bei der Diplomarbeit inhaltlich erwartet und bewertet?
 
@@ -287,6 +293,8 @@ which can be used to distinguish if packets belong to a certain flow.
 % how it works
 
 \section{Terminology}
+\label{sec:terminology}
+
 During this work we will use certain phrases and wording that may seem vague but simplifies more complex expressions.
 
 When we say \textit{a sequence of (network) packets belongs to a (network) flow}, we mean that \textit{the (network) flow could have been created from this sequence of (network) packets}.
@@ -296,6 +304,7 @@ A \textit{network flow} might also be called \textit{network packet flow}, \text
 A \textit{network packet capture} might be called \textit{network capture}, \textit{packet capture}, or even \textit{pcap (file)}.
 
 \chapter{Background}
+\label{sec:background}
 
 % In every background "item", always start stating why the topic is important to know in the context of your thesis.
 
@@ -322,6 +331,7 @@ A \textit{network packet capture} might be called \textit{network capture}, \tex
 %and the datasets they get trained with.
 
 \section{Network Flows v.s. Network Packets}
+\label{sec:flowvspackets}
 
 If we want to extract features from network flows
 we first need to understand the difference between network flows and network traffic captures.
@@ -350,6 +360,7 @@ Additionally it might have information the packets themselves do not provide, e.
 % The active timeout stops the aggregation of network packets after β seconds, even if further network packets are observed to avoid unlikely long entries.
 
 \subsection{YAF}
+\label{sec:yaf}
 
 Yet Another Flowmeter (YAF) is a tool to create network flows based on network traffic.
 It is capable of saving bidirectional flow data of an active link or extracting flows from an offline capture file.
@@ -359,6 +370,7 @@ With \lstinline{yafscii} YAF provides a tool to export YAF network flow data as 
 This will also come in handy for us, as we try to keep our dataset sampling simple by using csv files.
 
 \subsection{Wireshark}
+\label{sec:wireshark}
 
 Wireshark is probably the most well-known network traffic tool out there.
 It is capable of capturing, displaying, sorting and filtering network traffic captures, as well as analysing network packet captures.
@@ -367,6 +379,7 @@ It comes with a GUI but also provides a CLI tool called \lstinline{tshark} that 
 This is what we will use.
 
 \section{Network traffic datasets}
+\label{sec:networkTrafficDatasets}
 
 This thesis aims to lay the groundwork for a new method of the creation of authentic synthetic network packet captures
 that can be used for labeled datasets for training and testing NIDSs.
@@ -389,10 +402,12 @@ And no matter the origin the dataset will only describe the network and the beha
 % NN, decision making, sequential (network) data
 
 \section{Neural Networks}
+\label{sec:NNbackground}
 
 % TODO: talk about a normal forward ... NNs
 
 \subsection{Recurrent Neural Networks}
+\label{sec:RNN}
 
 To solve the problem stated in this thesis we are required to find an appropriate NN architecture.
 Our NN model should be able to decide if a network flow could have been created from a sequence of network packets.
@@ -405,6 +420,7 @@ but in practice, it can only keep track of the last few steps.
 This is due to the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
 
 \subsubsection{Vanishing Gradient Problem}
+\label{sec:vanishing}
 
 The vanishing gradient problem describes an RNNs tendency to forget earlier timestamps of a longer sequence.
 It is also known as the short term memory problem.
@@ -415,6 +431,7 @@ However this also means that those values become so small that they do not contr
 Thus vanishing from the weights.
 
 \subsection{Long Short Term Memory \& Gated Recurrent Units}
+\label{sec:LSTMandGRU}
 
 This is where Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTermMemory1997} or Gated Recurrent Units (GRUs), formerly known as gated recursive convolutional neural network (grConv) \cite{bahdanauNeuralMachineTranslation2016}, come in.
 Both similarly tackle the short-term memory issue,
@@ -483,6 +500,7 @@ In our case however, we do provide more than one input and not all of our inputs
 % \end{itemize}
 
 \subsection{Conditional Recurrent Neural Network}
+\label{sec:condRNN}
 
 This is where the conditional recurrent neural network (condRNN) \cite{remyPhilipperemyCondRnn2020} comes in.
 Compared to the earlier explained RNN architectures, it allows a second input, a non-sequential input, called conditional input, in addition to the sequential input.
@@ -500,6 +518,7 @@ Also see \ref{sec:imagedesc} Image Description Generation in Related Work.
 \end{figure}
 
 \subsection{GANs}
+\label{sec:GAN}
 
 To create a NN that could later be used as a DN we first need to understand how a GAN operates.
 A GAN consists of two NNs that compete against each other to maximize the quality of the generated data:
@@ -515,8 +534,10 @@ while is constantly trying to figure out if the data it was given is real or syn
 If correctly optimized, a GAN may create synthetic data indistinguishable from real data.
 
 \chapter{Related Work}
+\label{sec:relatedWork}
 
 \section{Flow-based Network Traffic Generation using Generative Adversarial Networks}
+\label{sec:ringGAN}
 
 Ring et al. \cite{ringFlowbasedNetworkTraffic2019a} introduce a GAN to generate synthetic network flows.
 Not only are their synthetically created network flows interesting as the source of input for the proposed GAN in future work,
@@ -529,6 +550,7 @@ In addition they reference and apply a novel approach for the conversion of cate
 They call it IP2Vec.
 
 \subsection{IP2Vec}
+\label{sec:IP2Vec}
 
 Network flows consist of multiple features, some of which are categorical, e.g. IP addresses, ports, and protocols.
 However, NNs work best with continuous and numerical data.
@@ -547,6 +569,7 @@ For example, a destination IP that correlates with port 80 often can be easily c
 Their experiments show that provided the right dataset, the data produced by IP2Vec can be used to distinguish between infected and non-infected hosts, as well as between servers, clients and even printers.
 
 \subsubsection{Conclusion on IP2Vec}
+\label{sec:conclusionIP2Vec}
 
 % We had planned to adapt the IP2Vec approach and extend it to handle not only flow attributes but all packet header attributes.
 % However since this approach seems fundamentally flawed.
@@ -579,6 +602,7 @@ But even this holds the issue that a later flow may have communication between t
 Both approaches have the problem of IPs that might be present in multiple source datasets.
 
 \section{Related Neural Network Models}
+\label{sec:relatedNNmodels}
 
 % FIXME: remove this and directly start with Image Desc... section
 In addition, we researched related work regarding NNs, RNNs and GANs, specifically DNs.
@@ -591,7 +615,8 @@ This will become clearer once the feature sets of network flows and packets are 
 
 % Bidirectional RNN?
 
-\subsection{Image description generation}
+\subsection{Image Description Generation}
+\label{sec:imagedesc}
 
 On first glance the field of image description may look out of the scope of this thesis.
 However in computer science and machine learning in particular, it is not unlikely for two very separate problems to have the same solution.
@@ -607,6 +632,7 @@ The conditional input conditions the state of the RNN before the sequence is rea
 % TODO: explain the conditional RNN better
 
 \subsubsection{Deep Visual-Semantic Alignments for Generating Image Descriptions} % Karpathy
+\label{sec:karpathy}
 
 Karpathy et al. extract pixel data of the whole image and the 19 locations within the image.
 %, extracted by their region convolutional neural network (RCNN).
@@ -617,6 +643,7 @@ So each image is represented by a set of 20 vectors with h dimensions.
 300-dimensional word2vec
 
 \subsubsection{Show and Tell: A Neural Image Caption Generator} % Vinyals
+\label{sec:vinyals}
 
 Vinyals et al. also use a CNN to create a proper representation of the image that can be passed to the RNN.
 For the RNN they chose the LSTM model
@@ -624,8 +651,10 @@ For the RNN they chose the LSTM model
 % TODO: search and add some more GANs network flow papers
 
 \chapter{Approach}
+\label{sec:approach}
 
 \section{Methodology}
+\label{sec:methodology}
 
 For our NN model, we assume that some form of Recurrent Neural Network (RNN) will be suitable as a discriminator of a GAN that can create synthetic network packet captures from network flows.
 Since simple RNNs have the problem of short-term memory, we propose the use of either Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTermMemory1997} or Gated Recurrent Units (GRUs) \cite{bahdanauNeuralMachineTranslation2016}.
@@ -640,6 +669,7 @@ Before we can pursue the experiments however we need data to train an test with.
 % TODO: what is the baseline for the datasets?
 
 \section{Dataset}
+\label{sec:dataset}
 
 For our dataset we will extract packet sequences from publicly available and well-known network packet captures and create network flows based on these sequences.
 Each network packet sequence will be paired with its network flow so that our NN can learn the connection between the two data structures.
@@ -653,6 +683,7 @@ We will also implement a way to create negative samples from the ground truth, w
 Both will be discussed further in the dataset preprocessing section.
 
 \subsection{Dataset Preparation}
+\label{sec:datasetPrep}
 
 The NN needs to be trained with a significant amount of data, both positive and negative datapoints so that it can make informed decisions.
 This will be provided in two steps.
@@ -661,6 +692,7 @@ Those samples represent the ground truth and will be our positive datapoints.
 Later we randomly apply modifications to those samples to create negative datapoints.
 
 \subsubsection{Sampling}
+\label{sec:sampling}
 
 % FIXME: one capture each might be bad (sound bad) too late now
 Instead of collecting all flows from our source captures, we sample sequences of packets from only one packet capture of each dataset.
@@ -682,38 +714,32 @@ and setting it too high might result in too large intervals and therefore partia
 An interval length based on the percentage of each individual capture does not have those faults.
 Even though it might shrink the flow duration of smaller captures, it appears to be the better approach.
 In addition, extracting packet sequences with a relative offset within a capture might provide sequences with a wider range of flow behavior.
-
 Now that we know we want to split the capture first, it is to be decided, how we sample the packet sequences within an interval.
 We can make an educated guess that randomly selected samples will yield better results than sequential sampling, as it again provides a wider range of flow behavior.
-Still the degree to which the sampling is randomized should be determined.
-% FIXME: drop everything below here?
-Do we pick random intervals, or do we pick the sequence of packets within each interval at random.
-Do we pick every 20th packet sequence, or do we pick each packet sequence at random.
-We might test a variety of those methods to choose the packet sequences, when improving the dataset, once we have some results from the NN.
-% to here
 
-For the first iteration of our dataset we decided, that splitting the capture into intervals first would be the right approach.
+So for our dataset we decided, that splitting the capture into intervals first would be the right approach.
 We split the captures into intervals relative to its size.
 This way we will preserve the behavior of the sampled flows within the larger network within each specific interval.
 Afterwards, we will randomly sample up to 250 of TCP and UDP packet sequences alike within those intervals.
-% TODO: mention that not all sources provide "enough" flows per protocol, specifically UDP
-
+Please note not all source files provide enough flows per protocol though, specifically UDP packets seem to be less prominent.
 Each sampled packet sequence will be exported as a capture first.
 The header fields of the packets belonging to the sequence will be stored as a csv file for easier parsing.
 Then we use YAF to extract the flow information and yafscii to create flow-based csv files form the exported capture.
 
 \subsubsection{A Padding supported Conversion from UDP to TCP}
+\label{sec:UDPpadding}
 
-Each datapoint in our dataset can either be a TCP or a UDP packet.
-Compared to UDP packets, TCP packets have much more header fields and therefore more (derived) features.
-This results in an uneven timestamp size (length of packet entries) between datapoints, if one is based on a UDP packet and one is a TCP packet.
+Each datapoint in our dataset can either be a TCP or a UDP packet seqeunce.
+Compared to UDP packets, TCP packets have much more header fields and therefore more features get derived from them.
+This results in an uneven timestamp size or length of packet data between datapoints, if one is based on a UDP packet and the other is a TCP packet.
 To make packets of both protocols comparable, we will add padding to the UDP packets.
-We add the TCP flags and options as well as the sequence number and window size with a masking value (-15) , more on that in the model section.
-To round it up we convert the UDP length to TCP header length and TCP payload length, see Dataset Criteria paragraph derivation.
-The last part is especially important to keep the datapoints comparable.
+We add the TCP flags and options as well as the sequence number and window size with a masking value (-15), more on that in section \ref{}.
+To round it up we convert the UDP length to TCP header length and TCP payload length, see section \ref{sec:datapointFeatures} paragraph \textbf{derivation}.
+The last part is especially important to keep the datapoints not only at the same length but also comparable.
 This way, the NN can make the right decisions based on the data.
 
 \subsubsection{Creation of negative samples}
+\label{sec:negativeSamples}
 
 To create negative samples we use multiple different methods.
 The first is falsifying packet and flow features by either sampling them from another datapoint of the dataset or generating random values, which lie within a rough frame of expectation for the feature.
@@ -741,7 +767,8 @@ This is important in order to efficiently train the NN.
 However it is important to falsify the data in a realistic way, so that the NN is efficiently tested for the future use within a GAN.
 For this we need to provide a good representation for each feature of packets and flows.
 
-\subsection{Dataset Criteria}
+\subsection{Datapoint Features}
+\label{sec:datapointFeatures}
 
 In this section we discuss, which features will be part of our dataset and how they need to be derived to function as input for the NN.
 All network traffic features influencing network flow behavior will be of importance to our NN.
@@ -757,6 +784,7 @@ Also we will focus on the TCP and UDP protocols for now.
 % Timestamps for start and end time, duration, round trip time, protocol, source IP, source port, destination IP, destination port, TCP flags (forward and reverse), initial TCP sequence number (forward and reverse), first-packet 802.1q VLAN tag (forward and reverse), packet count (forward and reverse), octet/byte count (forward and reverse), the reason for the end of the packet sequence.
 
 \subsubsection{Packet sequence features}
+\label{sec:packtFeatures}
 
 \definecolor{not}{HTML}{949698} % Gray
 \definecolor{trivial}{HTML}{ed1b23} % Red
@@ -926,6 +954,7 @@ As the UDP length will have been converted to TCP length and data offest, packet
 
 
 \subsubsection{Network flow features}
+\label{sec:flowFeatures}
 
 Network flow features will be classified in the same categories.
 Table \ref{flow} shows the color-coded flow features.
@@ -1123,6 +1152,7 @@ As this is a categorical feature and each end reason mutually excludes all other
 \end{table}
 
 \subsection{Network Packet Captures used}
+\label{sec:pcapsUsed}
 
 For the creation of our datasets we need network packet captures as source.
 For this we take a look at publically available intrusion detection datasets.
@@ -1160,8 +1190,10 @@ We sampled through a 1.9 GB network packet capture from this dataset.
 Pcap number 9 from 17.02.2015.
 
 \section{Neural Network}
+\label{sec:NN}
 
 \subsection{Input}
+\label{sec:NNinput}
 
 To use our dataset with a NN we need to convert the datapoints into a data structure that suitable as NN input.
 As NNs work best with continuous data we face the following problem when converting the data.
@@ -1225,6 +1257,7 @@ And one for ignoring the padding of the packet sequence length.
 % - Karpathy and Fei-Fei
 
 \subsection{Model}
+\label{sec:NNmodel}
 
 For our proof of concept NN model we propose a straigth forward model.
 % with a simple implementation.
@@ -1271,8 +1304,10 @@ This library empowers us to compare simpleRNNs, LSTMs and GRUs for our problem.
 % FIXME: depending on the size of the training split into separate sections, like before
 
 \chapter{Experiments}
+\label{sec:experiments}
 
 \section{Setup}
+\label{sec:exSetup}
 
 % TODO: mention that we used LSTM for most of this reasoning
 
@@ -1285,6 +1320,7 @@ Even though we had longer compute times, this allowed us to run experiments with
 We later hoped to increase this even further to 50\%, but the computation time would not allow it, as too much time was already spend on debugging and optimizing the model.
 
 \section{Training \& Testing}
+\label{sec:exTrainTest}
 
 Throughout our experiments we used 70\%, 10\%, and 20\% of our partial datasets for training, validation and testing respectively, as it is the most common segmentation.
 For epochs we started with 5 to 20 for initial testing of hyperparameter combinations and went up to 100 or as far as 1000 once a combination looked promising.
@@ -1310,6 +1346,7 @@ However we found anything above 128 did not provide better results in relation t
 We believe the optimal number of units to be between 64 and 128.
 
 \section{Evaluation of Results}
+\label{sec:exEval}
 
 For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss.
 % FIXME: why use 500 than
@@ -1339,13 +1376,16 @@ Especially as we can only use up to 25\% of it.
 % FIXME: Something is wrong. But what?
 
 \section{Discussion}
+\label{sec:exDiscussion}
 
 \chapter{Conclusion}
+\label{sec:conclusion}
 
 % TODO: answer the following question
 % "what can you do now, what you couldn't do before?"
 
 \section{Summary}
+\label{sec:summary}
 
 We discussed the features of packets and flows and their importance to the flow behavior and therefore to a classifier.
 We created a pipeline that creates datasets, where each datapoint is a pair of a network flow and a network packet sequence, for use with NNs.
@@ -1356,7 +1396,8 @@ We also evaluated the effectiveness of different RNN architectures for this task
 and concluded that LSTMs are best suited for it.
 Additionally we researched how to handle non-static input for RNNs and provided an implementation based on conditional RNN layers.
 
-\section{Research Contribution}
+\section{Research Contributions}
+\label{sec:Contributions}
 
 Even though the results were not optimal this work provides a proof of concept RNN model that is capable of distinguishing if a network flow could have been created by a sequence of network packets.
 However this is not the main contribution.
@@ -1364,6 +1405,7 @@ The most valuable research contribution would be the discussion on network packe
 Furthermore we will publish the pipeline for effectively sampling network packet captures and created negative samples, so that future research can benefit from it.
 
 \subsection{Answering the Research Questions}
+\label{sec:answers}
 
 \paragraph{How can we develop a neural network that acts as a discriminator for a GAN that can determine if a network flow could have been created by a sequence of network packets?}
 Most likely yes.
@@ -1371,17 +1413,19 @@ Our NN model is capable of discriminating if a network flow was created by a seq
 It should be able to be used as a DN for the proposed GAN.
 
 \paragraph{Which features of network flows and packets are (most) significant to determine if a network flow could have been created by a sequence of network packets?}
-This question was answered in-depth in the Dataset Criteria section.
+This question was answered in-depth in section \ref{sec:datapointFeatures}.
 
 \paragraph{Which NN architecture would be most suitable to distinguish if network packets could have created some network flow?}
 Based on our experiments LSTMs provide the best results, specifically conditional LSTMs (condLTMs).
 
 \section{Future Work}
+\label{sec:futureWork}
 
 This work sets the groundstone for a variety of future work.
 Most of all the GAN proposed in the introduction.
 
 \subsection{Generation of network traffic captures with GANs}
+\label{sec:futureGAN}
 
 As stated many times throughout this thesis, we created a NN that can serve as a DN for a GAN that creates synthetic and authentic network packets from a network flow.
 The next step for this would be implement a GN that can be used in combination with our DN.
@@ -1389,6 +1433,7 @@ It is also advised to gather more data to be more representative of the real wor
 The dataset we created is limited by its source data, which was fine for a proof of concept, but will not be sufficient when applied to real-world problems.
 
 \subsection{Federated Learning}
+\label{sec:FL}
 
 Once the GAN proposed above produces good results, one could combine it with federated learning (FL).
 % explain FL
@@ -1410,7 +1455,8 @@ as those usually do not have much computation power to begin with.
 With a GAN that also respects appropriately labeled intrusion detection network captures,
 combining this approach with FL could have the potential to solve the issue of creating synthetic network traffic for self learning anomaly based NIDSs.
 
-\subsection{Model adjustments}
+\subsection{Possible Model Adjustments}
+\label{sec:modelAdj}
 
 As described already in the thesis a condRNN uses the conditional input to initiate the state of the RNN layer before the seqeuntial input gets processed.
 This behavior was appropriate to the task of image description generation \cite{vinyalsShowTellNeural2015} \cite{karpathyDeepVisualSemanticAlignments2015} as the sequence data only consisted of one or two sentences.
@@ -1426,6 +1472,7 @@ We view this as a benefit of our design, as it also would also allows the future
 However in future work it might be interesting to compare our results to a NN model that consists of two RNNs, where one is handling UDP and one is handling TCP packet sequences.
 
 \subsection{Feature Improvements}
+\label{sec:featureImprovements}
 
 As this thesis was a proof of concept for a NN that is capable of discriminating if a network flow could have been created from a given sequence of network packets, it leaves some opportunity for future work regarding improvements or optimizations.
 Besides improvements to the NN model additions or removal of packet and flow features might yield interesting results.
