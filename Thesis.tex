@@ -495,10 +495,15 @@ This allows the conditional data to be taken into account without appending it t
 To create a NN that could later be used as a DN we first need to understand how a GAN operates.
 A GAN consists of two NNs that compete against each other to maximize the quality of the generated data:
 a generator network (GN) and a discriminative network (DN).
+The GN creates synthetic samples and the DN gets real or synthetic samples at random.
+The DN then needs to decide if the sample it just saw is real or fake.
+Afterwards the decisions of the DN gets evaluated and both the DN and GN get fine tuned based on the results.
+% TODO: is this really loss? read the paper
+If the decision of the DN was correct than the GN is not good enough too fool the DN and therefore gets a greater loss, while the DN gets a smaller loss.
+If the DN was not able to make correct decisions it gets a greater loss and the DN a smaller loss.
 The GN is constantly trying to fool the DN with data it generates synthetically,
-while the DN is constantly trying to figure out if the data it was given is real or synthetic.
+while is constantly trying to figure out if the data it was given is real or synthetic.
 If correctly optimized, a GAN may create synthetic data indistinguishable from real data.
-% TODO: more
 
 \chapter{Related Work}
 
