@@ -439,13 +439,15 @@ The results gets used as weights for a hyperbolic tangent operation on the new c
 The newly calculated cell state and hidden state get passed to the next timestamp.
 
 GRUs have only two gates, the reset gate, and the update gate, and the cell state. \cite{phiIllustratedGuideLSTM2020}
-In short the update gate combines the forget and update gate of a LSTM, while the reset gate provides a part of the function of the LSTMs output gate.
+%In short the update gate combines the forget and update gate of a LSTM, while the reset gate provides the functionality of the LSTMs output gate.
 The update gate uses a sigmoid activation over the current input and the previous cell state, as the GRU has no hidden state.
 The inverted values are than used to weight the cell state.
-% TODO: explain why
-The reset gate again uses the same sigmoid unit and data as the update gate
+% explain why? NO, does not matter
+The reset gate again uses the same sigmoid unit and data as the update gate.
 This result gets multiplied with the current cell state and concatenated with the current input.
 This concatenation is processed by a hyperbolic tangent and multiplied by the non-inverted values of the update gate, before being added to the current cell state.
+A GRU has less activations than a LSTM and thererfore requires less computation.
+This is illustrated in the schematic comparison in figure \ref{fig:LSTMvGRU}.
 
 Now we have seen how different RNNs operate and how LSTMs and GRUs solve the vanishing gradient problem for sequential input.
 In our case however, we do provide more than one input and not all of our inputs are sequential.
