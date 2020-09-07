@@ -1164,38 +1164,42 @@ Pcap number 9 from 17.02.2015.
 \subsection{Input}
 
 To use our dataset with a NN we need to convert the datapoints into a data structure that suitable as NN input.
-As NNs works best with continuous data we face the following problem when converting the data.
-The data that is only available as bytes and strings.
-Those features need to be converted to integer, floats or what data researchers call a binary representation, which is basically a sequence of boolean values that describe a categorical feature.
-This is already solved in the preprocessing.
-% Second those sequences of binary representations need to be converted into continuous sequences, before being concatenated with the features, which are continuous by default.
-% For this we will apply a naive approach, which has proven to be very effective.
-% We will create two RNN layers, one of which will convert the categorical data into a continuous vector.
-% The other one will get a vector of continuous data, which consists of the original continuous data and the newly created conversion vector.
+As NNs work best with continuous data we face the following problem when converting the data.
+The packet and flow features only available as bytes or a string need to be converted to an integer, a float or a binary representation, a sequence of boolean values that describes a categorical feature, fully or at least partially.
+This is already solved in the dateset creation.
+Afterwards each datapoint has a general structure of a list of flow features and a sequence of packets, where each packet consists of a list of attributes derived from the data.
 
-A RNN needs sequences of data that have the same input shape (length, number of features) in each batch.
-Since UDP and TCP packets have a different number of features associated with them UDP packets need to be padded in order to coexist with TCP packets within one dataset.
-As this allows us to compare the behavior of UDP and TCP packets this is our goto solution.
-Additionally a NN handling both protocols allows us to have negative samples where the transport protocol was changed.
-However it might be interesting to compare our results to a NN model that consists of two RNNs, where one is handling UDP and one is handling TCP packet sequences later on.
-
-Furthermore we need to add padding to the packet sequences of each datapoint to the maximum sequence size, 500 in case of our initial dataset.
-% TODO: mention the decision to cut data > 500 out
-Therefore the model needs two Masking layers.
-One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
-And one for ignoring the padding of the packet sequence length.
-
-Each datapoint has a general structure of a list of flow features and a sequence of packets, where each packet consists of a list of attributes derived from the data.
 As RNNs work with sequential data and in our case only the sequence of packets is sequential, we need a more sophisticated solution to take our flow data into account.
 There are multiple approaches to this problem.
 One is the append the flow data to each packet in the sequence.
 But this creates an enormous amount of overhead and has also proven to be an ineffective solution in the past.
 Both Vinyals et al. \cite{vinyalsShowTellNeural2015} and Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015} claim that passing the condition to the NN with each timestamp of the sequence was less effective in providing results.
 Another approach would be to use two different NN layers in parallel to learn about the flow attributes and the packet sequence and merge the results afterwards.
-In our case the  packet sequence can only be verified as belonging to a given flow if the layer knows the flow attributes.
+In our case the packet sequence can only be verified as belonging to a given flow if the layer knows the flow attributes.
 Therefore the flow data should directly impact the packet sequence, so separating them would not be a good idea.
-The only liable approach is to modify the initial state of the RNN with the flow data as proposed by Vinyals et al. \cite{vinyalsShowTellNeural2015} and by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015}.
+The remaining and only liable approach is to modify the initial state of the RNN with the flow data as proposed by Vinyals et al. \cite{vinyalsShowTellNeural2015} and by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015}.
 Both used the output of a CNN, that provided a continuous vector representation of an image, as a conditional input for their RNN.
+We wont have to do this as our flow data is already in a continuous state after the dateset creation.
+However our data preprocessing is not done yet.
+As any RNN our condRNN requires datapoints in uniform shape to perform optimal.
+
+The batch size can be a powerful tool to adjust the training of a NN.
+The datapoints within one batch need to be even in shape however.
+So when facing datasets with inuniform shaped datapoints, such as ours, one would need to create batches based on shape instead of randomly.
+Even worse if a datapoint has a unique shape it would need to be processed alone.
+So an uneven datapoint shape leads forces us to use only one sample per batch or create batches of samples with similar sizes
+To prevent this each seqeunce and the number of features per input shall be the same for each datapoint.
+The shape of our datapoints varies on two accounts: first the uneven number of features within a UDP or a TCP packet, second the length of a packet sequence.
+So we need to transform our datapoints to a uniform shape.
+Since UDP and TCP packets have a different number of features associated with them UDP packets need to be padded in order to coexist with TCP packets in our dataset.
+This is done in during dataset creation.
+It allows us to compare the behavior of UDP and TCP packets and provides a uniform number of features per input.
+To provide a uniform sequence length we need to add padding to the packet sequences of each datapoint to the maximum sequence size.
+For this we must limit our datapoints to a reasonable packet sequence length.
+After investigating our dataset we chose 500 packets as the limit, as this only excludes 0.58\% of the datapoints.
+To understand our data after this padding our NN model needs two masking layers.
+One for ignoring the padding of UDP packets described in the previous section on dataset preparation.
+And one for ignoring the padding of the packet sequence length.
 
 % The image I is only input once, at t = −1, to inform the LSTM about the image contents. We empirically verified that feeding the image at each time step as an extra input yields inferior results, as the network can explicitly exploit noise in the image and overfits more easily.
 % - Vinyals et al.
