@@ -655,16 +655,16 @@ Later we randomly apply modifications to those samples to create negative datapo
 
 \subsubsection{Sampling}
 
-% FIXME: one capture each might be bad (sound bad)
-Instead of combining all flows from our source captures, we sample sequences of packets from only one packet capture of each dataset.
+% FIXME: one capture each might be bad (sound bad) too late now
+Instead of collecting all flows from our source captures, we sample sequences of packets from only one packet capture of each dataset.
 The sampled packet sequences and flows are stored separately as csv files for further preprocessing, as network packet captures are usually slow to process.
 For our purpose we considered two approaches for sampling a network packet capture for flows.
 Either by sampling through the packet sequences within the captures or by splitting the capture into intervals and sampling through those partial captures.
 Splitting the capture into intervals is less compute-heavy and therefore time-intensive, since the resulting packet captures are smaller and much quicker to parse.
-Truncated flows should not be a problem, since a capture itself is truncated at beginning and end anyway.
+Although this might truncate some flows, this should not be a problem, since a capture itself is truncated at beginning and end anyway.
 Additionally we also do not need any flow longer than the intervals themselves,
-as we use timeouts for the flow collecting.
-Later in the preprocessing we also drop any flow longer than 500 packets, to ensure a maximum length and therefore an equal length for the packet sequences.
+as we use timeouts (29 seconds) for the flow collecting.
+Later in the preprocessing we also drop any flow longer than a maximum number packets (500), to ensure an equal length for the packet sequences.
 
 The question however is the length of the intervals.
 Should they be determined relative to the size of the capture or should they have a fixed length?
