@@ -351,12 +351,12 @@ Additionally it might have information the packets themselves do not provide, e.
 
 \subsection{YAF}
 
-Yet another Flowmeter (YAF) is a tool to create network flows based on network traffic.
-It is capable of saving flow data of an active link or extracting flows from an offline capture file.
+Yet Another Flowmeter (YAF) is a tool to create network flows based on network traffic.
+It is capable of saving bidirectional flow data of an active link or extracting flows from an offline capture file.
+It uses IPFIX-based data structures and file formats, which can also be exported and used by IPFIX compliant toolchains.
 We will use the later functionality will help us to create a dataset for our use case.
 With \lstinline{yafscii} YAF provides a tool to export YAF network flow data as plain text.
-This will also come in handy.
-% TODO: more
+This will also come in handy for us, as we try to keep our dataset sampling simple by using csv files.
 
 \subsection{Wireshark}
 
