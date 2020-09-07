@@ -405,11 +405,12 @@ This is due to the vanishing gradient problem \cite{hochreiterLongShortTermMemor
 \subsubsection{Vanishing Gradient Problem}
 
 The vanishing gradient problem describes an RNNs tendency to forget earlier timestamps of a longer sequence.
-It is also as the short term memory problem.
-To understand how is problem manifests one needs to understand how an RNN operates.
-To ensure single values within one timestamp do not lose their relation to each other but also do not make other values less significant, for example by growing too much, RNNs use the hyperbolic tangent function to ensure the values stay between -1 and 1.
-% TODO: maybe talk about the vanishing gradient problem more?
-This ...
+It is also known as the short term memory problem.
+To understand how this problem manifests one needs to understand how an RNN operates.
+To ensure a single big value within one timestamp does not make other values less significant, but also do not lose their relation to each other, RNNs use the hyperbolic tangent function to ensure the values stay between -1 and 1.
+The values in the middle of the range of data are now closest to 0.
+However this also means that those values become so small that they do not contribute to the learning process of the RNN anymore.
+Thus vanishing from the weights.
 
 \subsection{Long Short Term Memory \& Gated Recurrent Units}
 
