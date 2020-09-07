@@ -1391,6 +1391,10 @@ It is possible that the RNN has forgotten all the flow information from the cond
 One could propose an advanced condRNN that feeds the conditional input into the state every X number of timestamps or even with every timestamp of the sequence.
 In the future we might explore this and look into how it affects the results of our NN model.
 
+Our NN handling both the UDP and the TCP protocol allows us to have negative samples, in which the transport protocol was changed.
+We view this as a benefit of our design, as it also would also allows the future additions of other protocols.
+However in future work it might be interesting to compare our results to a NN model that consists of two RNNs, where one is handling UDP and one is handling TCP packet sequences.
+
 \subsection{Feature Improvements}
 
 As this thesis was a proof of concept for a NN that is capable of discriminating if a network flow could have been created from a given sequence of network packets, it leaves some opportunity for future work regarding improvements or optimizations.
