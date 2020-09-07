@@ -484,13 +484,20 @@ In our case however, we do provide more than one input and not all of our inputs
 
 \subsection{Conditional Recurrent Neural Network}
 
-% TODO
-This is where the conditional recurrent neural network (condRNN) comes in.
-Compared to the earlier explained RNN, it allows a second input, a conditional input.
+This is where the conditional recurrent neural network (condRNN) \cite{remyPhilipperemyCondRnn2020} comes in.
+Compared to the earlier explained RNN architectures, it allows a second input, a non-sequential input, called conditional input, in addition to the sequential input.
 Just what we need for our flow data.
 The conditional input gets used to set the initial state of the RNN for each datapoint.
-% TODO: explain how the initial state is set
+% explain how the initial state is set? not needed I guess
 This allows the conditional data to be taken into account without appending it to each timestamp in the sequence.
+% TODO
+Also see \ref{sec:imagedesc} Image Description Generation in Related Work.
+
+\begin{figure}
+    \includegraphics[width=0.6\textwidth]{condRNN.pdf}
+    \caption{Schematic sketch of the input for a condRNN unit over time, the areas marked blue present the difference to the normal RNN architecture.}
+    \label{fig:condRNN}
+\end{figure}
 
 \subsection{GANs}
 
