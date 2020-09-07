@@ -561,7 +561,7 @@ Firstly we would risk introducing false correlations between IPs from different 
 As an IP address could appear in more than one network capture and have completely different behavior.
 Mixing the information IP2Vec extracted from both of the captures would distort the results of the NN regarding the affected flows.
 Secondly we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
-This will most likely not be the case, as we the GN of the GAN would try to create a sequence of packets based on the input of one flow.
+This will most likely not be the case, as the GN of the GAN would try to create a sequence of packets based on the input of one flow.
 % FIXME: is this really the problem? THINK ABOUT IT
 The later IP2Vec approach has the problem, that IPs will correlated to each other without ever having been in the same network.
 IP2Vec does not account for problems that might result from this.
