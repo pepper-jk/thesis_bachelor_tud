@@ -134,11 +134,13 @@
 This thesis aims to design a neural network (NN), that is capable of discriminating if a network flow could have been created based on a sequence of packets and can be used as a discriminative network (DN) for a Generative Adversarial Network (GAN) in future work.
 
 For this we first determined the features of network flows and packets a like, which are relevant to this task.
-We then created a dataset by extracting the relevant features from well-known network traffic datasets from the field of intrusion detection, as well as falsifying said datapoints to provide negative samples.
+We then created a dataset by extracting the relevant features from well-known network traffic datasets from the field of network intrusion detection (NID), as well as falsifying said datapoints to provide negative samples.
+We also provide a pipeline for the process of creating such datasets.
 
-For our NN model we compared multiple architectures of recurrent neural networks (RNNs).
-Further our model uses a special kind of RNN called a conditional RNN (condRNN) \cite{remyPhilipperemyCondRnn2020}, which already has provided good results for a mixture of conditional and sequential input in the field of image region classification \cite{karpathyDeepVisualSemanticAlignments2015} \cite{vinyalsShowTellNeural2015}.
+For our NN model we compared available architectures of recurrent neural networks (RNNs): simple RNN (simpleRNN), Long Short Term Memory (LSTM), and Gated Recurrent Units (GRUs).
+Furthermore our model uses a special kind of RNN called a conditional RNN (condRNN) \cite{remyPhilipperemyCondRnn2020}, which already has provided good results for a mixture of conditional and sequential input in the field of image region classification \cite{karpathyDeepVisualSemanticAlignments2015} \cite{vinyalsShowTellNeural2015}.
 This is necessary as a flow is the conditional counterpart to a sequence of packets.
+We aim to test the effectiveness of the different RNN architectures in regards to our problem and in the context of condRNNs.
 
 % During the phase of testing we optimized dataset and model to be most effective.
 
