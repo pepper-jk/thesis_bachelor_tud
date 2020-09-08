@@ -1193,6 +1193,77 @@ It was the \lstinline{Simpleweb/traces_TCP-IP_location1/loc1-20020523-1835} tcpd
 We sampled through a 1.9 GB network packet capture from this dataset.
 Pcap number 9 from 17.02.2015.
 
+\section{Dataset statistics}
+\label{sec:datasetStats}
+
+We created multiple datasets from our source packet captures.
+For testing on our local machine we used two datasets, the first had minimal errors in the negative samples, while the second had more errors in the negative samples.
+Both datasets did not differ to much in regards to the number of datapoints or the ratio of positive to negative datapoints.
+The first dataset had a total number 18977 datapoints, including 10284 positive datapoints and 8693 negative datapoints,
+and the second dataset had a total number 18086 datapoints, including 10284 positive datapoints and 7802 negative datapoints.
+Each dataset had an average share of each type of negative sample described in section \ref{sec:negativeSamples}.
+The difference between the two datasets is the degree of errors per negative sample.
+See table \ref{tab:datasets} for more information.
+
+Each negative sample type has a parameter, which decides the degree to which it alters the ground truth sample it extracts from the dataset of positive datapoints.
+The degree of method one is defined by the number of errors assigned to every packet.
+The degree of method three is defined by the number of packets added to a sequence or removed from the sequence.
+While adding packets was done by a total amount, removing packets was done relative to the sequence size, as having a lot of negative samples with sequences of small size might have caused the NN to learn that small sequences are per default negative.
+The methods two and four have no degree, they are completely randomized and have no parameters adjusting the severity of the error.
+
+For the experiments on the compute server we created a larger dataset with 378410 total datapoints, including 227499 positive datapoints and 150911 negative datapoints.
+From which we used 10\% (37841 datapoints) and 25\% (94602 datapoints) to keep the compute time reasonable.
+
+% all datasets share
+% num_pkts=1, num_errors_flow=0, num_errors_from_dataset=None, num_errors_flow_from_dataset=None
+
+% dataset (local), test2_dataset (hulk)
+% num_errors=3, reduce_percentages=[0.1, 0.25, 0.5], num_packets=0
+
+% dataset_clean_flows (hulk)
+% num_errors=3, reduce_percentages=[0.1, 0.25, 0.5], num_packets=0
+% total datapoints:  378410
+% positive datapoints:  227499
+% negative datapoints:  150911
+% datapoints used total:  94602
+% datapoints used for training:    66221 (70%)
+% datapoints used for validation:  9460 (10%)
+% datapoints used for testing:     18920 (20%)
+
+% dataset_harder
+% num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
+
+% dataset_harder_more_negatives
+% num_methods=2, num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
+
+% dataset_hard
+% num_pkts=20, num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        % FIXME: column names
+        % per packet, number of false, percentages, packets
+        \textbf{name} & \textbf{errors} & \textbf{packets} & \textbf{reduce} & \textbf{add} & \textbf{factor} \\
+        %\textbf{datapoints} & \textbf{negatvie} \\
+        \hline
+        % FIXME: dataset names
+        test2 & 3 & 1 & 10\%, 25\%, 50\% & 0 & 6 \\
+        \hline
+        harder & 9 & 1 & 50\%, 75\%, 90\% & 50 & 6 \\
+        \hline
+        more negatives & 9 & 1 & 50\%, 75\%, 90\% & 50 & 2 \\ %19266 \\
+        \hline
+        hard & 9 & 20 & 50\%, 75\%, 90\% & 50 & 6 \\
+        \hline
+        clean flows & 3 & 1 & 10\%, 25\%, 50\% & 0 & 6 \\
+        \hline
+    \end{tabular}
+    \caption{Statistics from Datasets} % Negative datapoints of each
+    \label{tab:datasets}
+\end{table}
+
 \section{Neural Network}
 \label{sec:NN}
 
