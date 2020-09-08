@@ -1391,9 +1391,9 @@ But we still aimed to compare the three RNNs.
 % TODO: mention that we used LSTM for most of this reasoning
 
 For our initial test runs of our model we used only around 5\% and 10\% of the dataset as not to exceed the resources, specifically memory, of the systems we used.
-My personal workstation with an AMD Ryzen 5 3600 6-Core @ 12x 3.6GHz and 32GB of ECC memory and TKs compute server HULK with the Tesla V100S GPU also with 32GB memory.
-As our experiments progressed and we required more memory, we had to switch to CPU processing on HULK.
-Giving us a share of the 48 threads @ 3.0GHz and 504GB of memory.
+A workstation with an AMD Ryzen 5 3600 6-Core @ 12x 3.6GHz and 32GB of ECC memory and a compute server with the Tesla V100S GPU also with 32GB memory.
+As our experiments progressed and we required more memory, we had to switch to CPU processing on the compute server.
+Giving us a share of the 48 threads @ 3.0GHz and 504GB of ECC memory.
 Even though we had longer compute times, this allowed us to run experiments with 25\% of our dataset and use more than 96 units within an RNN layer.
 % FIXME: edit on final experiments
 We later hoped to increase this even further to 50\%, but the computation time would not allow it, as too much time was already spend on debugging and optimizing the model.
