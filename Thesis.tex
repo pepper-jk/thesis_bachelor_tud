@@ -1401,38 +1401,48 @@ We later hoped to increase this even further to 50\%, but the computation time w
 \section{Training \& Testing}
 \label{sec:exTrainTest}
 
+Training the NN appeared as a problematic task.
+The model did not seem to achieve more than 60\% accuracy.
+As the accuracy was most often pending around 57\% over multiple runs and the same ratio of positive to negative datapoints in our dataset (test2 \ref{tab:datasets}), we assumed its true accuracy is at best 50\%, so not better as a coin toss.
+
+Our advanced model for further experiments therefore consists of two masking layers, which provide the RNN layer with the mask for UDP and packet padding,
+up to four condRNN layers with up to 128 units,
+a dense layer with ReLU activation and half as many units as an RNN layer,
+and a dense layer with a sigmoid activation unit for the output.
+This was manually implemented as a \lstinline{keras.Model}, since the condRNN layer from the \lstinline{cond-rnn} library is incompatible with \lstinline{keras.Sequential} at this point in time with its two inputs.
+% UNITS
+We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
+However we found anything above 128 did not provide better results in relation to the compute time.
+We believe the optimal number of units to be between 64 and 128.
+
 Throughout our experiments we used 70\%, 10\%, and 20\% of our partial datasets for training, validation and testing respectively, as it is the most common segmentation.
 For epochs we started with 5 to 20 for initial testing of hyperparameter combinations and went up to 100 or as far as 1000 once a combination looked promising.
+In each epoch the whole training dataset is used and processed in batches of size 100 to 1000.
+We soon came to realize that there is not much change to be seen after 100 epochs.
 
+\section{Evaluation of Results}
+\label{sec:exEval}
+
+% EPOCHS
 Usually the accuracy grows over the first three to 20 epochs, depending on the experiment and its hyperparameters, and then hovers around 57\%.
 Sometimes grew very slowly, but even 1000 epochs weren't enough to reach a decent accuracy. % FIXME once final results are in
-
-For a long time we used sparse categorical cross-entropy as a loss function, but this function was ill-suited for our problem.
-Once we figured this out we switched to the binary cross-entropy loss function, which is best suited for binary classification problems.
-This helped us obtain better results.
+% LAYERS
 However we still only reached an accuracy of 59\% at best with one RNN layer.
 During our earlier experiments, we concluded 3 or 4 layers to produce the best results again going any higher than 4 usually did not improve the accuracy and only produced additional overhead in computing time.
 With 3 layers and 64 per layer we were able to produce an accuracy of 60\% to 63\% within the first 15 epochs, while the loss was consistently decreasing.
 In our new experiments, since the switch to binary cross-entropy, we saw the same behavior, only this time 2 layers seem to achieve the optimal results.
 
-Our advanced model for futher experiments therefore consists of two masking layers, which provide the RNN layer with the mask for UDP and packet padding,
-up to four condRNN layers with up to 128 units,
-a dense layer with ReLU activation and half as many units as a RNN layer,
-and a dense layer with a sigmoid activation unit for the output.
-This was manually implemented as a \lstinline{keras.Model}, since the condRNN layer from the \lstinline{cond-rnn} library is incompatible with \lstinline{keras.Sequential} at this point in time with its two inputs.
-We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
-However we found anything above 128 did not provide better results in relation to the compute time.
-We believe the optimal number of units to be between 64 and 128.
+% LOSS FUNCTION
+For a long time we used sparse categorical cross-entropy as a loss function, but this function was ill-suited for our problem.
+Once we figured this out we switched to the binary cross-entropy loss function, which is best suited for binary classification problems.
+Combined with a sigmoid activation for out output layer this helped us obtain better results.
+We also compared our results to the hinge loss function in order to have a steeper learning curve, as it is used in combination with the hyperbolic tangent function on the output of the NN and provides a greater punishment for misclassification with the wrong signage.
+We thought this might be beneficial to our cause, but as it turns out it lead to worse results, see figure \ref{fig:hinge}.
 
-\section{Evaluation of Results}
-\label{sec:exEval}
+% FIXME transition? maybe rewrite
 
-For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss.
-% FIXME: why use 500 than
-
-Training the NN appeared as a problematic task.
-The model did not seem to achieve more than 60\% accuracy.
-As its accuracy was pending around 57\% over multiple runs and the data used for training had around the same ratio of positive to negative datapoints, we assumed its true accuracy is at best 50\%, so not better as a coin toss.
+% BATCHSIZE
+For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss (figure \ref{fig:batchsize}).
 
 % Initially our data was only around 3\% of the sampled data, but we achieved the same results with the complete dataset.
 To debug our model we performed multiple sanity checks.
