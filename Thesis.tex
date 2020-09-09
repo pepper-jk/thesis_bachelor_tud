@@ -1414,6 +1414,13 @@ a dense layer with ReLU activation and half as many units as an RNN layer,
 and a dense layer with a sigmoid activation unit for the output.
 This was manually implemented as a \lstinline{keras.Model}, since the condRNN layer from the \lstinline{cond-rnn} library is incompatible with \lstinline{keras.Sequential} at this point in time with its two inputs.
 
+% LOSS FUNCTION
+In our earlier experiments we used \textbf{sparse categorical cross-entropy} as a loss function, but this function was ill-suited for our problem.
+Once we figured this out we switched to the \textbf{binary cross-entropy} loss function, which is best suited for binary classification problems.
+Combined with a \textbf{sigmoid activation} for out output layer this helped us obtain better results.
+We also compared our results to the \textbf{hinge} loss function in order to have a steeper learning curve, as it is used in combination with the \textbf{hyperbolic tangent} (tanh) function on the output of the NN and provides a greater punishment for misclassification with the wrong signage.
+We thought this might be beneficial to our cause, but as it turns out it only led to worse results, see figure \ref{fig:hinge}.
+
 Throughout our experiments, we always used 70\%, 10\%, and 20\% of our partial datasets for training, validation, and testing respectively, as it is the most common segmentation of data.
 We started with 5 to 20 epochs for initial testing of hyperparameter combinations and went up to 100.
 Once a combination of hyperparameters looked promising, we went up to as far as 1000 epochs.
@@ -1437,13 +1444,6 @@ However we still only reached an accuracy of 59\% at best with one RNN layer of 
 During our earlier experiments, we concluded 3 or 4 layers to produce the best results again going any higher than 4 usually did not improve the accuracy and only produced additional overhead in computing time.
 With 3 layers and 64 per layer, we were able to produce an accuracy of 60\% to 63\% within the first 15 epochs, while the loss was consistently decreasing.
 Since the switch to binary cross-entropy however, we saw the same behavior, only this time 2 layers seem to achieve the optimal results.
-
-% LOSS FUNCTION
-In our earlier experiments we used \textbf{sparse categorical cross-entropy} as a loss function, but this function was ill-suited for our problem.
-Once we figured this out we switched to the \textbf{binary cross-entropy} loss function, which is best suited for binary classification problems.
-Combined with a \textbf{sigmoid activation} for out output layer this helped us obtain better results.
-We also compared our results to the \textbf{hinge} loss function in order to have a steeper learning curve, as it is used in combination with the \textbf{hyperbolic tangent} (tanh) function on the output of the NN and provides a greater punishment for misclassification with the wrong signage.
-We thought this might be beneficial to our cause, but as it turns out it only led to worse results, see figure \ref{fig:hinge}.
 
 % UNITS
 We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
