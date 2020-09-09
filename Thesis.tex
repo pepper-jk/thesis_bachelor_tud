@@ -985,17 +985,18 @@ The flags are provided as strings by yaf containing the initial letter of each a
 \textbf{F}IN, \textbf{S}YN, \textbf{R}ST, \textbf{P}SH, \textbf{A}CK, \textbf{U}RG, \textbf{E}CE, \textbf{C}WR.
 While a \textbf{0} means no flags were active.
 To conform with our previous binary representation, we create a boolean for each flag in the same order a TCP packet contains them.
-The end-reason describes the reaseon for the end of the packet sequence.
+The end-reason describes the reason for the end of the packet sequence.
 It is given as a string and can have five different values:
 \begin{itemize}
     \item \textbf{idle} timeout
     \item \textbf{active} timeout
     % % FIXME: yaf specific reasons
-    \item \textbf{eof} interuped by yafs timeout
-    \item \textbf{rsrc} -
-    \item \textbf{force} -
+    \item \textbf{eof} interruped by yafs timeout or end of file
+    \item \textbf{rsrc} premature flush if yafs flow table maximum is reached
+    \item \textbf{force} for single udp packet flow records that belong to a bigger flow
 \end{itemize}
-As this is a categorical feature and each end reason mutually excludes all others, we decided to use a one hot encoding for the binary representation.
+The last two end-reasons do not appear in our dataset.
+As this is a categorical feature and each end reason mutually excludes all others, we decided to use a one-hot encoding for the binary representation.
 
 % Later: "data preprocessing"
 
