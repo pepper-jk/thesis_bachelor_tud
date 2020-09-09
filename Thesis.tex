@@ -1404,12 +1404,12 @@ We later hoped to increase this even further to 50\%, but the computation time w
 \section{Training \& Testing}
 \label{sec:exTrainTest}
 
-Training the NN appeared as a problematic task.
-The model did not seem to achieve more than 60\% accuracy.
-As the accuracy was most often pending around 57\% over multiple runs and the same ratio of positive to negative datapoints in our dataset (test2 \ref{tab:datasets}), we assumed its true accuracy is at best 50\%, so not better as a coin toss.
+Training the NN appeared as a problematic task, as the model did not seem to achieve more than 60\% accuracy.
+The accuracy was most often pending around 57\% over multiple experiments.
+As our datasets (\ref{tab:datasets}) had the same ratio of positive to negative datapoints, we assumed the true accuracy of our model to be 50\% at best, so not better as a coin toss.
 
-Our advanced model for further experiments therefore consists of two masking layers, which provide the RNN layer with the mask for UDP and packet padding,
-up to four condRNN layers with up to 128 units,
+Our advanced model for further experiments consisted of two masking layers, which provide the RNN layer with the mask for UDP and packet padding,
+up to four condRNN (LSTM) layers with up to 128 units,
 a dense layer with ReLU activation and half as many units as an RNN layer,
 and a dense layer with a sigmoid activation unit for the output.
 This was manually implemented as a \lstinline{keras.Model}, since the condRNN layer from the \lstinline{cond-rnn} library is incompatible with \lstinline{keras.Sequential} at this point in time with its two inputs.
