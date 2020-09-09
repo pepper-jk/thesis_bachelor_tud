@@ -1418,9 +1418,13 @@ We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
 However we found anything above 128 did not provide better results in relation to the compute time.
 We believe the optimal number of units to be between 64 and 128.
 
-Throughout our experiments we used 70\%, 10\%, and 20\% of our partial datasets for training, validation and testing respectively, as it is the most common segmentation.
-For epochs we started with 5 to 20 for initial testing of hyperparameter combinations and went up to 100 or as far as 1000 once a combination looked promising.
-In each epoch the whole training dataset is used and processed in batches of size 100 to 1000.
+Throughout our experiments, we always used 70\%, 10\%, and 20\% of our partial datasets for training, validation, and testing respectively, as it is the most common segmentation of data.
+We started with 5 to 20 epochs for initial testing of hyperparameter combinations and went up to 100.
+Once a combination of hyperparameters looked promising, we went up to as far as 1000 epochs.
+In each epoch, the whole training dataset is used and processed in batches of size 100 to 1000.
+Afterwards, the model gets validated by the validation dataset.
+The weights get updated after each batch and at the end of an epoch after the validation.
+After all training and validation epochs are finished the model was evaluated on our test dataset.
 We soon came to realize that there is not much change to be seen after 100 epochs.
 
 \section{Evaluation of Results}
