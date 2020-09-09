@@ -1413,10 +1413,6 @@ up to four condRNN (LSTM) layers with up to 128 units,
 a dense layer with ReLU activation and half as many units as an RNN layer,
 and a dense layer with a sigmoid activation unit for the output.
 This was manually implemented as a \lstinline{keras.Model}, since the condRNN layer from the \lstinline{cond-rnn} library is incompatible with \lstinline{keras.Sequential} at this point in time with its two inputs.
-% UNITS
-We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
-However we found anything above 128 did not provide better results in relation to the compute time.
-We believe the optimal number of units to be between 64 and 128.
 
 Throughout our experiments, we always used 70\%, 10\%, and 20\% of our partial datasets for training, validation, and testing respectively, as it is the most common segmentation of data.
 We started with 5 to 20 epochs for initial testing of hyperparameter combinations and went up to 100.
@@ -1446,7 +1442,10 @@ Combined with a sigmoid activation for out output layer this helped us obtain be
 We also compared our results to the hinge loss function in order to have a steeper learning curve, as it is used in combination with the hyperbolic tangent function on the output of the NN and provides a greater punishment for misclassification with the wrong signage.
 We thought this might be beneficial to our cause, but as it turns out it lead to worse results, see figure \ref{fig:hinge}.
 
-% FIXME transition? maybe rewrite
+% UNITS
+We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
+However we found anything above 128 did not provide better results in relation to the compute time.
+We believe the optimal number of units to be between 64 and 128.
 
 % BATCHSIZE
 For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss (figure \ref{fig:batchsize}).
