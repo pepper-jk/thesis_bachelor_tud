@@ -1433,10 +1433,10 @@ The validation loss behaves similar, it decreases fast than slower and eventuall
 % TODO: sample graph
 
 % LAYERS
-However we still only reached an accuracy of 59\% at best with one RNN layer.
+However we still only reached an accuracy of 59\% at best with one RNN layer of up to 64 units.
 During our earlier experiments, we concluded 3 or 4 layers to produce the best results again going any higher than 4 usually did not improve the accuracy and only produced additional overhead in computing time.
-With 3 layers and 64 per layer we were able to produce an accuracy of 60\% to 63\% within the first 15 epochs, while the loss was consistently decreasing.
-In our new experiments, since the switch to binary cross-entropy, we saw the same behavior, only this time 2 layers seem to achieve the optimal results.
+With 3 layers and 64 per layer, we were able to produce an accuracy of 60\% to 63\% within the first 15 epochs, while the loss was consistently decreasing.
+Since the switch to binary cross-entropy however, we saw the same behavior, only this time 2 layers seem to achieve the optimal results.
 
 % LOSS FUNCTION
 For a long time we used sparse categorical cross-entropy as a loss function, but this function was ill-suited for our problem.
