@@ -1001,16 +1001,16 @@ As this is a categorical feature and each end reason mutually excludes all other
 % Later: "data preprocessing"
 
 % FIXME: remove ip2vec
-% Additionally IP2Vec extracts the attriubtes Day and Time from the start timestamp,
-% where Day is a boolean represening weekday or weekend
+% Additionally IP2Vec extracts the attributes Day and Time from the start timestamp,
+% where Day is a boolean representing weekday or weekend
 % and Time is the time of day, striped from the date.
-% However IP2Vec only uses them temporarly.
+% However IP2Vec only uses them temporarely.
 % We will extract those attributes from IP2Vecs preprocessing and use them as opposed to the start timestamp,
-% since they are more generic, therefore provide better comparability and still anker the flow to a specific time.
+% since they are more generic, therefore provide better comparability and still ancer the flow to a specific time.
 % % TODO: export these features for our NN
 
 % We now need to decide, which other attributes of a network flow are of value to our neural network.
-% Since IP2Vec only helps us represent the categorical attributes, there are still bool, numerical and continous attributes left for us to use.
+% Since IP2Vec only helps us represent the categorical attributes, there are still bool, numerical and continuous attributes left for us to use.
 % We just need to look at their value for the NN.
 
 % After we decided over the flow attributes %(and they work with the NN)
