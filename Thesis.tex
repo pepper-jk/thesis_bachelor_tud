@@ -1498,6 +1498,14 @@ Either that or our chosen features are not optimal yet.
 The possibility that the data is not enough to obtain good results also remains.
 Especially as we can only use up to 25\% of it.
 
+It is no wonder that increasing the number of errors in negative samples increases the performance of the model.
+%Same goes for increasing the amount of data.
+However it can not be the solution to boost the models performance by giving it easier samples to learn from.
+In order to perform as a DN of a GAN proposed in the problem statement \ref{sec:problem} it would need to detect much smaller errors than we provided in our dataset(s).
+
+The model has shown that with enough data and time, it might at least get to a high accuracy.
+But as it stands it is too inefficient to deliver good results in a reasonable amount of time.
+
 \begin{figure}
     \includegraphics[width=.75\textwidth]{hinge_val_accuracy.pdf}
     \includegraphics[width=.75\textwidth]{hinge_val_loss.pdf}
