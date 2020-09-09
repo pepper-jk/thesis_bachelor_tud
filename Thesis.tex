@@ -1274,7 +1274,7 @@ From which we used 10\% (37841 datapoints) and 25\% (94602 datapoints) to keep t
 To use our dataset with a NN we need to convert the datapoints into a data structure that suitable as NN input.
 As NNs work best with continuous data we face the following problem when converting the data.
 The packet and flow features only available as bytes or a string need to be converted to an integer, a float or a binary representation, a sequence of boolean values that describes a categorical feature, fully or at least partially.
-This is already solved in the dateset creation.
+This is already solved in the dataset creation.
 Afterwards each datapoint has a general structure of a list of flow features and a sequence of packets, where each packet consists of a list of attributes derived from the data.
 
 As RNNs work with sequential data and in our case only the sequence of packets is sequential, we need a more sophisticated solution to take our flow data into account.
@@ -1287,16 +1287,16 @@ In our case the packet sequence can only be verified as belonging to a given flo
 Therefore the flow data should directly impact the packet sequence, so separating them would not be a good idea.
 The remaining and only liable approach is to modify the initial state of the RNN with the flow data as proposed by Vinyals et al. \cite{vinyalsShowTellNeural2015} and by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015}.
 Both used the output of a CNN, that provided a continuous vector representation of an image, as a conditional input for their RNN.
-We wont have to do this as our flow data is already in a continuous state after the dateset creation.
+We won't have to do this as our flow data is already in a continuous state after the dataset creation.
 However our data preprocessing is not done yet.
 As any RNN our condRNN requires datapoints in uniform shape to perform optimal.
 
 The batch size can be a powerful tool to adjust the training of a NN.
 The datapoints within one batch need to be even in shape however.
-So when facing datasets with inuniform shaped datapoints, such as ours, one would need to create batches based on shape instead of randomly.
+So when facing datasets with non-uniform shaped datapoints, such as ours, one would need to create batches based on shape instead of randomly.
 Even worse if a datapoint has a unique shape it would need to be processed alone.
 So an uneven datapoint shape leads forces us to use only one sample per batch or create batches of samples with similar sizes
-To prevent this each seqeunce and the number of features per input shall be the same for each datapoint.
+To prevent this each sequence and the number of features per input shall be the same for each datapoint.
 The shape of our datapoints varies on two accounts: first the uneven number of features within a UDP or a TCP packet, second the length of a packet sequence.
 So we need to transform our datapoints to a uniform shape.
 Since UDP and TCP packets have a different number of features associated with them UDP packets need to be padded in order to coexist with TCP packets in our dataset.
