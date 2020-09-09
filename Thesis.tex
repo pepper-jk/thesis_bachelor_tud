@@ -1427,8 +1427,11 @@ We soon came to realize that there is not much change to be seen after 100 epoch
 \label{sec:exEval}
 
 % EPOCHS
-Usually the accuracy grows over the first three to 20 epochs, depending on the experiment and its hyperparameters, and then hovers around 57\%.
-Sometimes grew very slowly, but even 1000 epochs weren't enough to reach a decent accuracy. % FIXME once final results are in
+Usually the validation accuracy increases over the first three to 20 epochs, depending on the experiment and its hyperparameters, then just hovers close to its average value, e.g. 57\%, and flattens slightly above it.
+Sometimes it increased more slowly, but even 1000 epochs weren't enough to reach a decent accuracy and resulted in the same behavior.
+The validation loss behaves similar, it decreases fast than slower and eventually flattens close to its average.
+% TODO: sample graph
+
 % LAYERS
 However we still only reached an accuracy of 59\% at best with one RNN layer.
 During our earlier experiments, we concluded 3 or 4 layers to produce the best results again going any higher than 4 usually did not improve the accuracy and only produced additional overhead in computing time.
