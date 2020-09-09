@@ -1492,8 +1492,10 @@ Especially as we can only use up to 25\% of it.
 We discussed the features of packets and flows and their importance to the flow behavior and therefore to a classifier.
 We created a pipeline that creates datasets, where each datapoint is a pair of a network flow and a network packet sequence, for use with NNs.
 Said pipeline is capable of sampling random flows from network packet captures, extracting flow and packet features and creating negative datapoints.
+% FIXME: no we did not
 We provided a proof of concept classifier that can distinguish if a flow could have been created by a sequence of packets.
 This NN model could be used as a DN for a GAN that creates network packet sequences from a network flow.
+% FIXME: it is still possible that LSTMs are the way to go, however we did not show nor conclude that!
 We also evaluated the effectiveness of different RNN architectures for this task
 and concluded that LSTMs are best suited for it.
 Additionally we researched how to handle non-static input for RNNs and provided an implementation based on conditional RNN layers.
@@ -1501,6 +1503,7 @@ Additionally we researched how to handle non-static input for RNNs and provided 
 \section{Research Contributions}
 \label{sec:Contributions}
 
+% FIXME: we did not provide a proof of concept!
 Even though the results were not optimal this work provides a proof of concept RNN model that is capable of distinguishing if a network flow could have been created by a sequence of network packets.
 However this is not the main contribution.
 The most valuable research contribution would be the discussion on network packet and flow features we take into account, as well as the derivation of the data.
