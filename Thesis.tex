@@ -1478,15 +1478,16 @@ Increasing the number of errors per altered packet from 3 to 9 did increase the 
 
 % Initially our data was only around 3\% of the sampled data, but we achieved the same results with the complete dataset.
 To debug our model we performed multiple sanity checks.
-We tried a dataset using data from only one of the afore mentioned NIDS dataset captures with no improvements.
-Changing the architecture from the conditional RNN to a normal RNN did not change the results too much, just a little worse, so a problem with the \lstinline{cond-rnn} library can be excluded.
-This holds true also for the manual model implementation, as a simple \lstinline{keras.Sequential} implementation yields the same results.
+We tried a dataset using data from only one of the aforementioned NIDS dataset captures with no improvements.
+Changing the architecture from the conditional RNNs to a normal RNNs did not change the overall behavior of the model too much, only created slightly worse accuracy, so a problem with the \lstinline{cond-rnn} libraries implementation can be excluded for the most part.
+This holds also for the manual model implementation, as a simple \lstinline{keras.Sequential} implementation yields the same results.
 We also tried running without the masking layers, anticipating worse results, as our masking values -10 and -15 were no longer excluded from the NN layer operations.
-However we still saw no noticeable changes to the accuracy.
+However, we saw no noticeable changes to accuracy.
+Possibly our NN model was able to notice the marking values as not relevant data on its own, without the masking layers.
 A higher number of ReLUs in the Dense layer also did not provide better results.
-The model without the ReLU layer performed slightly better than with the ReLU layer.
-At least regarding the validation accuracy and loss.
-However the validation loss decreased faster than the training loss and while the validation accuracy was better the training accuracy was worse.
+The model without the ReLU layer performed slightly better than with the ReLU layer,
+at least regarding the validation accuracy and loss, but the flattened curves remained. % FIXME: wording
+However, the validation loss decreased faster than the training loss and while the validation accuracy was better the training accuracy was worse.
 So we returned to our original ReLU implementation.
 
 \section{Discussion}
