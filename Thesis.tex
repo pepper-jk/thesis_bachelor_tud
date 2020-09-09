@@ -1453,10 +1453,26 @@ We believe the optimal number of units to be between 64 and 128.
 
 % BATCHSIZE
 For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss (figure \ref{fig:batchsize}).
+%The described behavior and its improvements can be seen over all parameters.
 
-% TODO: Datasets, emphasize number of datapoints and number of errors
+% Datasets
+For the dataset(s) we mainly considered two types of comparison.
+One the percentage of the complete dataset or the number of datapoints.
+Two the number of errors for negative datapoints.
+% datapoints
+For the first type, we used our smaller dataset with 18977 datapoints, which is roughly 5\% of our total data, and compared it to 25\% of our total dataset, which amounts to 94602 datapoints.
+We saw an improvement of both accuracy and loss here, however not regarding the general behavior of the model, but rather a shift of the curve along the y-axis, see \ref{fig:dataset_percentage}.
+% number of errors
+For the second type, we used the datasets with different configurations of negative samples described in section \ref{sec:datasetStats}.
+As we can see in figure \ref{fig:dataset_negative} the more negative samples in a dataset (3 times) does improve the average accuracy (and loss).
+However it does cause more fluctuation in the accuracy over time and the flattening worsens.
+We conclude that the improvement is merely based on the additional data available not on the increase of negative samples.
+Adding more altered packets to our first method of negative sample creation, marked in the graph with `20 packets', did improve accuracy and loss.
+Even though it gave a significant shift along the y-axis it did not change the behavior of the model overall.
+% It might be interesting though to give it another look for future work, as it seemed to be one of the view experiments that showed near linear increase. This can also be a coincident of cause.
+Increasing the number of errors per altered packet from 3 to 9 did increase the models accuracy a bit, but again only by shifting the curce along the y-axis.
 
-% TODO: differnt RNNs
+% TODO: different RNNs
 
 \subsection{Debugging}
 
