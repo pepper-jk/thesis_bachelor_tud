@@ -1522,7 +1522,7 @@ As both were very similar to the training accuracy and loss, in most experiments
 Since the validation is repeated for each epoch and the testing is only done once after the model was trained, the validation can provide a look at the performance of the model over time.
 
 % EPOCHS
-Usually the validation accuracy increases over the first three to 20 epochs, depending on the experiment and its hyperparameters, then just hovers close to its average value, e.g. 57\%, and flattens slightly above it.
+Usually, the validation accuracy increases over the first three to 20 epochs, depending on the experiment and its hyperparameters, then just hovers close to its average value, e.g. 57\%, and flattens slightly above it.
 Sometimes it increased more slowly, but even 1000 epochs weren't enough to reach a decent accuracy and resulted in the same behavior, see figure \ref{fig:1000epochs}.
 The validation loss behaves similar, it decreases fast than slower and eventually flattens close to its average.
 % TODO: sample graph
@@ -1579,9 +1579,9 @@ Their behavior is the most complex out of the methods.
 The good performance of both is most likely due to the lack of unknown data, meaning data that is not present in the positive datapoints.
 One could argue that \textbf{method 1b} should benefit from this as well, and it does, to a certain degree.
 However, \textbf{method 1b} has viewer and more delicat changes. It alters header fields of a few packets, in most cases (as in this comparison) just one.
-\textbf{Method 3} and \textbf{method 4} alter the sequence of packets, which is way more powerful, especially in reagards to the recurrent architecture of our model.
+\textbf{Method 3} and \textbf{method 4} alter the sequence of packets, which is way more powerful, especially in regards to the recurrent architecture of our model.
 As for the problematic samples, we assume that they had only small changes.
-For example, they could have been created from positive samples with a small packet count and therefore only got a small reduction of packets (method 3), or two very similar flows got their packet seqeunce switched (method 4).
+For example, they could have been created from positive samples with a small packet count and therefore only got a small reduction of packets (method 3), or two very similar flows got their packet sequence switched (method 4).
 As we have a lot of short TCP flows, we deem this likely.
 
 % TODO: introduce condLSTM and condGRU somewhere, or state that
