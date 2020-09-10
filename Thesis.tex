@@ -1516,6 +1516,11 @@ We soon came to realize that there is not much change to be seen after 100 epoch
 \section{Evaluation of Results}
 \label{sec:exEval}
 
+% disclaimer
+When we talk about accuracy or loss in this section we generally talk about validation accuracy and validation loss, unless stated otherwise.
+As both were very similar to the training accuracy and loss, in most experiments slightly better and give a clearer understanding about the model's performance than test accuracy and test loss.
+Since the validation is repeated for each epoch and the testing is only done once after the model was trained, the validation can provide a look at the performance of the model over time.
+
 % EPOCHS
 Usually the validation accuracy increases over the first three to 20 epochs, depending on the experiment and its hyperparameters, then just hovers close to its average value, e.g. 57\%, and flattens slightly above it.
 Sometimes it increased more slowly, but even 1000 epochs weren't enough to reach a decent accuracy and resulted in the same behavior, see figure \ref{fig:1000epochs}.
