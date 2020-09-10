@@ -1386,7 +1386,7 @@ For our proof of concept NN model we propose a straigth forward model.
 % FIXME: if the implementation was so simple, how did we mess up so bad?
 As mentioned above we need two masking layers, which filter the UDP feature padding and packet sequence padding.
 The masks of both layers are concatenated with a logical AND operation.
-The fully-formed mask will then be passed to first condRNN layer in addition to the inputs.
+The fully-formed mask will then be passed to the first condRNN layer in addition to the inputs.
 The number of condRNN layers and their units is to be determined in our experiments.
 The output of the last condRNN layer provides gets compressed by a dense layer with half as many rectified linear units (ReLUs).
 For the output layer we use a dense layer with one unit and a sigmoid activation as we are looking for a categorical result of 0 or 1.
