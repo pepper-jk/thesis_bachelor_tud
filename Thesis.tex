@@ -367,7 +367,7 @@ Yet Another Flowmeter (YAF) is a tool to create network flows based on network t
 It is capable of saving bidirectional flow data of an active link or extracting flows from an offline capture file.
 It uses IPFIX-based data structures and file formats, which can also be exported and used by IPFIX compliant toolchains.
 We will use the later functionality will help us to create a dataset for our use case.
-With \lstinline{yafscii} YAF provides a tool to export YAF network flow data as plain text.
+With \code{yafscii} YAF provides a tool to export YAF network flow data as plain text.
 This will also come in handy for us, as we try to keep our dataset sampling simple by using csv files.
 
 \subsection{Wireshark}
@@ -376,7 +376,7 @@ This will also come in handy for us, as we try to keep our dataset sampling simp
 Wireshark is probably the most well-known network traffic tool out there.
 It is capable of capturing, displaying, sorting and filtering network traffic captures, as well as analysing network packet captures.
 It also has other functionality, but we mainly use the filter functionality.
-It comes with a GUI but also provides a CLI tool called \lstinline{tshark} that is theoretically capable of doing everything the GUI does, just a bit quicker.
+It comes with a GUI but also provides a CLI tool called \code{tshark} that is theoretically capable of doing everything the GUI does, just a bit quicker.
 This is what we will use.
 
 \section{Network traffic datasets}
@@ -880,7 +880,7 @@ This is done by sorting the port based into the following categories based on po
 Additionally the ephemeral category is split into the following subcategories:
 \begin{itemize}
     \item \textbf{IANA} (49152-65535): the range of ports assigned as dynamic by the Internet Assigned Numbers Authority (IANA) \cite{ServiceNameTransport}
-    \item \textbf{linux} (32768-60999): ephemeral ports accessable through \lstinline{/proc/sys/net/ipv4/ip_local_port_range} on linux based systems
+    \item \textbf{linux} (32768-60999): ephemeral ports accessable on linux based systems through \code{/proc/sys/net/ipv4/ip\_local\_port\_range}
     \item \textbf{bsdold} (1024-5000): ephemeral ports used by older (Free)BSD implementations (version < 4.6) \cite{EphemeralPortRange}
     \item \textbf{winserver} (1025–65535): dynamic ports used by Windows Server 2000 \cite{DefaultDynamicPort} \cite{WhenYouTry}
     \item \textbf{winxp} (1025–5000): dynamic ports used by Windows XP \cite{CableGuyDecember} and Server 2003 (until update MS08-037) \cite{YouExperienceIssues}
@@ -935,7 +935,7 @@ It would try to perform operations on it like on any integer value, but that wou
 The fields qualifying for this category need to be continuous data.
 Additionally to the packet header fields shown in the table we also considered some meta data.
 We use the relative time offset of the packets, this feature will match with the duration of the flow,
-and the TCP payload length, provided by wiresharks filter \lstinline{tcp.len}.
+and the TCP payload length, provided by wiresharks filter \code{tcp.len}.
 
 The identification IP header field uniquely identifies a network packet compared to other packets from the same source.
 As it is basically just counting up, one could suggest, that it is not more of a feature than the acknowledgment number.
@@ -1176,7 +1176,7 @@ This is important as we need to provide the NN with enough data to distinguish f
 
 \paragraph{CDX} The data capture from the U.S. National Security Agency (NSA) published in 2009 \cite{CyberResearchCenter}.
 % TODO: write some more here
-\lstinline{CDX westpoint/2009-04-21-04-06-19.dmp12}
+\code{CDX westpoint/2009-04-21-04-06-19.dmp12}
 
 \paragraph{DARPA} The Intrusion Detection Data Sets from 1998 and 1999 \cite{1999DARPAIntrusion}.
 This dataset provides pcap files that were captured in a simulation network.
@@ -1193,7 +1193,7 @@ They provide fifteen minutes of traffic every day since 2010. The capture we use
 % FIXME: this was almost a copy paste
 The traffic was collected at a honeypot hosted in the network of the University of Twente in September 2008 \cite{LabeledDatasetIntrusiona}.
 Sadly the source of the capture we used is no longer online.
-It was the \lstinline{Simpleweb/traces_TCP-IP_location1/loc1-20020523-1835} tcpdump.
+It was the \code{Simpleweb/traces\_TCP-IP\_location1/loc1-20020523-1835} tcpdump.
 
 \paragraph{UNSW-NB15} A NIDS dataset with over 100GB of network traffic at packet level that includes multiple types of attacks, such as Fuzzers, Analysis, Backdoors, DoS, Exploits, Generic, Reconnaissance, Shellcode and Worms \cite{UNSWNB15DataSet}.
 We sampled through a 1.9 GB network packet capture from this dataset.
@@ -1348,12 +1348,12 @@ A schematic of our model can be found in figure \ref{fig:Model}.
 Now that we know the structure of our model as well as which layers to use, we need to figure out which NN architectures will be used in our experiments.
 
 For our RNN layers we will compare different architectures of RNNs.
-Using RNNs will ensure previous data points will be taken into account during learning and in case of LSTMs and GRUs all previous datapoints will be taken into account.
+Using RNNs will ensure previous data points will be taken into account during learning and in the case of LSTMs and GRUs all previous datapoints will be taken into account.
 However it is important to establish a baseline, which will help us establish a measure of progress. % or even success.
 Therefore our baseline will be simple RNNs.
 Afterwards we will compare our baseline results to the results of LSTMs and GRUs.
 As described in the Input section above, we will use a NN model, which accepts flows as conditional input and packets as sequential input.
-The \lstinline{cond-rnn} library \cite{remyPhilipperemyCondRnn2020} written for Keras and Tensorflow and supports simpleRNNs, LSTMs and GRUs as cells for conditional RNNs.
+The \code{cond-rnn} library \cite{remyPhilipperemyCondRnn2020} written for Keras and Tensorflow and supports simpleRNNs, LSTMs and GRUs as cells for conditional RNNs.
 This library empowers us to compare simpleRNNs, LSTMs and GRUs for our problem.
 
 \begin{figure}
@@ -1412,7 +1412,7 @@ Our advanced model for further experiments consisted of two masking layers, whic
 up to four condRNN (LSTM) layers with up to 128 units,
 a dense layer with ReLU activation and half as many units as an RNN layer,
 and a dense layer with a sigmoid activation unit for the output.
-This was manually implemented as a \lstinline{keras.Model}, since the condRNN layer from the \lstinline{cond-rnn} library is incompatible with \lstinline{keras.Sequential} at this point in time with its two inputs.
+This was manually implemented as a \code{keras.Model}, since the condRNN layer from the \code{cond-rnn} library is incompatible with \code{keras.Sequential} at this point in time with its two inputs.
 
 % LOSS FUNCTION
 In our earlier experiments we used \textbf{sparse categorical cross-entropy} as a loss function, but this function was ill-suited for our problem.
@@ -1478,8 +1478,8 @@ Increasing the number of errors per altered packet from 3 to 9 did increase the 
 % Initially our data was only around 3\% of the sampled data, but we achieved the same results with the complete dataset.
 To debug our model we performed multiple sanity checks.
 We tried a dataset using data from only one of the aforementioned NIDS dataset captures with no improvements.
-Changing the architecture from the conditional RNNs to a normal RNNs did not change the overall behavior of the model too much, only created slightly worse accuracy, so a problem with the \lstinline{cond-rnn} libraries implementation can be excluded for the most part.
-This holds also for the manual model implementation, as a simple \lstinline{keras.Sequential} implementation yields the same results.
+Changing the architecture from the conditional RNNs to a normal RNNs did not change the overall behavior of the model too much, only created slightly worse accuracy, so a problem with the \code{cond-rnn} libraries implementation can be excluded for the most part.
+This holds also for the manual model implementation, as a simple \code{keras.Sequential} implementation yields the same results.
 We also tried running without the masking layers, anticipating worse results, as our masking values -10 and -15 were no longer excluded from the NN layer operations.
 However, we saw no noticeable changes to accuracy.
 Possibly our NN model was able to notice the marking values as not relevant data on its own, without the masking layers.
