@@ -769,7 +769,7 @@ This way, the NN can make the right decisions based on the data.
 \label{sec:negativeSamples}
 
 To create negative samples we use multiple different methods.
-The first is altering packet and flow features by either sampling features from another datapoint of the dataset or generating random values, which lie within a rough frame of expectation for the feature.
+The first is altering packet and flow features by either sampling features from another datapoint of the dataset (method 1a) or generating random values (method 1b), which lie within a rough frame of expectation for the feature.
 Both processes are randomized.
 And both produce three different types of negative samples:
 
@@ -783,11 +783,11 @@ We later decided not to alter the flow as the RNN should learn if a packet seque
 In the scenario of our future GAN the flow input is authentic and does not need to be classified itself for authenticity.
 However dropping altered flows did not change the performance of our model, so if someone wanted to use the model for a different problem that include altered flow they could do so without any further problems.
 
-The second method is randomizing the packet order within the packet sequence of a given datapoint.
-The third is to decrease or increase the number of packets of a sequence in a given datapoint.
+The second method is randomizing the packet order (method 2) within the packet sequence of a given datapoint.
+The third is to decrease or increase the number of packets of the sequence in a given datapoint (method 3).
 To decrease the number of packets we just remove a random number of packets at a random position.
 To increase the number of packets we again sample from another datapoint in the dataset and add some of its packets to the current sequence.
-And the fourth and final method is mismatching network flows with a different sequence of packets.
+And the fourth and final method is mismatching network flows with a different sequence of packets (method 4).
 
 Each negative sample creation method has one or more parameters, which decide the degree to which it alters the ground truth sample it extracts its data from, a positive datapoint from the dataset.
 The degree of method one is defined by the number of errors assigned to every packet, as well as the number of altered packets.
