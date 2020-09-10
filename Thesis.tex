@@ -1470,8 +1470,9 @@ Note that \textbf{method 1a} refers to the creation of false packets by random d
     \label{tab:datapoints}
 \end{table}
 
-\section{Setup}
+\section{Experimental Setup}
 \label{sec:exSetup}
+\label{sec:exTrainTest}
 
 % TODO: mention that we used LSTM for most of this reasoning
 
@@ -1483,32 +1484,32 @@ Even though we had longer compute times, this at least allowed us to run experim
 % FIXME: edit on final experiments
 We later hoped to increase this even further to 50\%, but the computation time would not allow it, as too much time was already spend on debugging and optimizing the model.
 
-\section{Training \& Testing}
-\label{sec:exTrainTest}
-
-Training the NN appeared as a problematic task, as the model did not seem to achieve more than 60\% accuracy.
+For training we used
+%Training the NN appeared as a problematic task, as
+The model did not seem to achieve more than 60\% accuracy.
 The accuracy was most often pending around 57\% over multiple experiments.
-As our datasets (\ref{tab:datapoints}) had the same ratio of positive to negative datapoints, we assumed the true accuracy of our model to be 50\% at best, so not better as a coin toss.
+As our \textbf{base} dataset (section \ref{tab:datapoints}) had the same ratio of positive to negative datapoints, we assumed the true accuracy of our model to be 50\% at best, so not better as a coin toss.
 
-Our advanced model for further experiments consisted of two masking layers, which provide the RNN layer with the mask for UDP and packet padding,
+Our model for the experiments consisted of two masking layers, which provided the RNN layer with the mask for UDP and packet padding,
 up to four condRNN (LSTM) layers with up to 128 units,
 a dense layer with ReLU activation and half as many units as an RNN layer,
 and a dense layer with a sigmoid activation unit for the output.
-This was manually implemented as a \code{keras.Model}, since the condRNN layer from the \code{cond-rnn} library is incompatible with \code{keras.Sequential} at this point in time with its two inputs.
+This was manually implemented as a \code{keras.Model}, since the condRNN layer, which accepts two inputs, is incompatible with \code{keras.Sequential} at this point in time, as it only supports a single input.
+For the condRNN layer we used the \code{cond-rnn} library \cite{remyPhilipperemyCondRnn2020}.
 
 % LOSS FUNCTION
 In our earlier experiments we used \textbf{sparse categorical cross-entropy} as a loss function, but this function was ill-suited for our problem.
 Once we figured this out we switched to the \textbf{binary cross-entropy} loss function, which is best suited for binary classification problems.
-Combined with a \textbf{sigmoid activation} for out output layer this helped us obtain better results.
-We also compared our results to the \textbf{hinge} loss function in order to have a steeper learning curve, as it is used in combination with the \textbf{hyperbolic tangent} (tanh) function on the output of the NN and provides a greater punishment for misclassification with the wrong signage.
+Combined with a \textbf{sigmoid activation} for our output layer this helped us obtain better results.
+We also compared our results to the \textbf{hinge} loss function in combination with the \textbf{hyperbolic tangent} (tanh) function on the output hoping for a steeper learning curve, as it provides a greater punishment for misclassification with the wrong signage.
 We thought this might be beneficial to our cause, but as it turns out it only led to worse results, see figure \ref{fig:hinge}.
 
-Throughout our experiments, we always used 70\%, 10\%, and 20\% of our partial datasets for training, validation, and testing respectively, as it is the most common segmentation of data.
+Throughout our experiments, we always used 70\%, 10\%, and 20\% of the used dataset for training, validation, and testing respectively, as it is the most common segmentation of data.
 We started with 5 to 20 epochs for initial testing of hyperparameter combinations and went up to 100.
 Once a combination of hyperparameters looked promising, we went up to as far as 1000 epochs.
 In each epoch, the whole training dataset is used and processed in batches of size 100 to 1000.
 Afterwards, the model gets validated by the validation dataset.
-The weights get updated after each batch and at the end of an epoch after the validation.
+During training the weights get updated after each batch. % and at the end of an epoch after the validation.
 After all training and validation epochs are finished the model was evaluated on our test dataset.
 We soon came to realize that there is not much change to be seen after 100 epochs.
 
