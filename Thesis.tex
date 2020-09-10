@@ -645,9 +645,12 @@ Karpathy et al. extract pixel data of the whole image and the 19 locations withi
 %, extracted by their region convolutional neural network (RCNN).
 They use a convolutional neural network (CNN) to convert each set of pixels into a vector of h dimensions.
 %, where h is the number of inputs of the RNN.
-So each image is represented by a set of 20 vectors with h dimensions.
-
-300-dimensional word2vec
+So each image is represented by a set of 20 vectors with $h$ dimensions.
+They use a bidirectional recurrent neural network (BRNN) that takes a sequence of $N$ words and transforms each word again into an $h$-dimensional vector.
+This vector got adjusted with 300-dimensional word2vec weights based on its context within the sentence.
+They then condition their RNN on the first step with the image date via bias interactions.
+Then the RNN processes the sequence of word vectors in order to learn how to predict the next word in the description based on the image data and previous words.
+% START AND STOP word
 
 \subsubsection{Show and Tell: A Neural Image Caption Generator} % Vinyals
 \label{sec:vinyals}
