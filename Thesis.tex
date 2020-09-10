@@ -526,7 +526,7 @@ A GAN consists of two NNs that compete against each other to maximize the qualit
 a generator network (GN) and a discriminative network (DN).
 The GN creates synthetic samples and the DN gets real or synthetic samples at random.
 The DN then needs to decide if the sample it just saw is real or fake.
-Afterwards the decisions of the DN gets evaluated and both the DN and GN get fine tuned based on the results.
+Afterwards, the decisions of the DN gets evaluated and both the DN and GN get fine-tuned based on the results.
 % TODO: is this really loss? read the paper
 If the decision of the DN was correct than the GN is not good enough too fool the DN and therefore gets a greater loss, while the DN gets a smaller loss.
 If the DN was not able to make correct decisions it gets a greater loss and the DN a smaller loss.
@@ -555,17 +555,17 @@ They call it IP2Vec.
 
 Network flows consist of multiple features, some of which are categorical, e.g. IP addresses, ports, and protocols.
 However, NNs work best with continuous and numerical data.
-To effectively train a NN we, therefore, need to represent those categorical features as numerical data.
+To effectively train a NNs, which work bast with numerical and continuous data, we need to represent those categorical features as numerical data.
 For this we planned on using IP2Vec proposed by Ring et al. \cite{ringIP2VecLearningSimilarities2017}.
 This solution produces similarity values for IP addresses based on the behavior of the host.
 
 They based their work on the concept of word2Vec from the field of natural language processing.
 There the word is observed in the context of its neighbors instead of alone.
-Similarly, in IP2Vec IPs are not observed on their own, but on in the context of other features they correlate with.
-But instead of words IP2Vec processes network flow attributes,
+Similarly, in IP2Vec IPs are not observed on their own, but on in the context of other features of the flow, they correlate with.
+So instead of words IP2Vec processes network flow attributes,
 specifically source IP, destination IP, destination port and protocol.
 However one could change those attributes and determine the difference between IPs based on different attributes.
-With this approach they are able to determine the differences between IPs based on their communication patterns (aka similar behavior).
+With this approach they are able to determine the differences between IPs based on their communication patterns and behavior within one dataset.
 For example, a destination IP that correlates with port 80 often can be easily classified as an HTTP server.
 Their experiments show that provided the right dataset, the data produced by IP2Vec can be used to distinguish between infected and non-infected hosts, as well as between servers, clients and even printers.
 
