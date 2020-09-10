@@ -1221,104 +1221,6 @@ It was the \code{Simpleweb/traces\_TCP-IP\_location1/loc1-20020523-1835} tcpdump
 We sampled through a 1.9 GB network packet capture from this dataset.
 Pcap number 9 from 17.02.2015.
 
-\section{Dataset statistics}
-\label{sec:datasetStats}
-
-We created multiple datasets from our source packet captures.
-For testing on our local machine, we first creased a \textbf{base} dataset that was constructed from 5\% of our available data.
-After achieving poor performance we created three additional datasets.
-As the first had minimal errors in the negative samples, we now created datasets with more errors.
-First, we increased our from 1 error per packet to \textbf{9 errors} per altered packet.
-Then, we increased the negative samples by a factor of three. This dataset we call \textbf{more negatives}.
-Alternatively, we created a dataset that altered not just one but up to \textbf{20 packets}.
-See table \ref{tab:negativeSamples} for the detailed breakdown of these datasets.
-Each dataset had an equal share of each method of negative sample generation described in section \ref{sec:negativeSamples}.
-The difference between the datasets is the degree of errors per negative sample and the number of negative samples added.
-
-The datasets \textbf{base}, \textbf{9 errors}, and \textbf{20 packets} did not differ too much in regards to the number of datapoints and therefore in the ratio of positive to negative datapoints, as can be seen in table \ref{tab:datapoints}.
-The datasets \textbf{9 errors}, \textbf{more negatives}, and \textbf{20 packets} have 9 errors per packet, but only \textbf{20 packets} has more than one packet altered per negative datapoint.
-And the \textbf{more negatives} dataset is the only of the smaller datasets with significantly more datapoints, as more negative samples are generated to provide a greater sample pool per negative sample creation method.
-
-For the experiments on the compute server, we created a dataset from the complete set of our data called \textbf{full}.
-The \textbf{full} dataset has 378410 total datapoints, including 227499 positive datapoints and 150911 negative datapoints.
-To keep the compute time reasonable we used only 10\% (\textbf{full10}) and 25\% (\textbf{full25}) of the complete dataset at random.
-
-% all datasets share
-% num_pkts=1, num_errors_flow=0, num_errors_from_dataset=None, num_errors_flow_from_dataset=None
-
-% dataset (local), test2_dataset (hulk)
-% num_errors=3, reduce_percentages=[0.1, 0.25, 0.5], num_packets=0
-
-% dataset_clean_flows (hulk)
-% num_errors=3, reduce_percentages=[0.1, 0.25, 0.5], num_packets=0
-% total datapoints:  378410
-% positive datapoints:  227499
-% negative datapoints:  150911
-% datapoints used total:  94602
-% datapoints used for training:    66221 (70%)
-% datapoints used for validation:  9460 (10%)
-% datapoints used for testing:     18920 (20%)
-
-% dataset_harder
-% num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
-
-% dataset_harder_more_negatives
-% num_methods=2, num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
-
-% dataset_hard
-% num_pkts=20, num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
-
-\begin{table}
-    \centering
-    \begin{tabular}{|c|c|c|c|c|c|}
-        \hline
-        % FIXME: column names
-        % per packet, number of false, percentages, packets
-        \textbf{name} & \textbf{errors} & \textbf{packets} & \textbf{reduce} & \textbf{add} & \textbf{factor} \\
-        %\textbf{datapoints} & \textbf{negatvie} \\
-        \hline
-        % FIXME: dataset names
-        base & 3 & 1 & 10\%, 25\%, 50\% & 0 & 1 \\
-        \hline
-        9 errors & 9 & 1 & 50\%, 75\%, 90\% & 50 & 1 \\
-        \hline
-        more negatives & 9 & 1 & 50\%, 75\%, 90\% & 50 & 3 \\
-        \hline
-        20 packets & 9 & 20 & 50\%, 75\%, 90\% & 50 & 1 \\
-        \hline
-        full & 3 & 1 & 10\%, 25\%, 50\% & 0 & 1 \\
-        \hline
-    \end{tabular}
-    \caption{Negative sample statistics from datasets.}
-    \label{tab:negativeSamples}
-\end{table}
-
-\begin{table}
-    \centering
-    \begin{tabular}{|c|c|c|c|c|c|}
-        \hline
-        % FIXME: column names
-        % per packet, number of false, percentages, packets
-        \textbf{name} & \textbf{total} & \textbf{positive} & \textbf{negative} & \textbf{used \%} & \textbf{used total} \\
-        \hline
-        % FIXME: dataset names
-        base & 18977 & 10284 & 8693 & 100\% & 18977 \\
-        \hline
-        9 errors & 18086 & 10284 & 7802 & 100\% & 18086 \\
-        \hline
-        more negatives & 29550 & 10284 & 19266 & 100\% & 29550 \\
-        \hline
-        20 packets & 16693 & 10284 & 6409 & 100\% & 16693 \\
-        \hline
-        full10 & 378410 & 227499 & 150911 & 10\% & 37841 \\
-        \hline
-        full25 & 378410 & 227499 & 150911 & 25\% & 94602 \\
-        \hline
-    \end{tabular}
-    \caption{Datapoints per dataset.}
-    \label{tab:datapoints}
-\end{table}
-
 \section{Neural Network}
 \label{sec:NN}
 
@@ -1445,6 +1347,104 @@ However as our model performed suboptimally, we first shifted our focus to findi
 Even though we still aimed to compare the three RNNs, we first wanted to figure out, how one of the RNNs could be trained effectively.
 For this reason most of our experiments are down with an LSTM-based model.
 We later compare the said model to simpleRNNs and GRUs.
+
+\section{Dataset statistics}
+\label{sec:datasetStats}
+
+We created multiple datasets from our source packet captures.
+For testing on our local machine, we first creased a \textbf{base} dataset that was constructed from 5\% of our available data.
+After achieving poor performance we created three additional datasets.
+As the first had minimal errors in the negative samples, we now created datasets with more errors.
+First, we increased our from 1 error per packet to \textbf{9 errors} per altered packet.
+Then, we increased the negative samples by a factor of three. This dataset we call \textbf{more negatives}.
+Alternatively, we created a dataset that altered not just one but up to \textbf{20 packets}.
+See table \ref{tab:negativeSamples} for the detailed breakdown of these datasets.
+Each dataset had an equal share of each method of negative sample generation described in section \ref{sec:negativeSamples}.
+The difference between the datasets is the degree of errors per negative sample and the number of negative samples added.
+
+The datasets \textbf{base}, \textbf{9 errors}, and \textbf{20 packets} did not differ too much in regards to the number of datapoints and therefore in the ratio of positive to negative datapoints, as can be seen in table \ref{tab:datapoints}.
+The datasets \textbf{9 errors}, \textbf{more negatives}, and \textbf{20 packets} have 9 errors per packet, but only \textbf{20 packets} has more than one packet altered per negative datapoint.
+And the \textbf{more negatives} dataset is the only of the smaller datasets with significantly more datapoints, as more negative samples are generated to provide a greater sample pool per negative sample creation method.
+
+For the experiments on the compute server, we created a dataset from the complete set of our data called \textbf{full}.
+The \textbf{full} dataset has 378410 total datapoints, including 227499 positive datapoints and 150911 negative datapoints.
+To keep the compute time reasonable we used only 10\% (\textbf{full10}) and 25\% (\textbf{full25}) of the complete dataset at random.
+
+% all datasets share
+% num_pkts=1, num_errors_flow=0, num_errors_from_dataset=None, num_errors_flow_from_dataset=None
+
+% dataset (local), test2_dataset (hulk)
+% num_errors=3, reduce_percentages=[0.1, 0.25, 0.5], num_packets=0
+
+% dataset_clean_flows (hulk)
+% num_errors=3, reduce_percentages=[0.1, 0.25, 0.5], num_packets=0
+% total datapoints:  378410
+% positive datapoints:  227499
+% negative datapoints:  150911
+% datapoints used total:  94602
+% datapoints used for training:    66221 (70%)
+% datapoints used for validation:  9460 (10%)
+% datapoints used for testing:     18920 (20%)
+
+% dataset_harder
+% num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
+
+% dataset_harder_more_negatives
+% num_methods=2, num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
+
+% dataset_hard
+% num_pkts=20, num_errors=9, reduce_percentages=[0.5, 0.75, 0.9], num_packets=50
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        % FIXME: column names
+        % per packet, number of false, percentages, packets
+        \textbf{name} & \textbf{errors} & \textbf{packets} & \textbf{reduce} & \textbf{add} & \textbf{factor} \\
+        %\textbf{datapoints} & \textbf{negatvie} \\
+        \hline
+        % FIXME: dataset names
+        base & 3 & 1 & 10\%, 25\%, 50\% & 0 & 1 \\
+        \hline
+        9 errors & 9 & 1 & 50\%, 75\%, 90\% & 50 & 1 \\
+        \hline
+        more negatives & 9 & 1 & 50\%, 75\%, 90\% & 50 & 3 \\
+        \hline
+        20 packets & 9 & 20 & 50\%, 75\%, 90\% & 50 & 1 \\
+        \hline
+        full & 3 & 1 & 10\%, 25\%, 50\% & 0 & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Negative sample statistics from datasets.}
+    \label{tab:negativeSamples}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        % FIXME: column names
+        % per packet, number of false, percentages, packets
+        \textbf{name} & \textbf{total} & \textbf{positive} & \textbf{negative} & \textbf{used \%} & \textbf{used total} \\
+        \hline
+        % FIXME: dataset names
+        base & 18977 & 10284 & 8693 & 100\% & 18977 \\
+        \hline
+        9 errors & 18086 & 10284 & 7802 & 100\% & 18086 \\
+        \hline
+        more negatives & 29550 & 10284 & 19266 & 100\% & 29550 \\
+        \hline
+        20 packets & 16693 & 10284 & 6409 & 100\% & 16693 \\
+        \hline
+        full10 & 378410 & 227499 & 150911 & 10\% & 37841 \\
+        \hline
+        full25 & 378410 & 227499 & 150911 & 25\% & 94602 \\
+        \hline
+    \end{tabular}
+    \caption{Datapoints per dataset.}
+    \label{tab:datapoints}
+\end{table}
 
 \section{Setup}
 \label{sec:exSetup}
