@@ -765,6 +765,12 @@ To decrease the number of packets we just remove a random number of packets at a
 To increase the number of packets we again sample from another datapoint in the dataset and add some of its packets to the current sequence.
 And the fourth and final method is mismatching network flows with a different sequence of packets.
 
+Each negative sample type has a parameter, which decides the degree to which it alters the ground truth sample it extracts from the dataset of positive datapoints.
+The degree of method one is defined by the number of errors assigned to every packet.
+The degree of method three is defined by the number of packets added to a sequence or removed from the sequence.
+While adding packets was done by a total amount, removing packets was done relative to the sequence size, as having a lot of negative samples with sequences of small size might have caused the NN to learn that small sequences are per default negative.
+The methods two and four have no degree, they are completely randomized and have no parameters adjusting the severity of the error.
+
 This procedure provides us with a wide range of negative datapoints.
 This is important in order to efficiently train the NN.
 However it is important to falsify the data in a realistic way, so that the NN is efficiently tested for the future use within a GAN.
@@ -1204,12 +1210,6 @@ and the second dataset had a total number 18086 datapoints, including 10284 posi
 Each dataset had an average share of each type of negative sample described in section \ref{sec:negativeSamples}.
 The difference between the two datasets is the degree of errors per negative sample.
 See table \ref{tab:datasets} for more information.
-
-Each negative sample type has a parameter, which decides the degree to which it alters the ground truth sample it extracts from the dataset of positive datapoints.
-The degree of method one is defined by the number of errors assigned to every packet.
-The degree of method three is defined by the number of packets added to a sequence or removed from the sequence.
-While adding packets was done by a total amount, removing packets was done relative to the sequence size, as having a lot of negative samples with sequences of small size might have caused the NN to learn that small sequences are per default negative.
-The methods two and four have no degree, they are completely randomized and have no parameters adjusting the severity of the error.
 
 For the experiments on the compute server we created a larger dataset with 378410 total datapoints, including 227499 positive datapoints and 150911 negative datapoints.
 From which we used 10\% (37841 datapoints) and 25\% (94602 datapoints) to keep the compute time reasonable.
