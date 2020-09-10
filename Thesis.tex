@@ -513,6 +513,20 @@ Also see \ref{sec:imagedesc} Image Description Generation in Related Work.
     \label{fig:condRNN}
 \end{figure}
 
+\section{Masking}
+
+The problem presented in this thesis involves the classification of network packets related to their flows.
+As network flows vary in sequence length and different protocols contain a different amount of header fields and therefore features, one problem to solve is the inconsitency of our data sequence.
+Masking is a common practice in the field of NN models to process sequences with missing data.
+The missing data gets filled with a unique value before it is processed by the NN.
+This value is called masking value and should not appear anywhere else in the data.
+Once the completed sequence is fed into the NN, a masking capable layer processes the input data and creates a vector containing only ones and zeros (or true and false).
+This vector is called the mask.
+The mask is passed as a separate input to a mask supporting layer of the NN that should process the original input.
+The layer processing the input data now can refer to the mask and only takes into account the data that is marked as valid in the provided mask.
+% TODO: wording
+With this procedure holes in sequence can be closed and sequences of non-uniform length can be padded without changing the requirements for the model. %only because the data is not complete.
+
 \section{GANs}
 \label{sec:GAN}
 
