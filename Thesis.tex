@@ -1498,7 +1498,11 @@ However we found anything above 128 did not provide better results in relation t
 We believe the optimal number of units to be between 64 and 128.
 
 % BATCHSIZE
-For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss (figure \ref{fig:batchsize}).
+For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss.
+As we can see in figure \ref{fig:batchsize} the batchsize of 1000 provides the worst results by far.
+While 500 provides better results, it was not able to crack 63\% accuracy.
+Everything under 500 shows more promising results, especially 350, which as an average validation accuracy of 63\%.
+But going lower than that we see slightly worse results again, as we can see with 300 in the graph.
 %The described behavior and its improvements can be seen over all parameters.
 
 % Datasets
