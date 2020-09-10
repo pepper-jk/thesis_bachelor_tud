@@ -764,9 +764,9 @@ And both produce three different types of negative samples:
     \item a datapoint, which has both
 \end{itemize}
 
-% double check, but this actually makes sense
-We decided not to alter the flow as the RNN should learn if a packet sequence could have been created by a given flow.
-In this scenario the flow is authentic and does not need to be classified itself for authenticity.
+We later decided not to alter the flow as the RNN should learn if a packet sequence could have been created by a given flow.
+In the scenario of our future GAN the flow input is authentic and does not need to be classified itself for authenticity.
+However dropping altered flows did not change the performance of our model, so if someone wanted to use the model for a different problem that include altered flow they could do so without any further problems.
 
 The second method is randomizing the packet order within the packet sequence of a given datapoint.
 The third is to decrease or increase the number of packets of a sequence in a given datapoint.
@@ -774,14 +774,19 @@ To decrease the number of packets we just remove a random number of packets at a
 To increase the number of packets we again sample from another datapoint in the dataset and add some of its packets to the current sequence.
 And the fourth and final method is mismatching network flows with a different sequence of packets.
 
-Each negative sample type has a parameter, which decides the degree to which it alters the ground truth sample it extracts from the dataset of positive datapoints.
-The degree of method one is defined by the number of errors assigned to every packet.
+Each negative sample creation method has one or more parameters, which decide the degree to which it alters the ground truth sample it extracts its data from, a positive datapoint from the dataset.
+The degree of method one is defined by the number of errors assigned to every packet, as well as the number of altered packets.
 The degree of method three is defined by the number of packets added to a sequence or removed from the sequence.
-While adding packets was done by a total amount, removing packets was done relative to the sequence size, as having a lot of negative samples with sequences of small size might have caused the NN to learn that small sequences are per default negative.
+While adding packets was done by a total amount, removing packets was done relative to the sequence size, as having a lot of negative samples with sequences of small size might cause the NN to learn that small sequences are per default negative.
 The methods two and four have no degree, they are completely randomized and have no parameters adjusting the severity of the error.
 
-This procedure provides us with a wide range of negative datapoints.
-This is important in order to efficiently train the NN.
+All the degrees are not completely static either.
+We randomize them within the given parameters.
+For example, adding packets using method 3 adds $+/-10$ packets, so using the parameter $0$ packets equals adding $1$ to $10$ packets at random.
+% TODO: talk MORE about creation of neg samples +/-5 and so
+
+Using different methods to create negative datapoints provides us with a good mix of negative datapoints.
+This is important in order to efficiently train the NN, as it will face many different errors in packet sequences in real world application.
 However it is important to falsify the data in a realistic way, so that the NN is efficiently tested for the future use within a GAN.
 For this we need to provide a good representation for each feature of packets and flows.
 
