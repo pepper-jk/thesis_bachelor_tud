@@ -397,12 +397,7 @@ And no matter the origin the dataset will only describe the network and the beha
 
 % NN, decision making, sequential (network) data
 
-\section{Neural Networks}
-\label{sec:NNbackground}
-
-% TODO: talk about a normal forward ... NNs
-
-\subsection{Recurrent Neural Networks}
+\section{Recurrent Neural Networks}
 \label{sec:RNN}
 
 To solve the problem stated in this thesis we are required to find an appropriate NN architecture.
@@ -443,6 +438,8 @@ So the internal gates help the NN to learn what data is important and what data 
 The difference between LSTMs and GRUs lies in how they use the sigmoid function in their internal gates.
 %, see figure \ref{fig:LSTMvGRU}.
 
+\subsubsection{Long Short Term Memory}
+
 LSTMs have three gates, the forget gate, the input gate and the output gate, and two states, the cell state and the hidden states. \cite{phiIllustratedGuideLSTM2020}
 The forget gate performs a sigmoid operation on the previous hidden state and the current input.
 The result is than used as a multiplier for the cell state, effectively letting the NN forget any information that is no longer relevant after taking the new input into account.
@@ -452,6 +449,8 @@ The output gate decides what information the next hidden state should carry.
 It calculates the sigmoid function on the concatenation of the previous hidden state and the current input, just as the other gates.
 The results gets used as weights for a hyperbolic tangent operation on the new cell state, meaning simple multiplication.
 The newly calculated cell state and hidden state get passed to the next timestamp.
+
+\subsubsection{Gated Recurrent Units}
 
 GRUs have only two gates, the reset gate, and the update gate, and the cell state. \cite{phiIllustratedGuideLSTM2020}
 %In short the update gate combines the forget and update gate of a LSTM, while the reset gate provides the functionality of the LSTMs output gate.
@@ -513,7 +512,7 @@ Also see \ref{sec:imagedesc} Image Description Generation in Related Work.
     \label{fig:condRNN}
 \end{figure}
 
-\subsection{GANs}
+\section{GANs}
 \label{sec:GAN}
 
 To create a NN that could later be used as a DN we first need to understand how a GAN operates.
