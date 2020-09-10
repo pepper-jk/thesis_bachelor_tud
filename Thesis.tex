@@ -1578,7 +1578,18 @@ As for the problematic samples, we assume that they had only small changes.
 For example, they could have been created from positive samples with a small packet count and therefore only got a small reduction of packets (method 3), or two very similar flows got their packet seqeunce switched (method 4).
 As we have a lot of short TCP flows, we deem this likely.
 
+% TODO: introduce condLSTM and condGRU somewhere, or state that
 % TODO: different RNNs
+When we compare our LSTM-based model to the same model with simpleRNN layers, we see very similar accuracy and loss.
+However, the difference lies in the detail here.
+If we look at the graphs, we can see that simpleRNN has a lot more fluctuation than our LSTM.
+This could be traced back to the vanishing gradient problem.
+The simpleRNN can practically only hold a limited amount of previous results in his memory and therefore struggels with data the LSTM has no problems with.
+% FIXME: present the old entropy comparison?
+Unfortunately our model was not able to produce any results using GRUs since we switched to binary crossentropy for the loss function.
+The loss with GRUs was not computed correctly, therefore the accuracy did not change.
+We instead ran the GRU with the hinge loss function, as we described earlier in this section, which at least was able to compute loss values.
+However the accuracy did not even reach 25\%, see figure \ref{fig:GRUhinge}.
 
 \subsection{Debugging}
 
