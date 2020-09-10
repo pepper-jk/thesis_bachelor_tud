@@ -580,27 +580,30 @@ Their experiments show that provided the right dataset, the data produced by IP2
 % Out of the YAF flow features the following are used by IP2Vec:
 % Duration, protocol, source IP, source port, destination IP, destination port, packet count (forward), octet/byte count (forward)
 
-After due consideration, we decided not to use the IP2Vec approach.
-This is mainly to the fact that IPs do not influence the flow behavior too much.
-The only feature of them that influences a flow significantly is if they are public or local (aka private).
+After due consideration however, we decided not to use the IP2Vec approach.
+This is mainly because of the fact that addresses do not influence the flow behavior too much.
+The only feature of them that might influence a flow is if they are public or local (private).
 Additionally, IP2Vec sees IPs in the context of a series of packet flows, which represent a network traffic capture,
-meaning that it relates the IPs to one another depending on the behavior of their flows within one network.
+meaning that it relates the IPs to one another depending on the behavior of their flows within one network capture.
 
-This is not applicable to our use case, since we use the traffic of multiple network packet capture datasets.
+This does not apply in our use case, since we use the traffic of multiple network packet capture datasets.
 To use IP2Vec we would either have to apply it before extracting the flows and mixing the results,
 or mix the flows and then apply IP2Vec to it.
-The former bares two problems:
-Firstly we would risk introducing false correlations between IPs from different datasets.
-As an IP address could appear in more than one network capture and have completely different behavior.
+The former has the problem that we would risk introducing false correlations between IPs from different datasets.
+As an IP address could appear in more than one network capture and have a completely different behavior in each.
 Mixing the information IP2Vec extracted from both of the captures would distort the results of the NN regarding the affected flows.
-Secondly we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
-This will most likely not be the case, as the GN of the GAN would try to create a sequence of packets based on the input of one flow.
-% FIXME: is this really the problem? THINK ABOUT IT
-The later IP2Vec approach has the problem, that IPs will correlated to each other without ever having been in the same network.
+The later IP2Vec approach has the problem, that IPs will correlate to each other without ever having been in the same network.
 IP2Vec does not account for problems that might result from this.
 The best-case scenario is that two IPs from different captures will be classified as being unknown to each other.
 But even this holds the issue that a later flow may have communication between those IP addresses and the GAN will have problems generating packet data that will satisfy the DN, because to the DN this will look like an anomaly.
-Both approaches have the problem of IPs that might be present in multiple source datasets.
+
+Furthermore we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
+This will most likely not be the case, as the GN of the GAN would try to create a sequence of packets based on the input of one flow.
+So it would not have the sufficient data to create IP2Vec vectors.
+% FIXME: is this really the problem? I think so
+Since both possible approaches have the problem with IPs that might be present in multiple source datasets,
+and we can not assume that the future work GAN is able to produce IP2Vec vectors from one flow,
+we concluded that IP2Vec is not suitable for our problem.
 
 \section{Related Neural Network Models}
 \label{sec:relatedNNmodels}
