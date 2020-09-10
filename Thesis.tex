@@ -1522,6 +1522,27 @@ Even though it gave a significant shift along the y-axis it did not change the b
 % It might be interesting though to give it another look for future work, as it seemed to be one of the view experiments that showed near linear increase. This can also be a coincident of cause.
 Increasing the number of errors per altered packet from 3 to 9 did increase the models accuracy a bit, but again only by shifting the curce along the y-axis.
 
+Regarding different error types, we also performed an experiment with datasets with negative datapoints created by only one of the method described in section \ref{sec:negativeSamples}.
+The results can be seen in figure \ref{fig:negative_methods}.
+As we can see, \textbf{method 1a} and \textbf{method 2} caused the most problems for our model.
+This is of no surprise, as \textbf{method 1a} generates random numerical values within the scope of the header fields, meaning their size in bit, so the model might only see those numbers in those negative samples and \textbf{mothode 2} randomizes the order of packets and not their contents, which is hard to detect in comparison to a flow, especially for UDP.
+For UDP it might in fact be impossible.
+% FIXME FOR DISCUSSION: It has been an error to assume just randomizing any packet order yields good negative samples. It is good to have such difficult samples, but not all of them are necessarily false. ... TODO: more
+\textbf{Method 1b} on the other hand performs average in comparison with the general results of the model.
+This again can be easlily explained, as the method takes a number of fields from other datapoints in the dataset at random and adds them to an otherwise positive sample.
+The model has to struggle as it knows all values from other positive datapoints, but it also is able to pick up to which datapoints the values belong.
+\textbf{Method 3} and \textbf{method 4} perform the best in our model with up to 75\% validation accuracy and an average validation accuracy of above 70\%.
+This is interesting to note.
+However they have samples they struggle with and drop the validation accuracy as low as 52.5\% (method 3) and 56\% (method 4), but mostly they stay above 65\%.
+Their behavior is the most complex out of the methods.
+The good performance of both is most likely due to the lack of unknown data, meaning data that is not present in the positive datapoints.
+One could argue that \textbf{method 1b} should benefit from this as well, and it does, to a certain degree.
+However, \textbf{method 1b} has viewer and more delicat changes. It alters header fields of a few packets, in most cases (as in this comparison) just one.
+\textbf{Method 3} and \textbf{method 4} alter the sequence of packets, which is way more powerful, especially in reagards to the recurrent architecture of our model.
+As for the problematic samples, we assume that they had only small changes.
+For example, they could have been created from positive samples with a small packet count and therefore only got a small reduction of packets (method 3), or two very similar flows got their packet seqeunce switched (method 4).
+As we have a lot of short TCP flows, we deem this likely.
+
 % TODO: different RNNs
 
 \subsection{Debugging}
@@ -1596,6 +1617,13 @@ But as it stands it is too inefficient to deliver good results in a reasonable a
     \includegraphics[width=.75\textwidth]{dataset_negative_samples_val_loss.pdf}
     \caption{Comparison of both validation accuracy and loss between datasets with various negative sample configurations, see \ref{tab:datasets}.} %TODO: parameters used LSTM_nn_64_units_2_layers_100_epochs_500_batchsiz
     \label{fig:dataset_negative}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{negative_sample_methods_val_accuracy.pdf}
+    \includegraphics[width=\textwidth]{negative_sample_methods_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between x and y.} %TODO: parameters used LSTM_nn_96_units_2_layers_100_epochs_350_batchsiz
+    \label{fig:negative_methods}
 \end{figure}
 
 % \begin{figure}
