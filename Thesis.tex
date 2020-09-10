@@ -677,8 +677,8 @@ For this we will run experiments with the \textbf{SimpleRNN}, \textbf{LSTM} and 
 Before we can pursue the experiments however we need data to train an test with.
 
 % TODO: what is the baseline for the datasets?
-% maybe the dataset with the least errors is the baseline
-% the dataset with more is our real dataset? o.O
+% the dataset with the least errors is the baseline
+% the dataset with more errors is the comparison
 
 \section{Dataset}
 \label{sec:dataset}
@@ -706,7 +706,7 @@ Later we randomly apply modifications to those samples to create negative datapo
 \subsubsection{Sampling}
 \label{sec:sampling}
 
-% FIXME: one capture each might be bad (sound bad) too late now
+% one capture each might be bad (sound bad) too late now
 Instead of collecting all flows from our source captures, we sample sequences of packets from only one packet capture of each dataset.
 The sampled packet sequences and flows are stored separately as csv files for further preprocessing, as network packet captures are usually slow to process.
 For our purpose we considered two approaches for sampling a network packet capture for flows.
