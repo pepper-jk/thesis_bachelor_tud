@@ -1360,12 +1360,16 @@ We later compare the said model to simpleRNNs and GRUs.
 
 We created multiple datasets from our source packet captures.
 For testing on our local machine, we first creased a \textbf{base} dataset that was constructed from 5\% of our available data.
-After achieving poor performance we created three additional datasets.
-As the first had minimal errors in the negative samples, we now created datasets with more errors.
+After achieving poor performance we created four additional datasets.
+For the experiments on the compute server, we created a \textbf{full} dataset from the complete set of data we sampled from our source packet captures.
+The \textbf{full} dataset has 378410 total datapoints, including 227499 positive datapoints and 150911 negative datapoints.
+To keep the compute time reasonable we used only 10\% (\textbf{full10}) and 25\% (\textbf{full25}) of the complete dataset at random.
+
+The other three of which were based on the same data, but as the first had only minimal errors in the negative samples, we now created datasets with more errors.
 First, we increased our from 1 error per packet to \textbf{9 errors} per altered packet.
 Then, we increased the negative samples by a factor of three. This dataset we call \textbf{more negatives}.
 Alternatively, we created a dataset that altered not just one but up to \textbf{20 packets}.
-See table \ref{tab:negativeSamples} for the detailed breakdown of these datasets.
+See table \ref{tab:negativeSamples} for the detailed breakdown of parameters used to create these datasets.
 Each dataset had an equal share of each method of negative sample generation described in section \ref{sec:negativeSamples}.
 The difference between the datasets is the degree of errors per negative sample and the number of negative samples added.
 
@@ -1373,9 +1377,13 @@ The datasets \textbf{base}, \textbf{9 errors}, and \textbf{20 packets} did not d
 The datasets \textbf{9 errors}, \textbf{more negatives}, and \textbf{20 packets} have 9 errors per packet, but only \textbf{20 packets} has more than one packet altered per negative datapoint.
 And the \textbf{more negatives} dataset is the only of the smaller datasets with significantly more datapoints, as more negative samples are generated to provide a greater sample pool per negative sample creation method.
 
-For the experiments on the compute server, we created a dataset from the complete set of our data called \textbf{full}.
-The \textbf{full} dataset has 378410 total datapoints, including 227499 positive datapoints and 150911 negative datapoints.
-To keep the compute time reasonable we used only 10\% (\textbf{full10}) and 25\% (\textbf{full25}) of the complete dataset at random.
+% where to put this
+We also created a pure dataset for each method of negative sample creation (\ref{sec:negativeSamples}).
+They all use the parameter configuration the base dataset used, which is applicable to their method.
+And except for \textbf{method 3}, which had only 16890 datapoints with 6606 negative datapoints, they all had 20568 datapoints total and an even split of positive and negative datapoints.
+We used these datasets to compare the different methods to create negative samples for out dataset.
+We named the datasets method X, where X is the number of the method used to create it.
+Note that \textbf{method 1a} refers to the creation of false packets by random data and \textbf{method 1b} refers to the creation of false packets by extraction from within the dataset, read more in section \ref{sec:negativeSamples}.
 
 % all datasets share
 % num_pkts=1, num_errors_flow=0, num_errors_from_dataset=None, num_errors_flow_from_dataset=None
