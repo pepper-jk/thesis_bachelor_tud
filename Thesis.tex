@@ -1378,8 +1378,10 @@ However as our model performed suboptimally, we first shifted our focus to debug
 Even though we still aimed to compare the three RNNs, we first needed to figure out, how one of the RNNs could be trained effectively.
 For this reason, most of our experiments are only done with an \textbf{LSTM}-based condRNN model, or conditional LSTM (condLSTM) model.
 We later compare the model to simpleRNNs and GRUs.
+All our model iterations are condRNNs.
 
 % disclaimer
+So when we talk about simpeRNN, LSTM, and GRUs, we mean conditional simpleRNN, condLSTM, and conditional GRU (condGRU).
 When we talk about accuracy or loss in this chapter we generally talk about validation accuracy and validation loss, unless stated otherwise.
 As they were very similar to the training accuracy and loss, in most experiments slightly better and give a clearer understanding about the model's performance than test accuracy and test loss.
 Since the validation is repeated for each epoch and the testing is only done once after the model was trained, the validation can provide a look at the performance of the model over time.
