@@ -183,7 +183,7 @@ With this method, one takes an already existing network packet capture and modif
 % 1) Mixing synthetic data with real to create a new dataset.
 % 2) Create a complete synthetic dataset from scratch using real traffic as reference.
 % Remember that with the GAN technique, we may create completely synthetic traffic that is not mixed with "real" traffic.
-This modification can range from adding specific packets, e.g. of an network attack\cite{corderoID2TDIYDataset2015},
+This modification can range from adding specific packets, e.g. of a network attack \cite{corderoID2TDIYDataset2015},
 to modifying existing packets to fit a new network topology
 or altering other significant features of the network behavior by modifying each packet.
 Even though this method is quite effective, its design and implementation are also time-consuming and might need to be repeated for each use case.
@@ -1648,7 +1648,7 @@ However, after the experiments, we conclude that the approach of Karpathy \cite{
 As long as it does allow larger batch sizes than one.
 % FIXME: go on?
 The condRNN architectures should in theory be the best approach to the problem and as we need to handle sequential data with the packet sequences, one will not get around a recurrent model.
-However, there is a lot of depth to an NN model implementation and we could not explore all of them.
+However, there is a lot of depth to NN model implementation and we could not explore all of them.
 It might be that a different learning approach or optimizer would turn the page.
 
 At this moment we do not believe our chosen flow and packet features to be at fault.
@@ -1761,7 +1761,7 @@ combining this approach with FL could have the potential to solve the issue of c
 As described a condRNN uses the conditional input to initiate the state of the RNN layer before the sequential input gets processed.
 This behavior was appropriate to the task of image description generation \cite{vinyalsShowTellNeural2015} \cite{karpathyDeepVisualSemanticAlignments2015} as the sequence data only consisted of one or two sentences.
 At most those were 50 words long.
-Even with the addition word2vec weights, this would most likely never be as much as the data we used.
+Even with the addition of word2vec weights, this would most likely never be as much as the data we used.
 Our sequential data is only limited to 500 packets and each packet has around 66 features.
 The RNN may have forgotten all the flow information from the conditional input by the time it reaches the end of the sequence.
 One could propose an advanced condRNN that feeds the conditional input into the state every X number of timestamps or even with every timestamp of the sequence.
@@ -1796,7 +1796,7 @@ Especially in conjunction with FL.
 
 \begin{appendices}
 
-\chapter{Experimantal Plots}
+\chapter{Experimental Plots}
 
 In this section, we append all experiment graphs.
 
