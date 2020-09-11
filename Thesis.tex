@@ -1022,7 +1022,7 @@ Now that we know the network packet features and their derivations, we need to a
 Network flow features will be classified in the same categories as the packet header fields.
 Table \ref{flow} shows the color-coded flow features.
 In this work, we need to abstract flow behavior from a sequence of packets and compare it to the features of a given flow.
-As a flow has a higher abstraction from network traffic than packets, we can omit less features.
+As a flow has a higher abstraction from network traffic than packets, we can omit fewer features.
 Please note however that the reverse features, which a YAF flow representation provides, will be omitted anyway due to the fact that it does not relate to the packet sequence of the flow, but to the counter part of it.
 Meaning the flow from destination to source.
 
@@ -1219,7 +1219,7 @@ This can be adjusted in the future.
 
 For the creation of our datasets, we need network packet captures as sources.
 For this, we take a look at publically available intrusion detection datasets.
-Since the goal of our future work is to produce network packet captures, that can be used in the field of NID.
+Since the goal of our future work is to produce network packet captures, that can be used in the field of network intrusion detection.
 As stated above we will extracted data from multiple popular datasets, such as: \textbf{CDX}, \textbf{DARPA}, \textbf{MACCDC}, \textbf{MAWI}, \textbf{Simpleweb}, and \textbf{UNSW}.
 % TODO: maybe add a pcap from my personal network
 We chose these datasets because of their significant statistical differences, which has been shown in the paper "On generating network traffic datasets with synthetic attacks for intrusion detection" by Cordero et al. \cite{corderoGeneratingNetworkTraffic2019}.
@@ -1261,7 +1261,7 @@ This section explains the reasoning behind the input for the NN and the resultin
 \subsection{Input}
 \label{sec:NNinput}
 
-To use our dataset with a NN we need to convert the datapoints into a data structure that suitable as NN input.
+To use our dataset with a NN we need to convert the datapoints into a data structure that is suitable as NN input.
 As NNs work best with continuous data we face the following problem when converting the data.
 The packet and flow features only available as bytes or a string need to be converted to an integer, a float or a binary representation, a sequence of boolean values that describes a categorical feature, fully or at least partially.
 This is already solved in the dataset creation.
@@ -1269,7 +1269,7 @@ Afterward each datapoint has a general structure of a list of flow features and 
 
 As RNNs work with sequential data and in our case only the sequence of packets is sequential, we need a more sophisticated solution to take our flow data into account.
 There are multiple approaches to this problem.
-One is the append the flow data to each packet in the sequence.
+One is to append the flow data to each packet in the sequence.
 But this creates an enormous amount of overhead and has also proven to be an ineffective solution in the past.
 Both Vinyals et al. \cite{vinyalsShowTellNeural2015} and Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015} claim that passing the condition to the NN with each timestamp of the sequence was less effective in providing results.
 Another approach would be to use two different NN layers in parallel to learn about the flow attributes and the packet sequence and merge the results afterward.
@@ -1381,7 +1381,7 @@ We later compare the model to simpleRNNs and GRUs.
 All our model iterations are condRNNs.
 
 % disclaimer
-So when we talk about simpeRNN, LSTM, and GRUs, we mean conditional simpleRNN, condLSTM, and conditional GRU (condGRU).
+So when we talk about simpleRNN, LSTM, and GRUs, we mean conditional simpleRNN, condLSTM, and conditional GRU (condGRU).
 When we talk about accuracy or loss in this chapter we generally talk about validation accuracy and validation loss, unless stated otherwise.
 As they were very similar to the training accuracy and loss, in most experiments slightly better and give a clearer understanding about the model's performance than test accuracy and test loss.
 Since the validation is repeated for each epoch and the testing is only done once after the model was trained, the validation can provide a look at the performance of the model over time.
@@ -1540,7 +1540,7 @@ The validation loss behaved similarly it decreased quickly during the first epoc
 % LAYERS
 We only reached an accuracy of $59\%$ at best with one RNN layer of up to $64$ units.
 During our earlier experiments, we concluded three or four layers to produce the best results again going any higher than four usually did not improve the accuracy and only produced additional overhead in computing time.
-With three layers and $64$ per layer, we were able to produce an accuracy of $60\%$ to $63\%$ within the first 15 epochs, while the loss was consistently decreasing, although slowly.
+With three layers and $64$ units per layer, we were able to produce an accuracy of $60\%$ to $63\%$ within the first 15 epochs, while the loss was consistently decreasing, although slowly.
 Since the switch to binary cross-entropy, we saw the same behavior, only this time one or two layers seem to achieve better results than three or four layers, see figure \ref{fig:layers}.
 As three and four layers did produce worse results with the new loss function, we did not increase the number of layers further, as we could make the educated guess that the performance would not benefit from additional layers.
 
