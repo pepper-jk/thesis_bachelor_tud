@@ -1217,8 +1217,8 @@ This can be adjusted in the future.
 \subsection{Network Packet Captures used}
 \label{sec:pcapsUsed}
 
-For the creation of our datasets we need network packet captures as source.
-For this we take a look at publically available intrusion detection datasets.
+For the creation of our datasets, we need network packet captures as sources.
+For this, we take a look at publically available intrusion detection datasets.
 Since the goal of our future work is to produce network packet captures, that can be used in the field of NID.
 As stated above we will extracted data from multiple popular datasets, such as: \textbf{CDX}, \textbf{DARPA}, \textbf{MACCDC}, \textbf{MAWI}, \textbf{Simpleweb}, and \textbf{UNSW}.
 % TODO: maybe add a pcap from my personal network
@@ -1232,12 +1232,12 @@ This is important as we need to provide the NN with enough data to distinguish f
 \code{CDX westpoint/2009-04-21-04-06-19.dmp12}
 
 \paragraph{DARPA} The Intrusion Detection Data Sets from 1998 and 1999 \cite{1999DARPAIntrusion}.
-This dataset provides pcap files that were captured in a simulation network.
+This dataset provides PCAP files that were captured in a simulation network.
 We chose a training capture that does not contain any attacks from Friday of week one, specifically the outside capture \cite{MITLincolnLaboratory}.
 
 \paragraph{MACCDC} The U.S. National CyberWatch Mid-Atlantic Collegiate Cyber Defense Competition (MACCDC) dataset.
 % TODO: write some more here
-We sampled from pcap 03 from 2012 \cite{PCAPFilesUS}.
+We sampled from PCAP 03 from 2012 \cite{PCAPFilesUS}.
 
 \paragraph{MAWI} The MAWILab dataset is backbone traffic with labeled anomalies from the Fukuda lab in Japan \cite{MAWILabHome}.
 They provide fifteen minutes of traffic every day since 2010. The capture we used is from June 2015 \cite{MAWILabDataSeta}.
@@ -1338,11 +1338,11 @@ A schematic of our model can be found in figure \ref{fig:Model}.
 % FIXME: remove this sentence
 Now that we know the structure of our model as well as which layers to use, we need to figure out which NN architectures will be used in our experiments.
 
-For our RNN layers we will compare different architectures of RNNs.
+For our RNN layers, we will compare different architectures of RNNs.
 Using RNNs will ensure previous data points will be taken into account during learning and in the case of LSTMs and GRUs all previous datapoints will be taken into account.
-However it is important to establish a baseline, which will help us establish a measure of progress. % or even success.
+However, it is important to establish a baseline, which will help us establish a measure of progress. % or even success.
 Therefore our baseline will be simpleRNNs.
-Afterward we will compare our baseline results to the results of LSTMs and GRUs.
+Afterward, we will compare our baseline results to the results of LSTMs and GRUs.
 As described in the Input section above, we will use a NN model, which accepts flows as conditional input and packets as sequential input.
 The \code{cond-rnn} library \cite{remyPhilipperemyCondRnn2020} written for Keras and Tensorflow and supports simpleRNNs, LSTMs and GRUs as cells for conditional RNNs.
 This library empowers us to compare simpleRNNs, LSTMs and GRUs for our problem.
