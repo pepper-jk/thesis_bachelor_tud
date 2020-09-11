@@ -872,12 +872,12 @@ We color-coded the five categories in order to give a more direct overview of me
 In the following paragraphs we briefly explain the meaning of each category and explain the membership of packet header fields.
 
 \paragraph{\colorbox{not}{\textbf{{Not Used} (gray)}}} are header fields that do not change ever or at least not in our scenario.
-This includes the Version of the IP Header, since we only take IPv4 traffic into account,
+This includes the Version of the IP Header since we only take IPv4 traffic into account,
 and the reserved bits in the IP flags and the TCP header.
 
 \paragraph{\colorbox{trivial}{\textbf{Trivial} (red)}} header fields might be useful, but should not be fed to the NN.
-Either because they can easily be checked/validated outside the NN and might slow the NN down for no benefit.
-Or they do not alter the behavior of the network flow.
+Either because they can easily be validated outside the NN and might slow the NN down for no benefit,
+or they do not alter the behavior of the network flow.
 % QUESTION: what about IP class? this could be an interesting feature
 % No, but difference between public and local.
 This would include header lengths, urgent pointer, as well as MAC and IP addresses.
@@ -886,18 +886,19 @@ The acknowledgement number order can be easily checked outside the NN and can be
 
 \paragraph{\colorbox{dropped}{\textbf{Dropped} (purple)}} fields could have been \colorbox{derivation}{\textbf{Feature Derivations} (yellow)}, but were omitted due to a lack of data.
 A NN needs a large amount of data to make proper decisions, if the data is not sufficient and it encounters a feature for the first time it would at best classify the datapoint correctly with a 50\% chance.
-Without sufficient data, we can not train our NN and they would just be a dead feature.
+The best case of insufficient data is no data, so the NN would ignore the feature, but as such features would just be a \textbf{dead feature}, it is better still to omit it.
 For IP options and the TCP flag NS, also called the ECN-nonce, the data is inconclusive,
-as our dataset does not contain any flows with IP options and only three with the NS flag set.
+as our dataset does not contain any flows with IP options and only three with an ECN-nonce.
 This however is not unusual, as those fields are rarely used in practice anyway.
-Since our dataset is constructed from numerous network packet captures from statistically different intrusion detection datasets,
-it supports our research results that this is indeed just normal network traffic behavior.
-Luckily network flows do not contain either of those features, meaning it should not impact our results.
-IP options would influence the behavior of a flow, but as our dataset does not contain any IP options, omitting them does not result in bad training results.
+Our dataset supports our research results that this is indeed just normal network traffic behavior,
+since it is constructed from numerous network packet captures from statistically different intrusion detection datasets.
+Luckily network flows do not contain either of those header fields in their attributes, meaning it should not impact our results to omit the two.
+IP options would influence the behavior of a flow, but as our dataset does not contain any IP options, omitting them should not result in bad training results.
 It only means that in order to take IP options into account in the future our NN and preprocessing needs to be expanded.
-The ECN-nonce is the more acute problem since less than 0.0009\% of datapoints use it.
-Which would add an additional risk for our NN to misinterpret the data, once it comes accross such a datapoint.
-Omitting the ECN-nonce however should not be a problem, as the feature does not impact the behavior of the flow in any way that is not already indicated by the ECN value, see later in this section.
+However, most of the implementation was already done and could be easily adjusted to fit this need.
+The ECN-nonce is the more acute problem since less than 0.0009\% of datapoints use it,
+which would add risk for our NN to misinterpret the data, once it comes across such a datapoint.
+Omitting the ECN-nonce should not be a problem either, as the feature does not impact the behavior of the flow in any way that is not already indicated by the ECN flag and value, see later in this section.
 
 \paragraph{\colorbox{derivation}{\textbf{Feature Derivations} (yellow)}} are fields, which can not be used as direct input to the NN,
 but need to be derived in some way beforehand.
