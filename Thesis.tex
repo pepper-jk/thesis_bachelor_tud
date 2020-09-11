@@ -942,12 +942,13 @@ Only Windows Server 2008 with Exchange Server 2007 uses 1025–60000, which is s
 In future work one could expand this binary representation by adding subcategories to the system and registered ports.
 But this is out of the scope of this thesis.
 
-As TCP options such as maximum segment size (MSS) and selective acknowledgment (SACK) may impact a network flows behavior,
-while others may never occur, just like the IP options described above,
-it is important that we derivate TCP options to remove dead features and preserve the information important to us.
-We collect the MSS, SACK and the timestamp options.
-As they are the most prominent and frequent options used.
-Our dataset also does not contain any other TCP options.
+It is important that we derivate TCP options to remove dead features and preserve the information that is important to our problem,
+as TCP options such as maximum segment size (MSS) and selective acknowledgment (SACK) may impact a network flows behavior,
+while others may never occur, just like the IP options described above.
+We collect the MSS, SACK and the timestamp options,
+as they are the most prominent and frequent options used and
+our dataset also does not contain any other TCP options.
+The timestamps get converted to the relative timestamp based on the earliest timestamp in the packet sequence in order to compare them to the \code{frame.time\_relative} filter option from Wireshark.
 
 The Explicit Congestion Notification (ECN) \cite{floydAdditionExplicitCongestion} header field is a simple example.
 It consists of two bits that are interpreted as an integer from wireshark.
