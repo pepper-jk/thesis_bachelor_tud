@@ -707,16 +707,16 @@ Before we can pursue the experiments however we need data to train and test with
 \section{Dataset}
 \label{sec:dataset}
 
-For our dataset we will extract packet sequences from publicly available and well-known network packet captures and create network flows based on these sequences.
+For our dataset, we will extract packet sequences and corresponding network flow from publicly available and well-known network packet captures and create network flows based on these sequences.
 Each network packet sequence will be paired with its network flow so that our NN can learn the connection between the two data structures.
 Since the end goal in the future work GAN is to generate the complete packet sequences based of the flows,
 each sequence of packet features will contain as much of the original header information as needed to reconstruct a packet sequence from them.
-This way, no crucial information gets lost and the DN is prepared to handle whole packet captures and compare them to flows.
+This way, no crucial information gets lost and the DN is prepared to handle the complete data of a packet capture, compare them to flows and make an informed decision if a network flow belongs to a packet sequence.
 
-Each header attribute is converted into an appropriate representation depending on its data type and meaning.
-Since the NNs are most efficient with continuous and numerical data, we will convert all fields accordingly, whereever possible.
-We will also implement a way to create negative samples from the ground truth, which builds our positive samples.
-Both will be discussed further in the dataset preprocessing section.
+Each header attribute is converted into an appropriate representation depending on its data type and meaning for the sequence of packets.
+Since the NNs are most efficient with continuous and numerical data, we will convert all fields accordingly, wherever possible.
+We will also implement a pipeline to create negative samples from the ground truth, which builds our positive samples.
+% Both will be discussed further in the dataset preprocessing section.
 
 \subsection{Dataset Preparation}
 \label{sec:datasetPrep}
