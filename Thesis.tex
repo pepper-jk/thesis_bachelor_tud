@@ -721,11 +721,10 @@ We will also implement a pipeline to create negative samples from the ground tru
 \subsection{Dataset Preparation}
 \label{sec:datasetPrep}
 
-The NN needs to be trained with a significant amount of data, both positive and negative datapoints so that it can make informed decisions.
-This will be provided in two steps.
-First we sample flows from multiple packet captures we extracted from popular intrusion detection datasets with network traffic packets.
-Those samples represent the ground truth and will be our positive datapoints.
-Later we randomly apply modifications to those samples to create negative datapoints.
+The NN needs to be trained with a significant amount of both positive and negative datapoints so that it can make informed decisions.
+First, we collect samples that represent the ground truth and will be our positive datapoints.
+We sample flows from multiple packet captures we extracted from popular intrusion detection datasets with network traffic packets.
+Then to create negative datapoints, we randomly apply modifications to the previously collected positive samples.
 
 \subsubsection{Sampling}
 \label{sec:sampling}
