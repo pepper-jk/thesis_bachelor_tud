@@ -982,39 +982,38 @@ As the name suggests the higher the precedence probability class the more likely
 Both of these classifications will be represented as an integer value.
 
 \paragraph{\colorbox{feature}{\textbf{Features} (blue)}} are fields that we can use as unmodified or raw input.
-They are numerical (int, float) or truth based (boolean) and can therefore be interpreted by a NN.
+They are numerical (integer, float) or truth based (boolean) and can therefore be interpreted by a NN.
 But not all numerical or boolean fields automatically qualify as features.
-For example the transport protocol is represented as a numerical value, but is would be ineffective to train a NN based on that number.
-It would try to perform operations on it like on any integer value, but that would lead to no or wrong results.
+For example the transport protocol is represented as a numerical value, but it would be ineffective to train a NN based on that number.
+It would try to perform operations on it like on any integer value, but that would lead to wrong results.
+In the best case it would to no result, while creating overhead during computation.
 The fields qualifying for this category need to be continuous data.
 Additionally to the packet header fields shown in the table we also considered some meta data.
-We use the relative time offset of the packets, this feature will match with the duration of the flow,
-and the TCP payload length, provided by wiresharks filter \code{tcp.len}.
+As mentioned before we use the relative time offset of the packets, this feature should match with the duration of the flow,
+and the TCP payload length, provided by Wireshark's filter \code{tcp.len}.
 
 The identification IP header field uniquely identifies a network packet compared to other packets from the same source.
-As it is basically just counting up, one could suggest, that it is not more of a feature than the acknowledgment number.
-However in a network packet caputre it is completely possible that a source is not monitored completely, for example behind a NAT,
-thus their intermediate packets are not recorded.
-This would require a more sofisticated approach for generating IDs for sinthetic packets.
-Therefore we suggest letting the GAN learn to create such an ID itself, in this case our NN needs to learn the relationship between those IDs too.
+As it is just counting up, one could suggest, that it is not more of a feature than the acknowledgment number.
+However in a network packet capture it is possible that a source's packets are not monitored continuously, for example behind a NAT,
+thus their intermediate packets would not be recorded.
+This would require a more sophisticated approach for generating IDs for synthetic packets.
+Therefore we suggest letting the future GAN learn to create such an ID itself in this case, our NN needs to learn the relationship between those IDs too.
 
-% FIXME: maybe trivial after all?
-The sequence number can just as easily be compared to the initial sequence number contained in the flow data.
-% FIXME: where do we put these? I still want them to be features
-However the sequence number validity or even position in the flow can make a flow special.
-
-The IP and TCP flags are already in a binary representation that can be fed to the NN.
-The TCP flags are of more importance than the IP falgs though, as the flow also includes them.
+The IP and TCP flags are already in binary representation and can be fed to the NN as is.
+The TCP flags are of more importance than the IP flags though, as our flow representation also includes them.
 % FIXME: wording and maybe explain what "important" means
-As fragment offset, the time to live (TTL) value and the window size are both as important to flow behavior as the flags, we include them as features as well.
+As fragment offset, the time to live (TTL) value and the window size are as important to flow behavior as the flags and are all numerical, we include them as features as well.
+% maybe trivial after all? maybe, but not for this thesis
+The sequence number could just as easily be compared to the initial sequence number contained in the flow data.
+However, the position of the sequence number in the packet sequence can decide if a flow is valid or not.
 
-% UDP length will be derived as data offest and length from TCP
+% UDP length will be derived as data offset and length from TCP
 % FIXME: wording
 % The data offset and IP header length (IHL) are also used as an indicating boolean for TCP and IP options respectively.
 The data offset and IP header length (IHL) are indicating that TCP and IP options should be present, this provides interesting context between packet (header) length and other features.
 Combined with the total length it also gives us information about the payload size.
-As the UDP length will have been converted to TCP length and data offest, packets of both protocol will benefit from this.
-
+As the UDP length will have been converted to TCP length and data offset, packets of both protocols will benefit from this.
+Now that we know the network packet features and their derivations, we need to apply the same principles to network flows, the counterpart to a packet sequence.
 
 \subsubsection{Network flow features}
 \label{sec:flowFeatures}
