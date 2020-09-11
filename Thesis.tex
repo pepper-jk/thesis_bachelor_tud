@@ -1019,43 +1019,42 @@ Now that we know the network packet features and their derivations, we need to a
 \subsubsection{Network flow features}
 \label{sec:flowFeatures}
 
-Network flow features will be classified in the same categories.
+Network flow features will be classified in the same categories as the packet header fields.
 Table \ref{flow} shows the color-coded flow features.
-In this work, we want to compare flow behavior to a sequence of packets.
-There are less parts of the flow that are omitted.
-This is because flows are a much higher abstraction of a packet sequence and we try to use as many of its data in order to make up for that.
-Please note however that the reverse features of a YAF flow will be omitted due to the fact that it does not relate to the packet sequence of the flow, but to the counter part of it.
+In this work, we need to abstract flow behavior from a sequence of packets and compare it to the features of a given flow.
+As a flow has a higher abstraction from network traffic than packets, we can omit less features.
+Please note however that the reverse features, which a YAF flow representation provides, will be omitted anyway due to the fact that it does not relate to the packet sequence of the flow, but to the counter part of it.
 Meaning the flow from destination to source.
 
-IP addresses and timestamps might mislead our classifier, as a flow might have the almost or exact same behavior even though it has two different end points communicating or was sent at another time.
-As mentioned before (IP) addresses can be easily compared outside of the NN and are therefore \colorbox{trivial}{\textbf{trivial} (red)}.
-The same applies for the timestamps.
-Although timestamps have an additional problem. As they are large floating point numbers, they might slow the NN down.
+IP addresses and timestamps might mislead our classifier, as a flow might have almost the same behavior even though it has two different endpoints communicating or was sent at another time.
+As mentioned in the previous section (IP) addresses can be easily compared outside of the NN and are therefore \colorbox{trivial}{\textbf{trivial} (red)}.
+The same applies to the timestamps.
+Although timestamps have an additional problem. As they are large floating-point numbers, they might slow the NN down.
 
-Duration, round trip time as well as packet and byte count are already present as numerical data, therefore, they can be used as raw \colorbox{feature}{\textbf{features} (blue)}.
-
-% FIXME: initial sequence number
+Duration, round trip time, as well as packet, and byte count are already present as numerical continuous data, therefore, they can be used as raw \colorbox{feature}{\textbf{features} (blue)}. The initial sequence number falls under the same category just as their header field counterpart did.
 
 The rest of the features are to be \colorbox{derivation}{\textbf{feature derivations} (yellow)} and will be derived in a way that fits the derivations of their packet field counterparts.
-% TODO: how are they derived?
 The protocol and ports are derived the same way the packet derivations did it.
 A YAF flow contains the TCP flags of the first and last packet of the sequence of packets is was created from.
 The flags are provided as strings by yaf containing the initial letter of each active flag:
 \textbf{F}IN, \textbf{S}YN, \textbf{R}ST, \textbf{P}SH, \textbf{A}CK, \textbf{U}RG, \textbf{E}CE, \textbf{C}WR.
 While a \textbf{0} means no flags were active.
 To conform with our previous binary representation, we create a boolean for each flag in the same order a TCP packet contains them.
+For further details on the derivation of protocol, ports, and TCP flags, see paragraph derivations in section \ref{sec:packtFeatures}.
 The end-reason describes the reason for the end of the packet sequence.
 It is given as a string and can have five different values:
 \begin{itemize}
     \item \textbf{idle} timeout
     \item \textbf{active} timeout
-    % % FIXME: yaf specific reasons
-    \item \textbf{eof} interruped by yafs timeout or end of file
-    \item \textbf{rsrc} premature flush if yafs flow table maximum is reached
-    \item \textbf{force} for single udp packet flow records that belong to a bigger flow
+    \item \textbf{eof} interrupted by YAF's timeout or end of file
+    \item \textbf{rsrc} premature flush if YAF's flow table maximum is reached
+    \item \textbf{force} for single UDP packet flow records that belong to a bigger flow
 \end{itemize}
-The last two end-reasons do not appear in our dataset.
 As this is a categorical feature and each end reason mutually excludes all others, we decided to use a one-hot encoding for the binary representation.
+Please note that the last two end-reasons do not appear in our dataset, so their derivations are dead features.
+This was only discovered after most experiments had already been conducted.
+However as stated before, dead features do not effect the results of a NN, but only introduce overhead.
+This can be adjusted in the future.
 
 % Later: "data preprocessing"
 
