@@ -1693,11 +1693,12 @@ However GRUs may shine in more complex implementations.
 \section{Research Contributions}
 \label{sec:Contributions}
 
-% FIXME: we did not provide a proof of concept!
-Even though the results were not optimal this work provides a proof of concept RNN model that is capable of distinguishing if a network flow could have been created by a sequence of network packets.
-However this is not the main contribution.
-The most valuable research contribution would be the discussion on network packet and flow features we take into account, as well as the derivation of the data.
-Furthermore we will publish the pipeline for effectively sampling network packet captures and created negative samples, so that future research can benefit from it.
+Even though the results were not optimal this work provides a prototype condRNN model that tries to distinguish if a network flow could have been created by a sequence of network packets.
+However, this is not the only contribution.
+The condRNN model was debugged and experiments regarding the hyperparameters for more effective training were conducted.
+These results should help build a NN model that is capable of solving our problem in the future.
+The most valuable research contribution would be the discussion on network packet and flow features we take into account, as well as  theory and practice of the derivation of said data.
+Furthermore, we will publish the pipeline for effectively sampling network packet captures and created negative samples, so that future research can benefit from it.
 
 \subsection{Answering the Research Questions}
 \label{sec:answers}
