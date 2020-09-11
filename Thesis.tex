@@ -955,7 +955,7 @@ It consists of two bits that are interpreted as an integer by Wireshark.
 However, the bits are a categorical feature comparable with the IP and TCP Flags.
 If neither bit is set, ECN is not supported by the sender.
 If either one bit is set by itself, ECN is supported by the sender.
-If both bits are set, there is a network congestion on the route between sender and reciever.
+If both bits are set, there is network congestion on the route between the sender and the receiver.
 This leaves us with two boolean features as input for our NN: ECN capable transport and congestion encountered.
 If we look into the documentation of ECN, we will see that those are the only attributes the ECN provides \cite{DifferentiatedServicesField} and our derivation in fact matches the information ECN supporting hard- and software extracts from the header fields.
 % TODO: explain categorical feature abstraction. is this still needed?
