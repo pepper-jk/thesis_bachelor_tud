@@ -695,18 +695,14 @@ For the RNN they chose the LSTM model
 \label{sec:methodology}
 
 For our NN model, we assume that some form of Recurrent Neural Network (RNN) will be suitable as a discriminator of a GAN that can create synthetic network packet captures from network flows.
-Since simple RNNs have the problem of short-term memory, we propose the use of either Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTermMemory1997} or Gated Recurrent Units (GRUs) \cite{bahdanauNeuralMachineTranslation2016}.
+Since simpleRNNs have the problem of short-term memory, we propose the use of either Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTermMemory1997} or Gated Recurrent Units (GRUs) \cite{bahdanauNeuralMachineTranslation2016}.
 GRUs tend to use fewer operations and states to produce similar or better results than LSTMs.
 But depending on the use case, LSTMs might still produce better results.
 It is to be determined, which of the two neural networks provides better results for the problem in this thesis.
 
-For this we will run experiments with the \textbf{SimpleRNN}, \textbf{LSTM} and \textbf{GRU} layers provided in Tensorflow.
-\textbf{SimpleRNN} will provide the baseline for the real contenders \textbf{LSTM} and \textbf{GRU} during the experiments, as it will most likely provide the least optimal results.
-Before we can pursue the experiments however we need data to train an test with.
-
-% TODO: what is the baseline for the datasets?
-% the dataset with the least errors is the baseline
-% the dataset with more errors is the comparison
+For this we will run experiments with the \textbf{simpleRNN}, \textbf{LSTM} and \textbf{GRU} layers provided in Tensorflow.
+\textbf{simpleRNN} will provide the baseline for the real contenders \textbf{LSTM} and \textbf{GRU} during the experiments, as it will most likely provide the least optimal results.
+Before we can pursue the experiments however we need data to train and test with.
 
 \section{Dataset}
 \label{sec:dataset}
