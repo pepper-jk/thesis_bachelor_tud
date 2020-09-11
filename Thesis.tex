@@ -336,7 +336,7 @@ we first need to understand the difference between network flows and network tra
 A network packet capture is a recording of network traffic at the packet level.
 It is limited by a start and end time.
 Each packet within the capture contains all header information it contained during actual transmission.
-The payload of the packets is omitted if its size gets too large to be reasonably stored otherwise, the packets are unaltered.
+The payload of the packets is omitted if its size gets too large to be reasonably stored, otherwise the packets are unaltered.
 A network flow on the other hand is an artificial logical equivalent to only one network connection \cite{brownleeTrafficFlowMeasurement}.
 
 This connection may be between two terminals, a multicast group or a terminal and a broadcast address \cite{rajahalmeIPv6FlowLabel}.
@@ -371,10 +371,8 @@ This will also come in handy for us, as we try to keep our dataset sampling simp
 \label{sec:wireshark}
 
 Wireshark is probably the most well-known network traffic tool out there.
-It is capable of capturing, displaying, sorting and filtering network traffic captures, as well as analysing network packet captures.
-It also has other functionality, but we mainly use the filter functionality.
-It comes with a GUI but also provides a CLI tool called \code{tshark} that is theoretically capable of doing everything the GUI does, just a bit quicker.
-This is what we will use.
+It is capable of capturing, displaying, sorting, and filtering network traffic captures, as well as analysing network packet captures.
+It also comes with further functionality, however in the scope of this thesis, we will mostly be utilizing the filter feature. Wireshark comes equipped with a GUI but also provides a CLI tool called \code{tshark}. \code{tshark} includes the same set of features as the GUI does while being slightly more performant. We will be using this CLI tool for Wireshark henceforth within this thesis.
 
 \section{Network traffic datasets}
 \label{sec:networkTrafficDatasets}
@@ -415,10 +413,11 @@ This is due to the vanishing gradient problem \cite{hochreiterLongShortTermMemor
 \subsubsection{Vanishing Gradient Problem}
 \label{sec:vanishing}
 
-The vanishing gradient problem describes an RNNs tendency to forget earlier timestamps of a longer sequence.
+The vanishing gradient problem describes an RNN's tendency to forget earlier timestamps of a longer sequence.
 It is also known as the short term memory problem.
 To understand how this problem manifests one needs to understand how an RNN operates.
-To ensure a single big value within one timestamp does not make other values less significant, but also do not lose their relation to each other, RNNs use the hyperbolic tangent function to ensure the values stay between -1 and 1.
+% FIXME: wording
+To ensure a single big value within one timestamp does not make other values less significant, but values also do not lose their relation to each other, RNNs use the hyperbolic tangent function to ensure the values stay between -1 and 1.
 The values in the middle of the range of data are now closest to 0.
 However this also means that those values become so small that they do not contribute to the learning process of the RNN anymore.
 Thus vanishing from the weights.
@@ -428,8 +427,8 @@ Thus vanishing from the weights.
 
 This is where Long Short Term Memory (LSTM) networks \cite{hochreiterLongShortTermMemory1997} or Gated Recurrent Units (GRUs), formerly known as gated recursive convolutional neural network (grConv) \cite{bahdanauNeuralMachineTranslation2016}, come in.
 Both similarly tackle the short-term memory issue,
-also known as the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997}.
-Where the weight of the memory is changed so little, that it becomes insignificant.
+also known as the vanishing gradient problem \cite{hochreiterLongShortTermMemory1997},
+where the weights of the memory are changed so little, that it becomes insignificant.
 Both models provide a gated approach.
 They also both rely on the sigmoid function in addition to the hyperbolic tangent function a SimpleRNN uses.
 While the hyperbolic tangent function produces values between -1 and 1,
@@ -444,9 +443,9 @@ The difference between LSTMs and GRUs lies in how they use the sigmoid function 
 
 LSTMs have three gates, the forget gate, the input gate and the output gate, and two states, the cell state and the hidden states. \cite{phiIllustratedGuideLSTM2020}
 The forget gate performs a sigmoid operation on the previous hidden state and the current input.
-The result is than used as a multiplier for the cell state, effectively letting the NN forget any information that is no longer relevant after taking the new input into account.
-The input gate gets the same input, but uses the hyperbolic tangent and sigmoid functions in parallel and than multiplies their results.
-The sigmoid function helps to decide which of the current data, provided by the hyperbolic tangent function, is important to keep, as this result will be added to the cell state.
+The result is then used as a multiplier for the cell state, effectively letting the NN forget any information that is no longer relevant after taking the new input into account.
+The input gate gets the same input, but uses the hyperbolic tangent and sigmoid functions in parallel and then multiplies their results.
+The sigmoid function helps to decide which of the current data, provided by the hyperbolic tangent function, is important enough to keep, as this result will be added to the cell state.
 The output gate decides what information the next hidden state should carry.
 It calculates the sigmoid function on the concatenation of the previous hidden state and the current input, just as the other gates.
 The results gets used as weights for a hyperbolic tangent operation on the new cell state, meaning simple multiplication.
@@ -454,15 +453,15 @@ The newly calculated cell state and hidden state get passed to the next timestam
 
 \subsubsection{Gated Recurrent Units}
 
-GRUs have only two gates, the reset gate, and the update gate, and the cell state. \cite{phiIllustratedGuideLSTM2020}
+GRUs have only two gates, the reset gate and the update gate, as well as the cell state. \cite{phiIllustratedGuideLSTM2020}
 %In short the update gate combines the forget and update gate of a LSTM, while the reset gate provides the functionality of the LSTMs output gate.
 The update gate uses a sigmoid activation over the current input and the previous cell state, as the GRU has no hidden state.
-The inverted values are than used to weight the cell state.
+The inverted values are then used to weight the cell state.
 % explain why? NO, does not matter
 The reset gate again uses the same sigmoid unit and data as the update gate.
 This result gets multiplied with the current cell state and concatenated with the current input.
 This concatenation is processed by a hyperbolic tangent and multiplied by the non-inverted values of the update gate, before being added to the current cell state.
-A GRU has less activations than a LSTM and thererfore requires less computation.
+A GRU has fewer activations than an LSTM and therefore requires less computation.
 This is illustrated in the schematic comparison in figure \ref{fig:LSTMvGRU}.
 
 Now we have seen how different RNNs operate and how LSTMs and GRUs solve the vanishing gradient problem for sequential input.
@@ -517,7 +516,7 @@ Also see \ref{sec:imagedesc} Image Description Generation in Related Work.
 \section{Masking}
 
 The problem presented in this thesis involves the classification of network packets related to their flows.
-As network flows vary in sequence length and different protocols contain a different amount of header fields and therefore features, one problem to solve is the inconsitency of our data sequence.
+As network flows vary in sequence length and different protocols contain a different amount of header fields and therefore features, one problem to solve is the inconsistency of our data sequence.
 Masking is a common practice in the field of NN models to process sequences with missing data.
 The missing data gets filled with a unique value before it is processed by the NN.
 This value is called masking value and should not appear anywhere else in the data.
@@ -528,10 +527,10 @@ The layer processing the input data now can refer to the mask and only takes int
 % TODO: wording
 With this procedure holes in sequence can be closed and sequences of non-uniform length can be padded without changing the requirements for the model. %only because the data is not complete.
 
-\section{GANs}
+\section{Generative Adversarial Networks}
 \label{sec:GAN}
 
-To create a NN that could later be used as a DN we first need to understand how a GAN operates.
+To create a NN that could later be used as a DN we first need to understand how a Generative Adversarial Network (GAN) operates.
 A GAN consists of two NNs that compete against each other to maximize the quality of the generated data:
 a generator network (GN) and a discriminative network (DN).
 The GN creates synthetic samples and the DN gets real or synthetic samples at random.
@@ -595,7 +594,7 @@ This solution produces similarity values for IP addresses based on the behavior 
 
 They based their work on the concept of word2Vec from the field of natural language processing.
 There the word is observed in the context of its neighbors instead of alone.
-Similarly, in IP2Vec IPs are not observed on their own, but on in the context of other features of the flow, they correlate with.
+Similarly, in IP2Vec IPs are not observed on their own, but in the context of other features of the flow, they correlate with.
 So instead of words IP2Vec processes network flow attributes,
 specifically source IP, destination IP, destination port and protocol.
 However one could change those attributes and determine the difference between IPs based on different attributes.
@@ -668,7 +667,7 @@ However the problem we were interested in is much smaller.
 How did both Vinyals and Karpathy solve the problem of multiple inputs for RNNs?
 They had the image data and the descriptions in natural language.
 While the sequence of descriptions is sequential the image data is not, but it still needed to be included as input for the RNN.
-This is where both parties simultaneously create a condRNN, that took the image as conditional input in the beginning and the descriptions as sequential input.
+This is where both parties independently create a condRNN, that took the image as conditional input in the beginning and the descriptions as sequential input.
 The conditional input conditions the state of the RNN before the sequence is read.
 For more details on condRNNs, see also section \ref{sec:condRNN}.
 
@@ -691,7 +690,7 @@ Then the RNN processes the sequence of word vectors in order to learn how to pre
 
 % TODO: more
 Vinyals et al. also use a CNN to create a proper representation of the image that can be passed to the RNN.
-For the RNN they chose the LSTM model
+For the RNN they chose the LSTM model.
 
 \chapter{Methodology}
 \label{sec:approach}
@@ -727,7 +726,7 @@ We will also implement a pipeline to create negative samples from the ground tru
 The NN needs to be trained with a significant amount of both positive and negative datapoints so that it can make informed decisions.
 First, we collect samples that represent the ground truth and will be our positive datapoints.
 We sample flows from multiple packet captures we extracted from popular intrusion detection datasets with network traffic packets.
-Then to create negative datapoints, we randomly apply modifications to the previously collected positive samples.
+Then in order to create negative datapoints, we randomly apply modifications to the previously collected positive samples.
 
 \subsubsection{Sampling}
 \label{sec:sampling}
@@ -742,15 +741,15 @@ Although this might truncate some flows, it should not be a problem, since a cap
 and we also use timeouts (20 seconds) for the flow collecting, which will truncate the flows once again.
 Additionally, we do not require flows longer than the intervals themselves,
 as we want to keep our packet sequences short enough to be reasonably processed by an RNN.
-Later during the further preprocessing, we drop any flow longer than a maximum number packets (500), to ensure an equal length for all our packet sequences.
+Later during the further preprocessing, we drop any flow longer than a maximum number of packets (500), to ensure an equal length for all our packet sequences.
 
 The question however is the length of the intervals.
 Should they be determined relative to the size of the capture or should they have a fixed length?
 A fixed-length may provide better comparability between the flows across different captures,
-but the variation between packet captures regarding packet rate (frequency) may proof to be problematic.
+but the variation between packet captures regarding packet rate (frequency) may prove to be problematic.
 As setting the fixed length to low may yield the problem that some captures return empty intervals
 and setting it too high might result in too large intervals and therefore in less efficiently parsable partial captures.
-An interval length based on the percentage of each individual capture does not have those faults.
+An interval length based on the percentage of each capture avoids these issues.
 Even though it might shrink the flow duration of smaller captures, it appears to be the better approach.
 In addition, extracting packet sequences with a relative offset within a capture might provide sequences with a wider range of flow behavior.
 Now that we know we want to split the capture first, it is to be decided, how we sample the packet sequences within an interval.
@@ -793,7 +792,7 @@ For the frame of expectation, we used the number of bits available to the header
 
 \begin{itemize}
     \item a datapoint, which has altered packets
-    \item a datapoint, which has a altered flow
+    \item a datapoint, which has an altered flow
     \item a datapoint, which has both altered
 \end{itemize}
 
