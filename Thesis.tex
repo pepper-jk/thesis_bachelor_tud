@@ -729,37 +729,38 @@ Then to create negative datapoints, we randomly apply modifications to the previ
 \subsubsection{Sampling}
 \label{sec:sampling}
 
-% one capture each might be bad (sound bad) too late now
 Instead of collecting all flows from our source captures, we sample sequences of packets from only one packet capture of each dataset.
+This may not seem like much but as we only plan on creating a small proof of concept the data should be sufficient.
 The sampled packet sequences and flows are stored separately as csv files for further preprocessing, as network packet captures are usually slow to process.
-For our purpose we considered two approaches for sampling a network packet capture for flows.
+For our purpose, we considered two approaches for sampling a network packet capture for flows.
 Either by sampling through the packet sequences within the captures or by splitting the capture into intervals and sampling through those partial captures.
-Splitting the capture into intervals is less compute-heavy and therefore time-intensive, since the resulting packet captures are smaller and much quicker to parse.
-Although this might truncate some flows, this should not be a problem, since a capture itself is truncated at beginning and end anyway.
-Additionally we also do not need any flow longer than the intervals themselves,
-as we use timeouts (29 seconds) for the flow collecting.
-Later in the preprocessing we also drop any flow longer than a maximum number packets (500), to ensure an equal length for the packet sequences.
+Splitting the capture into intervals is less compute-heavy and therefore less time-intensive since the resulting packet captures are smaller and much quicker to parse.
+Although this might truncate some flows, it should not be a problem, since a capture itself is truncated at the beginning and end anyway
+and we also use timeouts (20 seconds) for the flow collecting, which will truncate the flows once again.
+Additionally, we do not require flows longer than the intervals themselves,
+as we want to keep our packet sequences short enough to be reasonably processed by an RNN.
+Later during the further preprocessing, we drop any flow longer than a maximum number packets (500), to ensure an equal length for all our packet sequences.
 
 The question however is the length of the intervals.
 Should they be determined relative to the size of the capture or should they have a fixed length?
-A fixed-length may provide better comparability between the flows of different captures,
+A fixed-length may provide better comparability between the flows across different captures,
 but the variation between packet captures regarding packet rate (frequency) may proof to be problematic.
 As setting the fixed length to low may yield the problem that some captures return empty intervals
-and setting it too high might result in too large intervals and therefore partial captures to be efficiently parsed later on.
+and setting it too high might result in too large intervals and therefore in less efficiently parsable partial captures.
 An interval length based on the percentage of each individual capture does not have those faults.
 Even though it might shrink the flow duration of smaller captures, it appears to be the better approach.
 In addition, extracting packet sequences with a relative offset within a capture might provide sequences with a wider range of flow behavior.
 Now that we know we want to split the capture first, it is to be decided, how we sample the packet sequences within an interval.
 We can make an educated guess that randomly selected samples will yield better results than sequential sampling, as it again provides a wider range of flow behavior.
 
-So for our dataset we decided, that splitting the capture into intervals first would be the right approach.
+So for our dataset, we decided that splitting the capture into intervals first would be the right approach.
 We split the captures into intervals relative to its size.
 This way we will preserve the behavior of the sampled flows within the larger network within each specific interval.
-Afterwards, we will randomly sample up to 250 of TCP and UDP packet sequences alike within those intervals.
+Afterward, we will randomly sample up to 250 of TCP and UDP packet sequences alike within those intervals.
 Please note not all source files provide enough flows per protocol though, specifically UDP packets seem to be less prominent.
-Each sampled packet sequence will be exported as a capture first.
-The header fields of the packets belonging to the sequence will be stored as a csv file for easier parsing.
-Then we use YAF to extract the flow information and yafscii to create flow-based csv files form the exported capture.
+Each sampled packet sequence will be exported as a capture first using wireshark's \code{editcap}.
+The header fields of the packets belonging to the sequence will be stored as a csv file for easier parsing, exported by wireshark's \code{tshark}.
+Then we use YAF to extract the flow information and \code{yafscii} to create flow-based csv files form the exported capture.
 
 \subsubsection{A Padding supported Conversion from UDP to TCP}
 \label{sec:UDPpadding}
