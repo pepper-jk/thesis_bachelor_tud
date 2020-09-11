@@ -782,42 +782,45 @@ As our positive datapoints are ready for processing now, all that is left to do 
 \subsubsection{Creation of negative samples}
 \label{sec:negativeSamples}
 
-To create negative samples we use multiple different methods.
-The first is altering packet and flow features by either sampling features from another datapoint of the dataset (method 1a) or generating random values (method 1b), which lie within a rough frame of expectation for the feature.
-Both processes are randomized.
-And both produce three different types of negative samples:
+To create negative samples we use four different methods.
+The selection of ground truth samples that will be falsified is randomized in all methods.
+The first method is \textbf{altering packet and flow features} by either sampling features \textbf{from another datapoint} of the dataset (\textbf{method 1b}) or generating \textbf{random values} (\textbf{method 1a}), which lie within a rough frame of expectation for the feature.
+For the frame of expectation, we used the number of bits available to the header fields, as they provide the hard limit to the range of the feature's value.
+\textbf{Method 1} is able to produce three different types of negative samples:
 
 \begin{itemize}
-    \item a datapoint, which has modified (falsified) packets
-    \item a datapoint, which has a modified (falsified) flow
-    \item a datapoint, which has both
+    \item a datapoint, which has altered packets
+    \item a datapoint, which has a altered flow
+    \item a datapoint, which has both altered
 \end{itemize}
 
-We later decided not to alter the flow as the RNN should learn if a packet sequence could have been created by a given flow.
-In the scenario of our future GAN the flow input is authentic and does not need to be classified itself for authenticity.
-However dropping altered flows did not change the performance of our model, so if someone wanted to use the model for a different problem that include altered flow they could do so without any further problems.
+Please note that we later decided not to alter the flow as the RNN should learn if a packet sequence could have been created by a given flow and also detecting altered flows would lead the classifier to learn unnecessary information.
+Furthermore in the scenario of our future GAN, the flow input is authentic and does not need to be classified itself for authenticity.
+However dropping altered flows did not change the performance of our model, so the model would likely perform the same through the later experiments if the altered flows were present in our dataset.
 
-The second method is randomizing the packet order (method 2) within the packet sequence of a given datapoint.
-The third is to decrease or increase the number of packets of the sequence in a given datapoint (method 3).
+The second method is randomizing the \textbf{packet order} (\textbf{method 2}) within the packet sequence of a given datapoint.
+The third is to \textbf{decrease} or \textbf{increase} the number of packets of the sequence in a given datapoint (\textbf{method 3}).
 To decrease the number of packets we just remove a random number of packets at a random position.
 To increase the number of packets we again sample from another datapoint in the dataset and add some of its packets to the current sequence.
-And the fourth and final method is mismatching network flows with a different sequence of packets (method 4).
+And the fourth and final method is \textbf{mismatching} network flows with a different sequence of packets (\textbf{method 4}).
 
-Each negative sample creation method has one or more parameters, which decide the degree to which it alters the ground truth sample it extracts its data from, a positive datapoint from the dataset.
-The degree of method one is defined by the number of errors assigned to every packet, as well as the number of altered packets.
-The degree of method three is defined by the number of packets added to a sequence or removed from the sequence.
+Each negative sample creation method has one or more parameters, which decide the degree to which it alters the ground truth sample.
+% it extracts its data from, a positive datapoint from the dataset.
+The degree of \textbf{method 1} is defined by the number of errors assigned to every packet and the number of altered packets.
+The degree of \textbf{method 3} is defined by the number of packets added to or removed from the sequence.
 While adding packets was done by a total amount, removing packets was done relative to the sequence size, as having a lot of negative samples with sequences of small size might cause the NN to learn that small sequences are per default negative.
-The methods two and four have no degree, they are completely randomized and have no parameters adjusting the severity of the error.
+The \textbf{methods 2 and 4} have no degree, they are completely random and have no parameters adjusting the severity of the error.
 
-All the degrees are not completely static either.
-We randomize them within the given parameters.
-For example, adding packets using method 3 adds $+/-10$ packets, so using the parameter $0$ packets equals adding $1$ to $10$ packets at random.
-% TODO: talk MORE about creation of neg samples +/-5 and so
+The parameters used to change the degrees stay not completely static either.
+We randomize them within a given range that seemed appropriate to the parameter.
+For example, adding packets using \textbf{method 3} adds $+/-10$ packets, so using the parameter $0$ packets equals adding $1$ to $10$ packets at random, while using the parameter $15$ would add between $5$ and $25$ packets.
+\textbf{Method 1} uses a range of $+/-5$ for the number of errors per packet.
+Initially, the number of packets altered was a static one, but later we did the same $+/-5$ range for the numbers of altered packets, for the creation of the \textbf{20 packets} dataset, see section \ref{sec:datasetStats}.
 
 Using different methods to create negative datapoints provides us with a good mix of negative datapoints.
-This is important in order to efficiently train the NN, as it will face many different errors in packet sequences in real world application.
-However it is important to falsify the data in a realistic way, so that the NN is efficiently tested for the future use within a GAN.
-For this we need to provide a good representation for each feature of packets and flows.
+This is important in order to effectively train the NN, as it will face many different errors in packet sequences in a real-world application.
+However, it is important to falsify the data realistically, so that the NN is efficiently tested for future use within a GAN.
+For this, we need to provide a good representation of each feature from packets and flows alike.
 
 \subsection{Datapoint Features}
 \label{sec:datapointFeatures}
