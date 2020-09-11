@@ -1674,16 +1674,21 @@ But as it stands it is too inefficient to deliver good results in a reasonable a
 \section{Summary}
 \label{sec:summary}
 
-We discussed the features of packets and flows and their importance to the flow behavior and therefore to a classifier.
-We created a pipeline that creates datasets, where each datapoint is a pair of a network flow and a network packet sequence, for use with NNs.
-Said pipeline is capable of sampling random flows from network packet captures, extracting flow and packet features and creating negative datapoints.
-% FIXME: no we did not
-We provided a proof of concept classifier that can distinguish if a flow could have been created by a sequence of packets.
-This NN model could be used as a DN for a GAN that creates network packet sequences from a network flow.
+We discussed the features of network packets and flows and their importance to the flow behavior and therefore to a classifier, as proposed by this thesis.
+We created a pipeline that generates datasets for use with NNs, that aim to classify if a network flow could have been created from a sequence of network packets.
+The datapoints of said datasets consist of a pair of one network flow and sequence of network packets, both are represented as a vector of features derived from the original data.
+Said pipeline is capable of sampling random flows from network packet captures, extracting flow and packet features, and creating negative datapoints.
+
+We designed a NN classifier that attempts to distinguish if a flow could have been created by a sequence of packets.
+Our NN model utilizes conditional recurrent neural networks (condRNNs) in order to handle the input shape of our data.
+This NN model was intended be used as a DN for a GAN that creates network packet sequences from a network flow.
+And even though its performance is not sufficient yet, we believe that the model can be adjusted for this purpose in the future.
 % FIXME: it is still possible that LSTMs are the way to go, however we did not show nor conclude that!
-We also evaluated the effectiveness of different RNN architectures for this task
-and concluded that LSTMs are best suited for it.
-Additionally we researched how to handle non-static input for RNNs and provided an implementation based on conditional RNN layers.
+As it stands now condLSTMs perform best for this problem.
+However GRUs may shine in more complex implementations.
+% We also evaluated the effectiveness of different RNN architectures for this task
+% and concluded that LSTMs are best suited for it.
+%Additionally we researched how to handle non-static input for RNNs and provided an implementation based on conditional RNN layers.
 
 \section{Research Contributions}
 \label{sec:Contributions}
