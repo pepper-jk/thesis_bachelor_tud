@@ -1629,26 +1629,38 @@ Possibly our NN model was able to notice the marking values as not relevant data
 A higher number of ReLUs in the Dense layer also did not provide better results.
 The model without the ReLU layer performed slightly better than with the ReLU layer,
 at least regarding the validation accuracy and loss, but the flattened curves remained. % FIXME: wording
-However, the validation loss decreased faster than the training loss and while the validation accuracy was better the training accuracy was worse.
+% However, the validation loss decreased faster than the training loss and while the validation accuracy was better the training accuracy was worse.
 So we returned to our original ReLU implementation.
 
 \section{Discussion}
 \label{sec:exDiscussion}
 
-... This made us believe that the architecture of our model is inherently flawed.
-Either that or our chosen features are not optimal yet.
-The possibility that the data is not enough to obtain good results also remains.
-Especially as we can only use up to 25\% of it.
+The results of our experiments and debugging made us believe that the architecture of our model is at fault.
+Although it might still be a bug in the implementation, it seems unlikely.
+One thing that might be worth changing is the masking solution.
+For the UDP to TCP conversion padding, we do not see a better solution.
+And at the time of the original design of the model, it seemed plausable to use the same approach for the packet sequence padding.
+However, after the experiments we conclude that the approach of Karpathy \cite{karpathyDeepVisualSemanticAlignments2015} with the designated start and stop element at the beginning and end of the sequence might be a better solution.
+As long as it does allow larger batch sizes than one.
+% FIXME: go on?
 
+At this moment we do not believe our chosen flow and packet features to be suboptimal.
+However, this was the first approach on classifying wether or not a sequence of network packets could have been created from a given network flow.
+So it is possible that we missed something.
+And there are most likely improvements to be made in the future.
+
+The possibility that the data is not enough to obtain good results also remains.
+Especially as we could only use up to 25\% of our relatively small dataset.
+
+As for the negative datapoints.
 It is no wonder that increasing the number of errors in negative samples increases the performance of the model.
 %Same goes for increasing the amount of data.
-However it can not be the solution to boost the model's performance by giving it easier samples to learn from.
+However, it can not be the solution to boost the model's performance by giving it easier samples to learn from.
 In order to perform as a DN of a GAN proposed in the problem statement \ref{sec:problem} it would need to detect much smaller errors than we provided in our dataset(s).
-
 % FIXME FOR DISCUSSION: It has been an error to assume just randomizing any packet order yields good negative samples. It is good to have such difficult samples, but not all of them are necessarily false. ... TODO: more
 
-The model has shown that with enough data and time, it might at least get to a higher accuracy.
-But as it stands it is too inefficient to deliver good results in a reasonable amount of time.
+The model has shown that with enough data and time, it will very slowly trend toward a higher accuracy.
+But as it stands it is too inefficient to deliver good results in a reasonable amount of time and with reasonable resources.
 
 \begin{figure}
     \includegraphics[width=.95\textwidth]{hinge_val_accuracy.pdf}
