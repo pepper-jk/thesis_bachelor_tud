@@ -535,7 +535,7 @@ A GAN consists of two NNs that compete against each other to maximize the qualit
 a generator network (GN) and a discriminative network (DN).
 The GN creates synthetic samples and the DN gets real or synthetic samples at random.
 The DN then needs to decide if the sample it just saw is real or fake.
-Afterwards, the decisions of the DN gets evaluated and both the DN and GN get fine-tuned based on the results.
+Afterward, the decisions of the DN gets evaluated and both the DN and GN get fine-tuned based on the results.
 % TODO: is this really loss? read the paper
 If the decision of the DN was correct than the GN is not good enough too fool the DN and therefore gets a greater loss, while the DN gets a smaller loss.
 If the DN was not able to make correct decisions it gets a greater loss and the DN a smaller loss.
@@ -1250,14 +1250,14 @@ To use our dataset with a NN we need to convert the datapoints into a data struc
 As NNs work best with continuous data we face the following problem when converting the data.
 The packet and flow features only available as bytes or a string need to be converted to an integer, a float or a binary representation, a sequence of boolean values that describes a categorical feature, fully or at least partially.
 This is already solved in the dataset creation.
-Afterwards each datapoint has a general structure of a list of flow features and a sequence of packets, where each packet consists of a list of attributes derived from the data.
+Afterward each datapoint has a general structure of a list of flow features and a sequence of packets, where each packet consists of a list of attributes derived from the data.
 
 As RNNs work with sequential data and in our case only the sequence of packets is sequential, we need a more sophisticated solution to take our flow data into account.
 There are multiple approaches to this problem.
 One is the append the flow data to each packet in the sequence.
 But this creates an enormous amount of overhead and has also proven to be an ineffective solution in the past.
 Both Vinyals et al. \cite{vinyalsShowTellNeural2015} and Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015} claim that passing the condition to the NN with each timestamp of the sequence was less effective in providing results.
-Another approach would be to use two different NN layers in parallel to learn about the flow attributes and the packet sequence and merge the results afterwards.
+Another approach would be to use two different NN layers in parallel to learn about the flow attributes and the packet sequence and merge the results afterward.
 In our case the packet sequence can only be verified as belonging to a given flow if the layer knows the flow attributes.
 Therefore the flow data should directly impact the packet sequence, so separating them would not be a good idea.
 The remaining and only liable approach is to modify the initial state of the RNN with the flow data as proposed by Vinyals et al. \cite{vinyalsShowTellNeural2015} and by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015}.
@@ -1326,8 +1326,8 @@ Now that we know the structure of our model as well as which layers to use, we n
 For our RNN layers we will compare different architectures of RNNs.
 Using RNNs will ensure previous data points will be taken into account during learning and in the case of LSTMs and GRUs all previous datapoints will be taken into account.
 However it is important to establish a baseline, which will help us establish a measure of progress. % or even success.
-Therefore our baseline will be simple RNNs.
-Afterwards we will compare our baseline results to the results of LSTMs and GRUs.
+Therefore our baseline will be simpleRNNs.
+Afterward we will compare our baseline results to the results of LSTMs and GRUs.
 As described in the Input section above, we will use a NN model, which accepts flows as conditional input and packets as sequential input.
 The \code{cond-rnn} library \cite{remyPhilipperemyCondRnn2020} written for Keras and Tensorflow and supports simpleRNNs, LSTMs and GRUs as cells for conditional RNNs.
 This library empowers us to compare simpleRNNs, LSTMs and GRUs for our problem.
@@ -1503,7 +1503,7 @@ Throughout our experiments, we always used 70\%, 10\%, and 20\% of the used data
 We started with 5 to 20 epochs for initial testing of hyperparameter combinations and went up to 100.
 Once a combination of hyperparameters looked promising, we went up to as far as 1000 epochs.
 In each epoch, the whole training dataset is used and processed in batches of size 100 to 1000.
-Afterwards, the model gets validated by the validation dataset.
+Afterward, the model gets validated by the validation dataset.
 During training the weights get updated after each batch. % and at the end of an epoch after the validation.
 After all training and validation epochs are finished the model was evaluated on our test dataset.
 We soon came to realize that there is not much change to be seen after 100 epochs.
