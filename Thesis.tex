@@ -770,10 +770,14 @@ Compared to UDP packets, TCP packets have more header fields and therefore more 
 % FIXME: wording
 This results in an uneven timestamp size or length of packet data between two datapoints, if one is based on a UDP packet and the other is a TCP packet.
 To make packets of both protocols comparable, we will add padding to the UDP packets.
-We add the TCP flags and options as well as the sequence number and window size with a masking value (-15) at the same positions where they would be in a TCP feature vector, more on that in section \ref{sec:packtFeatures}.
+We add the TCP flags and options as well as the sequence number and window size at the same positions where they would be in a TCP feature vector, more on that in section \ref{sec:packtFeatures}.
+% FIXME: wording
+They get assigned our padding value (-15), which will be used as a masking value during the input into the NN.
 To round it up we convert the UDP length to TCP header length and TCP payload length, see section \ref{sec:packtFeatures} paragraph \textbf{derivation}.
 The last part is especially important to keep the datapoints comparable and not only at the same length.
-This way, the NN can make the right decisions based on the data.
+This way, the NN can make the right decisions based on the data and is not held back by matching single features between the two protocols.
+% FIXME: maybe add packet padding subsection, but it is more a NN input thing than a dataset thing right?
+As our positive datapoints are ready for processing now, all that is left to do to complete our dataset is the creation of the negative samples.
 
 \subsubsection{Creation of negative samples}
 \label{sec:negativeSamples}
