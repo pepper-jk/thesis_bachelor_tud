@@ -921,8 +921,8 @@ So for our DN it only matters if the checksum matches the header.
 % as well as the difference for the payload. % not needed
 So instead of feeding the NN the raw checksum and therefore teaching it how checksums work, we will provide its status in regards to validity with a simple boolean.
 
-The ports are categorical and need to be converted to continuous features.
-This is done by sorting the port based into the following categories based on port ranges defined by the IANA \cite{ServiceNameTransport}:
+The ports are categorical features and need to be converted to a continuous data representation.
+This is done by sorting the port into the following categories based on port ranges defined by the IANA \cite{ServiceNameTransport}:
 % \textbf{system} ports (0-1023), \textbf{registered} or user ports (1024-49151) and \textbf{ephemeral} or dynamic ports (49152-65535) \cite{ServiceNameTransport}.
 \begin{itemize}
     \item \textbf{system} ports (0-1023)
@@ -937,7 +937,7 @@ Additionally the ephemeral category is split into the following subcategories:
     \item \textbf{winserver} (1025–65535): dynamic ports used by Windows Server 2000 \cite{DefaultDynamicPort} \cite{WhenYouTry}
     \item \textbf{winxp} (1025–5000): dynamic ports used by Windows XP \cite{CableGuyDecember} and Server 2003 (until update MS08-037) \cite{YouExperienceIssues}
 \end{itemize}
-Newer versions of Windows use the IANA range \cite{DefaultDynamicPort}.
+Newer versions of Windows use the IANA range \cite{DefaultDynamicPort}, so the we can spare a new feature for it.
 Only Windows Server 2008 with Exchange Server 2007 uses 1025–60000, which is still within the \textbf{winserver} category \cite{DefaultDynamicPort}.
 In future work one could expand this binary representation by adding subcategories to the system and registered ports.
 But this is out of the scope of this thesis.
