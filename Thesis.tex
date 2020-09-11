@@ -631,7 +631,7 @@ But even this holds the issue that a later flow may have communication between t
 Furthermore we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
 This will most likely not be the case, as the GN of the GAN would try to create a sequence of packets based on the input of one flow.
 So it would not have the sufficient data to create IP2Vec vectors.
-% FIXME: is this really the problem? I think so
+% is this really the problem? I think so
 Since both possible approaches have the problem with IPs that might be present in multiple source datasets,
 and we can not assume that the future work GAN is able to produce IP2Vec vectors from one flow,
 we concluded that IP2Vec is not suitable for our problem.
@@ -686,10 +686,9 @@ Then the RNN processes the sequence of word vectors in order to learn how to pre
 \subsubsection{Show and Tell: A Neural Image Caption Generator} % Vinyals
 \label{sec:vinyals}
 
+% TODO: more
 Vinyals et al. also use a CNN to create a proper representation of the image that can be passed to the RNN.
 For the RNN they chose the LSTM model
-
-% TODO: search and add some more GANs network flow papers
 
 \chapter{Methodology}
 \label{sec:approach}
