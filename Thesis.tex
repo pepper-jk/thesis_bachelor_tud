@@ -1582,39 +1582,38 @@ Even though it gave a significant shift along the y-axis it again did not change
 % It might be interesting though to give it another look for future work, as it seemed to be one of the view experiments that showed near linear increase. This can also be a coincident of cause.
 Increasing the number of errors per altered packet from 3 to 9 did increase the model's accuracy a bit, but again only by shifting the curve along the y-axis.
 
-Regarding different error types, we also performed an experiment with datasets with negative datapoints created by only one of the method described in section \ref{sec:negativeSamples}.
+Regarding different error types, we also experimented with datasets with negative datapoints created by only one of the methods described in section \ref{sec:negativeSamples}.
 The results can be seen in figure \ref{fig:negative_methods}.
 As we can see, \textbf{method 1a} and \textbf{method 2} caused the most problems for our model.
-This is of no surprise, as \textbf{method 1a} generates random numerical values within the scope of the header fields, meaning their size in bit, so the model might only see those numbers in those negative samples and \textbf{mothode 2} randomizes the order of packets and not their contents, which is hard to detect in comparison to a flow, especially for UDP.
-For UDP it might in fact be impossible.
-% FIXME FOR DISCUSSION: It has been an error to assume just randomizing any packet order yields good negative samples. It is good to have such difficult samples, but not all of them are necessarily false. ... TODO: more
-\textbf{Method 1b} on the other hand performs average in comparison with the general results of the model.
-This again can be easlily explained, as the method takes a number of fields from other datapoints in the dataset at random and adds them to an otherwise positive sample.
-The model has to struggle as it knows all values from other positive datapoints, but it also is able to pick up to which datapoints the values belong.
-\textbf{Method 3} and \textbf{method 4} perform the best in our model with up to 75\% validation accuracy and an average validation accuracy of above 70\%.
+This is of no surprise, as \textbf{method 1a} generates random numerical values within the scope of the header fields, meaning its size in bit, so the model might only see those numbers in those negative samples and \textbf{methode 2} randomizes the order of packets and not their contents, which is hard to detect on the bases of a flow, especially for UDP.
+In fact, it might be impossible, see later in discussion section \ref{sec:exDiscussion}.\\
+\textbf{Method 1b} on the other hand performs a bit better than average in comparison with the general results of the model.
+This again can be easily explained, as the method takes a number of fields from other datapoints in the dataset at random and adds them to an otherwise positive sample.
+The model has to struggle as it knows all values from other positive datapoints, but it also is able to pick up to which datapoints the values belong.\\
+\textbf{Method 3} and \textbf{method 4} perform the best in our model with up to $75\%$ validation accuracy and an average validation accuracy of above $70\%$.
 This is interesting to note.
-However they have samples they struggle with and drop the validation accuracy as low as 52.5\% (method 3) and 56\% (method 4), but mostly they stay above 65\%.
-Their behavior is the most complex out of the methods.
+However, they have samples they struggle with and drop the validation accuracy as low as $52.5\%$ (method 3) and $56\%$ (method 4), although mostly they stay above $65\%$.
+Their behavior is the most complex compared to the methods.
 The good performance of both is most likely due to the lack of unknown data, meaning data that is not present in the positive datapoints.
 One could argue that \textbf{method 1b} should benefit from this as well, and it does, to a certain degree.
-However, \textbf{method 1b} has viewer and more delicat changes. It alters header fields of a few packets, in most cases (as in this comparison) just one.
-\textbf{Method 3} and \textbf{method 4} alter the sequence of packets, which is way more powerful, especially in regards to the recurrent architecture of our model.
+However, \textbf{method 1b} has fewer and less obvious changes. It alters header fields of a few packets, in most cases - like in this comparison - just one.
+\textbf{Method 3} and \textbf{method 4} alter the sequence of packets, which is way more impactful, especially in regards to the recurrent architecture of our model.
 As for the problematic samples, we assume that they had only small changes.
 For example, they could have been created from positive samples with a small packet count and therefore only got a small reduction of packets (method 3), or two very similar flows got their packet sequence switched (method 4).
 As we have a lot of short TCP flows, we deem this likely.
 
 % TODO: introduce condLSTM and condGRU somewhere, or state that all NNs mentioned are conditional
 % TODO: different RNNs
-When we compare our LSTM-based model to the same model with simpleRNN layers, we see very similar accuracy and loss (figure \ref{fig:rnns}).
+When we compared our LSTM-based model to the same model with simpleRNN layers, we see very similar accuracy and loss (figure \ref{fig:rnns}).
 However, the difference lies in the detail here.
 If we look at the graphs, we can see that simpleRNN has a lot more fluctuation than our LSTM.
 This could be traced back to the vanishing gradient problem.
-The simpleRNN can practically only hold a limited amount of previous results in his memory and therefore struggles with data the LSTM has no problems with.
+The model using simpleRNN can practically only hold a limited amount of previous results in its memory and therefore struggles with data the LSTM has no problems with.
 % FIXME: present the old entropy comparison?
-Unfortunately our model was not able to produce any results using GRUs since we switched to binary cross-entropy for the loss function.
+Unfortunately, our model was not able to produce any results using GRUs since we switched to binary cross-entropy for the loss function.
 The loss with GRUs was not computed correctly, therefore the accuracy did not change.
 We instead ran the GRU with the hinge loss function, as we described earlier in this section, which at least was able to compute loss values.
-However the accuracy did not even reach 25\%, see figure \ref{fig:GRUhinge}.
+However, the accuracy did not even reach 25\%, see figure \ref{fig:GRUhinge}.
 
 \subsection{Debugging}
 \label{sec:debugging}
@@ -1645,6 +1644,8 @@ It is no wonder that increasing the number of errors in negative samples increas
 %Same goes for increasing the amount of data.
 However it can not be the solution to boost the model's performance by giving it easier samples to learn from.
 In order to perform as a DN of a GAN proposed in the problem statement \ref{sec:problem} it would need to detect much smaller errors than we provided in our dataset(s).
+
+% FIXME FOR DISCUSSION: It has been an error to assume just randomizing any packet order yields good negative samples. It is good to have such difficult samples, but not all of them are necessarily false. ... TODO: more
 
 The model has shown that with enough data and time, it might at least get to a higher accuracy.
 But as it stands it is too inefficient to deliver good results in a reasonable amount of time.
