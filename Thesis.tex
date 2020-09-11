@@ -1528,13 +1528,13 @@ We soon came to realize that there is not much change to be seen after 100 epoch
 
 % disclaimer
 When we talk about accuracy or loss in this section we generally talk about validation accuracy and validation loss, unless stated otherwise.
-As both were very similar to the training accuracy and loss, in most experiments slightly better and give a clearer understanding about the model's performance than test accuracy and test loss.
+As they were very similar to the training accuracy and loss, in most experiments slightly better and give a clearer understanding about the model's performance than test accuracy and test loss.
 Since the validation is repeated for each epoch and the testing is only done once after the model was trained, the validation can provide a look at the performance of the model over time.
 
 % EPOCHS
 Usually, the validation accuracy increases over the first three to 20 epochs, depending on the experiment and its hyperparameters, then just hovers close to its average value, e.g. 57\%, and flattens slightly above it.
 Sometimes it increased more slowly, but even 1000 epochs weren't enough to reach a decent accuracy and resulted in the same behavior, see figure \ref{fig:1000epochs}.
-The validation loss behaves similar, it decreases fast than slower and eventually flattens close to its average.
+The validation loss behaves similarly it decreases fast than slower and eventually flattens close to its average.
 % TODO: sample graph
 
 % LAYERS
@@ -1545,7 +1545,7 @@ Since the switch to binary cross-entropy however, we saw the same behavior, only
 
 % UNITS
 We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
-However we found anything above 128 did not provide better results in relation to the compute time.
+However, we found anything above 128 did not provide better results in relation to the compute time.
 We believe the optimal number of units to be between 64 and 128.
 
 % BATCHSIZE
@@ -1563,10 +1563,13 @@ Two the number of errors for negative datapoints.
 % datapoints
 For the first type, we used our smaller dataset with 18977 datapoints, which is roughly 5\% of our total data, and compared it to 25\% of our total dataset, which amounts to 94602 datapoints.
 We saw an improvement of both accuracy and loss here, however not regarding the general behavior of the model, but rather a shift of the curve along the y-axis, see \ref{fig:dataset_percentage}.
+However, it is to be noted that for the larger dataset (full25) the number of layers and units seems to make a bigger difference in performance compared to the dataset with less datapoints.
+Increasing the units from 32 to 64 increases the average accuracy by 3.5\% with the full25 dataset, while the base dataset only shows an increase of around 1\%.
+% random spike in 64u 1l -> due to the randomly selected samples
 % number of errors
 For the second type, we used the datasets with different configurations of negative samples described in section \ref{sec:datasetStats}.
 As we can see in figure \ref{fig:dataset_negative} the more negative samples in a dataset (3 times) does improve the average accuracy (and loss).
-However it does cause more fluctuation in the accuracy over time and the flattening worsens.
+However, it does cause more fluctuation in the accuracy over time and the flattening worsens.
 We conclude that the improvement is merely based on the additional data available not on the increase of negative samples.
 Adding more altered packets to our first method of negative sample creation, marked in the graph with `20 packets', did improve accuracy and loss.
 Even though it gave a significant shift along the y-axis it did not change the behavior of the model overall.
@@ -1596,13 +1599,13 @@ As we have a lot of short TCP flows, we deem this likely.
 
 % TODO: introduce condLSTM and condGRU somewhere, or state that all NNs mentioned are conditional
 % TODO: different RNNs
-When we compare our LSTM-based model to the same model with simpleRNN layers, we see very similar accuracy and loss.
+When we compare our LSTM-based model to the same model with simpleRNN layers, we see very similar accuracy and loss (figure \ref{fig:rnns}).
 However, the difference lies in the detail here.
 If we look at the graphs, we can see that simpleRNN has a lot more fluctuation than our LSTM.
 This could be traced back to the vanishing gradient problem.
-The simpleRNN can practically only hold a limited amount of previous results in his memory and therefore struggels with data the LSTM has no problems with.
+The simpleRNN can practically only hold a limited amount of previous results in his memory and therefore struggles with data the LSTM has no problems with.
 % FIXME: present the old entropy comparison?
-Unfortunately our model was not able to produce any results using GRUs since we switched to binary crossentropy for the loss function.
+Unfortunately our model was not able to produce any results using GRUs since we switched to binary cross-entropy for the loss function.
 The loss with GRUs was not computed correctly, therefore the accuracy did not change.
 We instead ran the GRU with the hinge loss function, as we described earlier in this section, which at least was able to compute loss values.
 However the accuracy did not even reach 25\%, see figure \ref{fig:GRUhinge}.
