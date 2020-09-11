@@ -713,7 +713,7 @@ Since the end goal in the future work GAN is to generate the complete packet seq
 each sequence of packet features will contain as much of the original header information as needed to reconstruct a packet sequence from them.
 This way, no crucial information gets lost and the DN is prepared to handle the complete data of a packet capture, compare them to flows and make an informed decision if a network flow belongs to a packet sequence.
 
-Each header attribute is converted into an appropriate representation depending on its data type and meaning for the sequence of packets.
+Each flow attribute and packet header field is converted into an appropriate representation depending on its data type and meaning for the sequence of packets.
 Since the NNs are most efficient with continuous and numerical data, we will convert all fields accordingly, wherever possible.
 We will also implement a pipeline to create negative samples from the ground truth, which builds our positive samples.
 % Both will be discussed further in the dataset preprocessing section.
@@ -757,9 +757,9 @@ So for our dataset, we decided that splitting the capture into intervals first w
 We split the captures into intervals relative to its size.
 This way we will preserve the behavior of the sampled flows within the larger network within each specific interval.
 Afterward, we will randomly sample up to 250 of TCP and UDP packet sequences alike within those intervals.
-Please note not all source files provide enough flows per protocol though, specifically UDP packets seem to be less prominent.
-Each sampled packet sequence will be exported as a capture first using wireshark's \code{editcap}.
-The header fields of the packets belonging to the sequence will be stored as a csv file for easier parsing, exported by wireshark's \code{tshark}.
+Please note not all source files provide enough flows per-protocol though, specifically UDP packets seem to be less prominent.
+Each sampled packet sequence will be exported as a capture first using Wireshark's \code{editcap}.
+The header fields of the packets belonging to the sequence will be stored as a csv file for easier parsing, exported by Wireshark's \code{tshark}.
 Then we use YAF to extract the flow information and \code{yafscii} to create flow-based csv files form the exported capture.
 
 \subsubsection{A Padding supported Conversion from UDP to TCP}
@@ -825,14 +825,13 @@ For this, we need to provide a good representation of each feature from packets 
 \subsection{Datapoint Features}
 \label{sec:datapointFeatures}
 
-In this section we discuss, which features will be part of our dataset and how they need to be derived to function as input for the NN.
-All network traffic features influencing network flow behavior will be of importance to our NN.
-This will therefore decide the datapoint features.
-Network flows and packet captures of packet sequences will be the source of our datapoints.
-
+In this section we discuss, which features will be part of our dataset and how they need to be derived, so that they could be used as input for the NN.
 % FIXME: move this UP? to where?
 We will generally focus only on IPv4 traffic to keep it simple.
-Also we will focus on the TCP and UDP protocols for now.
+Also, we will focus on the TCP and UDP protocols for now.
+All network traffic features influencing network flow behavior will be of importance to our NN.
+This property will therefore decide the datapoint features.
+Network flow attributes and sequences of packet header fields will be the source for our datapoints.
 
 % Network flows created by YAF contain the following features:
 % % start-time, end-time, duration, rtt, proto, sip, sp, dip, dp, iflags, uflags, riflags, ruflags, isn, risn, tag, rtag, pkt, oct, rpkt, roct, end-reason
@@ -847,26 +846,28 @@ Also we will focus on the TCP and UDP protocols for now.
 \definecolor{feature}{HTML}{41b0e4} % CornflowerBlue
 \definecolor{dropped}{HTML}{99479b} % purple
 
-Each packet contains a variety of header fields depending on its protocol and the options chosen by the communicating end points.
+Each packet contains a variety of header fields depending on its protocol, the position within a communication stream, and the options chosen by the communicating endpoints.
 It is to be decided, which of those header fields are of importance to our goals.
 If we just wanted to validate that a sequence of packets belongs to a flow, we could argue that the only header fields interesting are the ones that are present in the flow representation as well.
-But for the future work GAN this would not be enough.
-Instead we want our NN to learn the correlation between all packet header fields and the flow features.
+But for the future work GAN, this would not be enough.
+Instead, we want our NN to learn the correlation between all packet header fields and the limited flow features.
 This will enable the NN to be used as a DN for the proposed GAN later.
-
 One could argue that to properly correlate between flows and packets we need all of the header fields of each packet.
 %Ideally all of them, but some can be ignored and others simplified for the NN.
-However most of the header fields can be trivially verified by directly comparing to the flow features (addresses), order checking (acknowledgement numbers) or similar methods.
+However, most of the header fields can be trivially verified by means of direct comparison to the flow features (e.g. addresses), order checking (e.g. acknowledgement numbers) or similar methods.
 % FIXME: wording
-For this reason, some header fields are insubstantial for our use case for example, the addresses of the communicating end-points (source and destination).
-This includes MAC and IP addresses.
-Tables \ref{mac} to \ref{udp} present an overview of the packet headers and their fields.
-We color code packet header fields in five categories:
+For this reason, some header fields are insubstantial for our use case for example, the addresses of the communicating endpoints (source and destination).
+This would include MAC and IP addresses for example.
+
+Neither extreme would be the right approach.
+Instead, we suggest sorting the packet header fields and flow attributes into the following different categories:
 \colorbox{not}{\textbf{{Not Used}} (gray)},
 useful but \colorbox{trivial}{\textbf{Trivial} (red)},
 \colorbox{dropped}{\textbf{Dropped} (purple)},
 \colorbox{derivation}{\textbf{Feature Derivations} (yellow)},
 and raw \colorbox{feature}{\textbf{Features} (blue)}.
+We color-coded the five categories in order to give a more direct overview of membership for the packet header fields in tables \ref{mac} to \ref{udp} present.
+In the following paragraphs we briefly explain the meaning of each category and explain the membership of packet header fields.
 
 \paragraph{\colorbox{not}{\textbf{{Not Used} (gray)}}} are header fields that do not change ever or at least not in our scenario.
 This includes the Version of the IP Header, since we only take IPv4 traffic into account,
