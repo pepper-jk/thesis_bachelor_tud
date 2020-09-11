@@ -1547,6 +1547,8 @@ Since the switch to binary cross-entropy however, we saw the same behavior, only
 We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
 However, we found anything above 128 did not provide better results in relation to the compute time.
 We believe the optimal number of units to be between 64 and 128.
+If we compare their performance in figures \ref{fig:units} and \ref{fig:units25}, we see that 96 units provide the best results on average and over-all.
+This goes for our model with both one and two layers as well as our base and full25 datasets.
 
 % BATCHSIZE
 For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss.
@@ -1659,11 +1661,11 @@ But as it stands it is too inefficient to deliver good results in a reasonable a
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=.95\textwidth]{batchsize_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{batchsize_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between batchsizes.
-    Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with the \textbf{9 errors} dataset.}
-    \label{fig:batchsize}
+    \includegraphics[width=.95\textwidth]{1000_comp_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{1000_comp_loss.pdf}
+    \caption{comparison of accuracy and loss over 1000 epochs between training and validation.
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batchsize of 350 and the \textbf{base} dataset.}
+    \label{fig:1000comp}
 \end{figure}
 
 \begin{figure}
@@ -1672,6 +1674,30 @@ But as it stands it is too inefficient to deliver good results in a reasonable a
     \caption{Comparison of both validation accuracy and loss between 1 to 4 layers.
     Our model with 64 LSTM units per layer was trained over 100 epochs with a batchsize of 500 and the \textbf{base} dataset.}
     \label{fig:layers}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{units_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{units_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between x and y.}
+    %TODO: parameters used dataset_dataset_LSTM_nn_1_layers_100_epochs_500_batchsize_18977_datapoint
+    \label{fig:units}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{units25_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{units25_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between x and y.}
+    %TODO: parameters used dataset_clean_flows_dataset_LSTM_nn_2_layers_100_epochs_94602_datapoint
+    \label{fig:units25}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{batchsize_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{batchsize_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between batchsizes.
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with the \textbf{9 errors} dataset.}
+    \label{fig:batchsize}
 \end{figure}
 
 \begin{figure}
