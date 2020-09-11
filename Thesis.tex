@@ -1379,6 +1379,11 @@ Even though we still aimed to compare the three RNNs, we first needed to figure 
 For this reason, most of our experiments are only done with an \textbf{LSTM}-based condRNN model, or conditional LSTM (condLSTM) model.
 We later compare the model to simpleRNNs and GRUs.
 
+% disclaimer
+When we talk about accuracy or loss in this chapter we generally talk about validation accuracy and validation loss, unless stated otherwise.
+As they were very similar to the training accuracy and loss, in most experiments slightly better and give a clearer understanding about the model's performance than test accuracy and test loss.
+Since the validation is repeated for each epoch and the testing is only done once after the model was trained, the validation can provide a look at the performance of the model over time.
+
 \section{Dataset statistics}
 \label{sec:datasetStats}
 
@@ -1520,16 +1525,12 @@ Once a combination of hyperparameters looked promising, we went up to as far as 
 In each epoch, the whole training dataset is used and processed in batches of size 100 to 1000.
 Afterward, the model gets validated by the validation dataset.
 During training the weights get updated after each batch. % and at the end of an epoch after the validation.
+For training we used Tensorflows \code{model.fit()} method.
 After all training and validation epochs are finished the model was evaluated on our test dataset.
 We soon came to realize that there is not much change to be seen after 100 epochs.
 
 \section{Evaluation of Results}
 \label{sec:exEval}
-
-% disclaimer
-When we talk about accuracy or loss in this section we generally talk about validation accuracy and validation loss, unless stated otherwise.
-As they were very similar to the training accuracy and loss, in most experiments slightly better and give a clearer understanding about the model's performance than test accuracy and test loss.
-Since the validation is repeated for each epoch and the testing is only done once after the model was trained, the validation can provide a look at the performance of the model over time.
 
 % EPOCHS
 Usually, the validation accuracy increases over the first three to 20 epochs, depending on the experiment and its hyperparameters, then just hovers close to its average value, e.g. 57\%, and flattens slightly above it.
