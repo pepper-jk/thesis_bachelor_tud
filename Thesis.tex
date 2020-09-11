@@ -1440,17 +1440,17 @@ Note that \textbf{method 1a} refers to the creation of false packets by random d
         \hline
         % FIXME: column names
         % per packet, number of false, percentages, packets
-        \textbf{name} & \textbf{errors} & \textbf{packets} & \textbf{reduce} & \textbf{add} & \textbf{factor} \\
+        \textbf{name} & \shortstack{\textbf{errors} per\\ packet} & \shortstack{false\\ \textbf{packets}} & \shortstack{\textbf{reduce}\\ percentages} & \shortstack{\textbf{add}\\ packets} & \shortstack{sample\\ \textbf{factor}} \\
         \hline
-        base & 3 & 1 & 10\%, 25\%, 50\% & 0 & 1 \\
+        base & 3 (1-8) & 1 & 10\%, 25\%, 50\% & 0 (1-10) & 1 \\
         \hline
-        9 errors & 9 & 1 & 50\%, 75\%, 90\% & 50 & 1 \\
+        9 errors & 9 (4-14) & 1 & 50\%, 75\%, 90\% & 50 (40-60) & 1 \\
         \hline
-        more negatives & 9 & 1 & 50\%, 75\%, 90\% & 50 & 3 \\
+        more negatives & 9 (4-14) & 1 & 50\%, 75\%, 90\% & 50 (40-60) & 3 \\
         \hline
-        20 packets & 9 & 20 & 50\%, 75\%, 90\% & 50 & 1 \\
+        20 packets & 9 (4-14) & 20 (15-25) & 50\%, 75\%, 90\% & 50 (40-60) & 1 \\
         \hline
-        full & 3 & 1 & 10\%, 25\%, 50\% & 0 & 1 \\
+        full & 3 (1-8) & 1 & 10\%, 25\%, 50\% & 0 (1-10) & 1 \\
         \hline
     \end{tabular}
     \caption{Negative sample statistics from datasets.}
@@ -1461,7 +1461,7 @@ Note that \textbf{method 1a} refers to the creation of false packets by random d
     \centering
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        \textbf{name} & \textbf{total} & \textbf{positive} & \textbf{negative} & \textbf{used \%} & \textbf{used total} \\
+        \shortstack{dataset\\ \textbf{name}} & \shortstack{\textbf{total}\\ datapoints} & \shortstack{\textbf{positive}\\ datapoints} & \shortstack{\textbf{negative}\\ datapoints} & \shortstack{\textbf{percentage}\\ \textbf{used}} & \shortstack{datapoints\\ \textbf{total used}} \\
         \hline
         base & 18977 & 10284 & 8693 & 100\% & 18977 \\
         \hline
