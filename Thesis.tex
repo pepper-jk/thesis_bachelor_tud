@@ -765,13 +765,14 @@ Then we use YAF to extract the flow information and \code{yafscii} to create flo
 \subsubsection{A Padding supported Conversion from UDP to TCP}
 \label{sec:UDPpadding}
 
-Each datapoint in our dataset can either be a TCP or a UDP packet seqeunce.
-Compared to UDP packets, TCP packets have much more header fields and therefore more features get derived from them.
-This results in an uneven timestamp size or length of packet data between datapoints, if one is based on a UDP packet and the other is a TCP packet.
+Each datapoint in our dataset can either be a TCP or a UDP packet sequence.
+Compared to UDP packets, TCP packets have more header fields and therefore more features get derived from TCP packets compared to UDP packets.
+% FIXME: wording
+This results in an uneven timestamp size or length of packet data between two datapoints, if one is based on a UDP packet and the other is a TCP packet.
 To make packets of both protocols comparable, we will add padding to the UDP packets.
-We add the TCP flags and options as well as the sequence number and window size with a masking value (-15), more on that in section \ref{}.
-To round it up we convert the UDP length to TCP header length and TCP payload length, see section \ref{sec:datapointFeatures} paragraph \textbf{derivation}.
-The last part is especially important to keep the datapoints not only at the same length but also comparable.
+We add the TCP flags and options as well as the sequence number and window size with a masking value (-15) at the same positions where they would be in a TCP feature vector, more on that in section \ref{sec:packtFeatures}.
+To round it up we convert the UDP length to TCP header length and TCP payload length, see section \ref{sec:packtFeatures} paragraph \textbf{derivation}.
+The last part is especially important to keep the datapoints comparable and not only at the same length.
 This way, the NN can make the right decisions based on the data.
 
 \subsubsection{Creation of negative samples}
