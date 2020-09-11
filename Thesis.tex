@@ -80,6 +80,7 @@
 \usepackage{makecell}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage[toc,page]{appendix}
 
 %%%%%%%%%%%%%%%%%%%
 %Paketvorschläge Mathematik
@@ -1660,109 +1661,9 @@ In order to perform as a DN of a GAN proposed in the problem statement \ref{sec:
 % FIXME FOR DISCUSSION: It has been an error to assume just randomizing any packet order yields good negative samples. It is good to have such difficult samples, but not all of them are necessarily false. ... TODO: more
 
 The model has shown that with enough data and time, it will very slowly trend toward a higher accuracy.
+So the possibility remains that the data was not enough to obtain good results.
+Especially as we could only use up to 25\% of our already small dataset.
 But as it stands it is too inefficient to deliver good results in a reasonable amount of time and with reasonable resources.
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{hinge_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{hinge_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between \textbf{binary crossentropy} and \textbf{hinge loss}.
-             Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with a batchsize of 350 and the \textbf{base} dataset.}
-    \label{fig:hinge}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{1000_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{1000_val_loss.pdf}
-    \caption{Validation accuracy and loss over 1000 epochs.
-    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batchsize of 350 and the \textbf{base} dataset.}
-    \label{fig:1000epochs}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{1000_comp_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{1000_comp_loss.pdf}
-    \caption{comparison of accuracy and loss over 1000 epochs between training and validation.
-    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batchsize of 350 and the \textbf{base} dataset.}
-    \label{fig:1000comp}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{layers_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{layers_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between 1 to 4 layers.
-    Our model with 64 LSTM units per layer was trained over 100 epochs with a batchsize of 500 and the \textbf{base} dataset.}
-    \label{fig:layers}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{units_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{units_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between x and y.}
-    %TODO: parameters used dataset_dataset_LSTM_nn_1_layers_100_epochs_500_batchsize_18977_datapoint
-    \label{fig:units}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{units25_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{units25_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between x and y.}
-    %TODO: parameters used dataset_clean_flows_dataset_LSTM_nn_2_layers_100_epochs_94602_datapoint
-    \label{fig:units25}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{batchsize_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{batchsize_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between batchsizes.
-    Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with the \textbf{9 errors} dataset.}
-    \label{fig:batchsize}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{dataset_percentage_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{dataset_percentage_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between datasets \textbf{base} and \textbf{full25}.
-    Our model with various combinations of number of layers and units was trained over 100 epochs with a batchsize of 500 and the \textbf{base} dataset.}
-    \label{fig:dataset_percentage}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{dataset_negative_samples_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{dataset_negative_samples_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between datasets with various negative sample configurations, see \ref{tab:negativeSamples}.
-    Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with a batchsize of 500.}
-    \label{fig:dataset_negative}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{negative_sample_methods_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{negative_sample_methods_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between datasets created with only one method of negative sample creation.
-    Our model with 2 LSTM layers, and 96 units per layer was trained over 100 epochs with a batchsize of 350.}
-    \label{fig:negative_methods}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{rnns_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{rnns_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between simpleRNN, LSTM and GRU using 2 condRNN layers, 64 units per layer, and a batchsize of 500 over 100 epochs with the \textbf{base} dataset.}
-    \label{fig:rnns}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.95\textwidth]{gru_hinge_val_accuracy.pdf}
-    \includegraphics[width=.95\textwidth]{gru_hinge_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between 64 and 96 units per layer.
-             For this our model was trained with 1 layer of GRU units, the batchsize of 500 over 100 epochs with the \textbf{base} dataset.}
-    \label{fig:GRUhinge}
-\end{figure}
-
-% \begin{figure}
-%     \includegraphics[width=.95\textwidth]{}
-%     \includegraphics[width=.95\textwidth]{}
-%     \caption{Comparison of both validation accuracy and loss between x and y.} %TODO: parameters used
-%     \label{fig:xy}
-% \end{figure}
 
 \chapter{Conclusion}
 \label{sec:conclusion}
@@ -1877,6 +1778,116 @@ Also interesting if other network flow representations yield the same results.
 % e.g. http(s), ftp, etc.
 
 % TODO: talk about dead features - (last two) end reasons
+
+\begin{appendices}
+
+\chapter{Experimantal Plots}
+
+In this section, we append all experiment graphs.
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{hinge_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{hinge_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between \textbf{binary crossentropy} and \textbf{hinge loss}.
+             Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with a batchsize of 350 and the \textbf{base} dataset.}
+    \label{fig:hinge}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{1000_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{1000_val_loss.pdf}
+    \caption{Validation accuracy and loss over 1000 epochs.
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batchsize of 350 and the \textbf{base} dataset.}
+    \label{fig:1000epochs}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{1000_comp_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{1000_comp_loss.pdf}
+    \caption{comparison of accuracy and loss over 1000 epochs between training and validation.
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batchsize of 350 and the \textbf{base} dataset.}
+    \label{fig:1000comp}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{layers_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{layers_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between 1 to 4 layers.
+    Our model with 64 LSTM units per layer was trained over 100 epochs with a batchsize of 500 and the \textbf{base} dataset.}
+    \label{fig:layers}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{units_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{units_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between x and y.}
+    %TODO: parameters used dataset_dataset_LSTM_nn_1_layers_100_epochs_500_batchsize_18977_datapoint
+    \label{fig:units}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{units25_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{units25_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between x and y.}
+    %TODO: parameters used dataset_clean_flows_dataset_LSTM_nn_2_layers_100_epochs_94602_datapoint
+    \label{fig:units25}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{batchsize_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{batchsize_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between batchsizes.
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with the \textbf{9 errors} dataset.}
+    \label{fig:batchsize}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{dataset_percentage_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{dataset_percentage_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between datasets \textbf{base} and \textbf{full25}.
+    Our model with various combinations of number of layers and units was trained over 100 epochs with a batchsize of 500 and the \textbf{base} dataset.}
+    \label{fig:dataset_percentage}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{dataset_negative_samples_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{dataset_negative_samples_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between datasets with various negative sample configurations, see \ref{tab:negativeSamples}.
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with a batchsize of 500.}
+    \label{fig:dataset_negative}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{negative_sample_methods_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{negative_sample_methods_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between datasets created with only one method of negative sample creation.
+    Our model with 2 LSTM layers, and 96 units per layer was trained over 100 epochs with a batchsize of 350.}
+    \label{fig:negative_methods}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{rnns_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{rnns_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between simpleRNN, LSTM and GRU using 2 condRNN layers, 64 units per layer, and a batchsize of 500 over 100 epochs with the \textbf{base} dataset.}
+    \label{fig:rnns}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=.95\textwidth]{gru_hinge_val_accuracy.pdf}
+    \includegraphics[width=.95\textwidth]{gru_hinge_val_loss.pdf}
+    \caption{Comparison of both validation accuracy and loss between 64 and 96 units per layer.
+             For this our model was trained with 1 layer of GRU units, the batchsize of 500 over 100 epochs with the \textbf{base} dataset.}
+    \label{fig:GRUhinge}
+\end{figure}
+
+% \begin{figure}
+%     \includegraphics[width=.95\textwidth]{}
+%     \includegraphics[width=.95\textwidth]{}
+%     \caption{Comparison of both validation accuracy and loss between x and y.} %TODO: parameters used
+%     \label{fig:xy}
+% \end{figure}
+
+\end{appendices}
 
 \printbibliography
 
