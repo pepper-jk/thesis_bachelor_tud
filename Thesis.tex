@@ -822,7 +822,7 @@ All network traffic features influencing network flow behavior will be of import
 This will therefore decide the datapoint features.
 Network flows and packet captures of packet sequences will be the source of our datapoints.
 
-% FIXME: move this UP?
+% FIXME: move this UP? to where?
 We will generally focus only on IPv4 traffic to keep it simple.
 Also we will focus on the TCP and UDP protocols for now.
 
@@ -867,7 +867,7 @@ and the reserved bits in the IP flags and the TCP header.
 \paragraph{\colorbox{trivial}{\textbf{Trivial} (red)}} header fields might be useful, but should not be fed to the NN.
 Either because they can easily be checked/validated outside the NN and might slow the NN down for no benefit.
 Or they do not alter the behavior of the network flow.
-% TODO QUESTION: what about IP class? this could be an interesting feature
+% QUESTION: what about IP class? this could be an interesting feature
 % No, but difference between public and local.
 This would include header lengths, urgent pointer, as well as MAC and IP addresses.
 % FIXME: header lengths
@@ -884,7 +884,7 @@ it supports our research results that this is indeed just normal network traffic
 Luckily network flows do not contain either of those features, meaning it should not impact our results.
 IP options would influence the behavior of a flow, but as our dataset does not contain any IP options, omitting them does not result in bad training results.
 It only means that in order to take IP options into account in the future our NN and preprocessing needs to be expanded.
-The ECN-nonce is the more acute problem since less than 0.0009\% of datapoints use it. % FIXME: double check this number?
+The ECN-nonce is the more acute problem since less than 0.0009\% of datapoints use it.
 Which would add an additional risk for our NN to misinterpret the data, once it comes accross such a datapoint.
 Omitting the ECN-nonce however should not be a problem, as the feature does not impact the behavior of the flow in any way that is not already indicated by the ECN value, see later in this section.
 
@@ -1579,7 +1579,7 @@ As for the problematic samples, we assume that they had only small changes.
 For example, they could have been created from positive samples with a small packet count and therefore only got a small reduction of packets (method 3), or two very similar flows got their packet sequence switched (method 4).
 As we have a lot of short TCP flows, we deem this likely.
 
-% TODO: introduce condLSTM and condGRU somewhere, or state that
+% TODO: introduce condLSTM and condGRU somewhere, or state that all NNs mentioned are conditional
 % TODO: different RNNs
 When we compare our LSTM-based model to the same model with simpleRNN layers, we see very similar accuracy and loss.
 However, the difference lies in the detail here.
