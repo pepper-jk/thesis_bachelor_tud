@@ -684,14 +684,18 @@ They use a bidirectional recurrent neural network (BRNN) that takes a sequence o
 This vector got adjusted with 300-dimensional word2vec weights based on its context within the sentence.
 They then condition their RNN on the first step with the image date via bias interactions.
 Then the RNN processes the sequence of word vectors in order to learn how to predict the next word in the description based on the image data and previous words.
-% START AND STOP word
+Their word vectors began with a designated START word and ended with a STOP word.
+This way they were able to counteract the unequal length of their sequences.
+However, it is not obvious how they were able to use SGD with mini-batches of 100 image-sequences, with variable sequence lengths.
 
 \subsubsection{Show and Tell: A Neural Image Caption Generator} % Vinyals
 \label{sec:vinyals}
 
 % TODO: more
 Vinyals et al. also use a CNN to create a proper representation of the image that can be passed to the RNN.
-For the RNN they chose the LSTM model.
+For the RNN they chose the LSTM model with the adjustment of a conditional input.
+The also used 512 units per RNN layer.
+Over all their work is quite similar to Karpathy et al..
 
 \chapter{Methodology}
 \label{sec:approach}
