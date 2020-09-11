@@ -1704,15 +1704,15 @@ Furthermore, we will publish the pipeline for effectively sampling network packe
 \label{sec:answers}
 
 \paragraph{How can we develop a neural network that acts as a discriminator for a GAN that can determine if a network flow could have been created by a sequence of network packets?}
-Most likely yes.
-Our NN model is capable of discriminating if a network flow was created by a sequence of network packets.
+Once our NN model is efficiently capable of discriminating if a network flow was created by a sequence of network packets.
 It should be able to be used as a DN for the proposed GAN.
 
 \paragraph{Which features of network flows and packets are (most) significant to determine if a network flow could have been created by a sequence of network packets?}
 This question was answered in-depth in section \ref{sec:datapointFeatures}.
 
 \paragraph{Which NN architecture would be most suitable to distinguish if network packets could have created some network flow?}
-Based on our experiments LSTMs provide the best results, specifically conditional LSTMs (condLTMs).
+Based on our experiments LSTMs provide the best results, more specifically conditional LSTMs (condLTMs).
+However, at best it could achieve 69\% accuracy, so more experiments and research are needed regarding this question.
 
 \section{Future Work}
 \label{sec:futureWork}
