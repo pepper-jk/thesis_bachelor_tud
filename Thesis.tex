@@ -900,14 +900,15 @@ The ECN-nonce is the more acute problem since less than 0.0009\% of datapoints u
 which would add risk for our NN to misinterpret the data, once it comes across such a datapoint.
 Omitting the ECN-nonce should not be a problem either, as the feature does not impact the behavior of the flow in any way that is not already indicated by the ECN flag and value, see later in this section.
 
-\paragraph{\colorbox{derivation}{\textbf{Feature Derivations} (yellow)}} are fields, which can not be used as direct input to the NN,
-but need to be derived in some way beforehand.
-The raw data representation of those features is not optimal as NN input and needs to be abstracted in a certain way.
-The most prominent feature type is the categorical feature, but simple byte or string conversion can also already qualify for this category.
+\paragraph{\colorbox{derivation}{\textbf{Feature Derivations} (yellow)}} are fields, which are important to our probkem, but can not be used as direct input to the NN.
+They need to be \textbf{derived} in some way beforehand.
+The raw data representation of those features is not optimal as NN input and needs to be abstracted first.
+The most prominent type of feature with this property is the categorical feature, but simple byte or string conversion can also already qualify for this category of header fields.
 The type of derivation can vary from header field to header field.
-The protocol for example will be represented as a single boolean as our dataset only contains TCP and UDP, where 1 stands for TCP and 0 for UDP.
-Take note that UDP length, which describes the total length of the UDP frame, will be derived to TCP length, a wireshark filter describing the payload size of TCP packets, and the data offest, which is equivalent to the TCP header length.
-This way packets of different protocols are comparable.
+The protocol for example can be represented as a single boolean as our dataset only contains TCP and UDP, where 1 stands for TCP and 0 for UDP.
+Take note that UDP length, which describes the total length of the UDP frame, will be derived to fit the TCP length fields.
+It is simple split into \code{tcp.len}, a Wireshark filter describing the payload size of TCP packets, and the data offset, which is equivalent to the TCP header length.
+This way packets of the two different protocols are comparable.
 
 The checksums are a perfect example for a feature derivation that can be abstracted quite a bit.
 It does not matter to the NN what the checksum reads as the future work GAN should not have to generate checksums at all.
