@@ -1528,56 +1528,59 @@ We soon came to realize that there is not much change to be seen after 100 epoch
 \label{sec:exEval}
 
 %Training the NN appeared as a problematic task, as
-The model did not achieve more than 60\% accuracy.
-The accuracy was most often pending around 57\% over multiple experiments.
-As our \textbf{base} dataset (section \ref{tab:datapoints}) had the same ratio of positive to negative datapoints, we assumed the true accuracy of our model to be 50\% at best, so not better as a coin toss.
-
+At the beginning of our experiments, our model did not achieve more than $60\%$ accuracy.
+The accuracy was most often pending around $57\%$ over multiple experiments.
+As our \textbf{base} dataset (section \ref{tab:datapoints}) had the same ratio of positive to negative datapoints, we assumed the true accuracy of our model to be $50\%$ at best, so not better as a coin toss.
 % EPOCHS
-Usually, the validation accuracy increases over the first three to 20 epochs, depending on the experiment and its hyperparameters, then just hovers close to its average value, e.g. 57\%, and flattens slightly above it.
-Sometimes it increased more slowly, but even 1000 epochs weren't enough to reach a decent accuracy and resulted in the same behavior, see figure \ref{fig:1000epochs}.
-The validation loss behaves similarly it decreases fast than slower and eventually flattens close to its average.
+Usually, the validation accuracy increases over the first three to $20$ epochs, depending on the experiment and its hyperparameters, then just hovers close to its average value, e.g. $57\%$, and flattens slightly above it.
+Sometimes it continued to increase although slowly, but even $1000$ epochs weren't enough to reach a decent accuracy and resulted in the same behavior, see figure \ref{fig:1000epochs}.
+The validation loss behaved similarly it decreased quickly during the first epochs than slower and trends toward flattening close to its average.
 % TODO: sample graph
 
 % LAYERS
-However we still only reached an accuracy of 59\% at best with one RNN layer of up to 64 units.
-During our earlier experiments, we concluded 3 or 4 layers to produce the best results again going any higher than 4 usually did not improve the accuracy and only produced additional overhead in computing time.
-With 3 layers and 64 per layer, we were able to produce an accuracy of 60\% to 63\% within the first 15 epochs, while the loss was consistently decreasing.
-Since the switch to binary cross-entropy however, we saw the same behavior, only this time 1 or 2 layers seem to achieve better results than 3 or 4 layers, see figure \ref{fig:layers}.
+We only reached an accuracy of $59\%$ at best with one RNN layer of up to $64$ units.
+During our earlier experiments, we concluded three or four layers to produce the best results again going any higher than four usually did not improve the accuracy and only produced additional overhead in computing time.
+With three layers and $64$ per layer, we were able to produce an accuracy of $60\%$ to $63\%$ within the first 15 epochs, while the loss was consistently decreasing, although slowly.
+Since the switch to binary cross-entropy, we saw the same behavior, only this time one or two layers seem to achieve better results than three or four layers, see figure \ref{fig:layers}.
+As three and four layers did produce worse results with the new loss function, we did not increase the number of layers further, as we could make the educated guess that the performance would not benefit from additional layers.
 
 % UNITS
-We tried RNN layers with 32, 64, 96, 128, 192 or 256 units.
+We tried RNN layers with $32$, $64$, $96$, $128$, $192$ or $256$ units.
 However, we found anything above 128 did not provide better results in relation to the compute time.
+% This was prior the loss function change
 We believe the optimal number of units to be between 64 and 128.
-If we compare their performance in figures \ref{fig:units} and \ref{fig:units25}, we see that 96 units provide the best results on average and over-all.
+If we compare their performance in figures \ref{fig:units} and \ref{fig:units25}, we see that 96 units produce the best results on average and good validation accuracy over-all with a steadily decreasing loss.
 This goes for our model with both one and two layers as well as our base and full25 datasets.
 
 % BATCHSIZE
-For the batch size of 300 to 350 to be most effective to achieve a good decrease of loss.
-As we can see in figure \ref{fig:batchsize} the batchsize of 1000 provides the worst results by far.
-While 500 provides better results, it was not able to crack 63\% accuracy.
-Everything under 500 shows more promising results, especially 350, which as an average validation accuracy of 63\%.
-But going lower than that we see slightly worse results again, as we can see with 300 in the graph.
+We found the batch size of $350$ to be most effective to achieve a good decrease of loss.
+As we can see in figure \ref{fig:batchsize} the batch size of $1000$ provides the worst results by far.
+While $500$ provides better results, it was not able to crack $63\%$ accuracy.
+Everything under $500$ shows more promising results, especially $350$, which as an average validation accuracy of $63\%$.
+But going lower than that we see slightly worse results again, as we can see in figure \ref{fig:batchsize}.
 %The described behavior and its improvements can be seen over all parameters.
 
 % Datasets
-For the dataset(s) we mainly considered two types of comparison.
-One the percentage of the complete dataset or the number of datapoints.
-Two the number of errors for negative datapoints.
+For the dataset(s) we conducted two types of comparisons.
+One the number of datapoints through the percentage of the complete dataset.
+Two the number of negative datapoints and their error degree.
 % datapoints
-For the first type, we used our smaller dataset with 18977 datapoints, which is roughly 5\% of our total data, and compared it to 25\% of our total dataset, which amounts to 94602 datapoints.
-We saw an improvement of both accuracy and loss here, however not regarding the general behavior of the model, but rather a shift of the curve along the y-axis, see \ref{fig:dataset_percentage}.
-However, it is to be noted that for the larger dataset (full25) the number of layers and units seems to make a bigger difference in performance compared to the dataset with less datapoints.
-Increasing the units from 32 to 64 increases the average accuracy by 3.5\% with the full25 dataset, while the base dataset only shows an increase of around 1\%.
-% random spike in 64u 1l -> due to the randomly selected samples
+For the first, we used our smaller dataset with $18977$ datapoints, which is roughly $5\%$ of our total data, and compared it to $25\%$ of our total dataset, which amounts to $94602$ datapoints.
+We saw an improvement of both accuracy and loss here, that manifested as a shift of the curve along the y-axis, see \ref{fig:dataset_percentage}.
+Only the general behavior of the model did not change.
+However, it is to be noted that for the larger dataset (full25) the number of layers and units seems to make a bigger difference in performance compared to the dataset with fewer datapoints.
+Increasing the units from $32$ to $64$ increases the average accuracy by $3.5\%$ with the full25 dataset, while the base dataset only shows an increase of around $1\%$.
+The same goes for the increase of layers from one to two, although it is not as much of a difference, the ratio appears the same.
 % number of errors
-For the second type, we used the datasets with different configurations of negative samples described in section \ref{sec:datasetStats}.
-As we can see in figure \ref{fig:dataset_negative} the more negative samples in a dataset (3 times) does improve the average accuracy (and loss).
-However, it does cause more fluctuation in the accuracy over time and the flattening worsens.
-We conclude that the improvement is merely based on the additional data available not on the increase of negative samples.
-Adding more altered packets to our first method of negative sample creation, marked in the graph with `20 packets', did improve accuracy and loss.
-Even though it gave a significant shift along the y-axis it did not change the behavior of the model overall.
+For the second, we used the datasets with different configurations of negative samples described in section \ref{sec:datasetStats}.
+As we can see in figure \ref{fig:dataset_negative} the more negative samples are in a dataset the better the average accuracy and loss.
+However, it does cause more fluctuation in the accuracy over time and the convergence toward the average worsens.
+% FIXME: concluded? past tense?
+We conclude that the improvement is merely based on the additional data available and was not on the increase of negative samples.
+Adding more altered packets to our first method of negative sample creation (\textbf{20 packets}) did improve accuracy and loss.
+Even though it gave a significant shift along the y-axis it again did not change the behavior of the model overall.
 % It might be interesting though to give it another look for future work, as it seemed to be one of the view experiments that showed near linear increase. This can also be a coincident of cause.
-Increasing the number of errors per altered packet from 3 to 9 did increase the models accuracy a bit, but again only by shifting the curce along the y-axis.
+Increasing the number of errors per altered packet from 3 to 9 did increase the model's accuracy a bit, but again only by shifting the curve along the y-axis.
 
 Regarding different error types, we also performed an experiment with datasets with negative datapoints created by only one of the method described in section \ref{sec:negativeSamples}.
 The results can be seen in figure \ref{fig:negative_methods}.
