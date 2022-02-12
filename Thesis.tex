@@ -469,7 +469,7 @@ Now we have seen how different RNNs operate and how LSTMs and GRUs solve the van
 In our case however, we do provide more than one input and not all of our inputs are sequential.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{LSTMvGRU.png}
+    \includegraphics[width=\textwidth]{images/LSTMvGRU.png}
     \caption{Schematic comparison of LSTMs and GRUs, created by Micheal Phi \cite{phiIllustratedGuideLSTM2020}}
     \label{fig:LSTMvGRU}
 \end{figure}
@@ -509,7 +509,7 @@ This allows the conditional data to be taken into account without appending it t
 Also see \ref{sec:imagedesc} Image Description Generation in Related Work.
 
 \begin{figure}
-    \includegraphics[width=0.6\textwidth]{condRNN.pdf}
+    \includegraphics[width=0.6\textwidth]{images/condRNN.pdf}
     \caption{Schematic sketch of the input for a condRNN unit over time, the areas marked blue present the difference to the normal RNN architecture.}
     \label{fig:condRNN}
 \end{figure}
@@ -1352,7 +1352,7 @@ The \code{cond-rnn} library \cite{remyPhilipperemyCondRnn2020} written for Keras
 This library empowers us to compare simpleRNNs, LSTMs and GRUs for our problem.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{Model.pdf}
+    \includegraphics[width=\textwidth]{images/Model.pdf}
     \caption{Our NN Model has two masking units per input, a number X of RNN units on Y layers, pedenting on the experiment, as well as half as much units of Dense RELUs and one Dense unit with the sigmoid activation on the output layer.}
     \label{fig:Model}
 \end{figure}
