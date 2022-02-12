@@ -150,7 +150,7 @@ We aim to test the effectiveness of the different RNN architectures in regards t
 \label{sec:intro}
 
 This work focuses on the creation of a NN model that is capable of deciding if a network flow could have been created by a sequence of network packets.
-In this chapter we will explain the motivation and idea behind this task, as well as research questions and objectives associated with it.
+In this chapter, we will explain the motivation and idea behind this task, as well as research questions and objectives associated with it.
 
 \section{Motivation}
 \label{sec:motivation}
@@ -347,11 +347,11 @@ It holds aggregated information of the network packets within the connection.
 For a packet to classify as belonging to a flow the packets typically need to share properties like transport protocol, source and destination IP as well as source and destination port \cite{FlowbasedNetworkTraffic} \cite{claiseSpecificationIPFlow}.
 So it describes the connection on a more abstract level and provides less information than a network packet capture.
 
-For example a flow in the YAF format will only keep track of a minimum of header information, like source and destination IP address and port.
+For example, a flow in the YAF format will only keep track of a minimum of header information, like source and destination IP address and port.
 It will contain the flags used by the first and last packet of the communication,
 but it will not contain the flags of each individual packet within the communication.
 It will know the duration and average round trip time of the communicating, but not the time intervals between two packets.
-Additionally it might have information the packets themselves do not provide, e.g. the reason for the end of the communication \cite{YAFDocumentation}.
+Additionally, it might have information the packets themselves do not provide, e.g. the reason for the end of the communication \cite{YAFDocumentation}.
 
 %  aggregation of transmitted network packets  which share some properties [16].
 % Typically, all transmitted network packets with the same source IP address, source port, destination IP address, destination port and transport protocol within a time window are aggregated into one flow.
@@ -549,7 +549,7 @@ If correctly optimized, a GAN may create synthetic data indistinguishable from r
 \section{Terminology}
 \label{sec:terminology}
 
-During this work we will use certain phrases and wording that may seem vague but simplifies more complex expressions.
+During this work, we will use certain phrases and wording that may seem vague but simplifies more complex expressions.
 
 When we say \textit{a sequence of (network) packets belongs to a (network) flow}, we mean that \textit{the (network) flow could have been created from this sequence of (network) packets}.
 
@@ -589,7 +589,7 @@ They call it IP2Vec.
 
 Network flows consist of multiple features, some of which are categorical, e.g. IP addresses, ports, and protocols.
 However, NNs work best with continuous and numerical data.
-To effectively train a NNs, which work bast with numerical and continuous data, we need to represent those categorical features as numerical data.
+To effectively train a NNs, which work best with numerical and continuous data, we need to represent those categorical features as numerical data.
 For this we planned on using IP2Vec proposed by Ring et al. \cite{ringIP2VecLearningSimilarities2017}.
 This solution produces similarity values for IP addresses based on the behavior of the host.
 
@@ -598,7 +598,7 @@ There the word is observed in the context of its neighbors instead of alone.
 Similarly, in IP2Vec IPs are not observed on their own, but in the context of other features of the flow, they correlate with.
 So instead of words IP2Vec processes network flow attributes,
 specifically source IP, destination IP, destination port and protocol.
-However one could change those attributes and determine the difference between IPs based on different attributes.
+However, one could change those attributes and determine the difference between IPs based on different attributes.
 With this approach they are able to determine the differences between IPs based on their communication patterns and behavior within one dataset.
 For example, a destination IP that correlates with port 80 often can be easily classified as an HTTP server.
 Their experiments show that provided the right dataset, the data produced by IP2Vec can be used to distinguish between infected and non-infected hosts, as well as between servers, clients and even printers.
@@ -614,7 +614,7 @@ Their experiments show that provided the right dataset, the data produced by IP2
 % Out of the YAF flow features the following are used by IP2Vec:
 % Duration, protocol, source IP, source port, destination IP, destination port, packet count (forward), octet/byte count (forward)
 
-After due consideration however, we decided not to use the IP2Vec approach.
+After due consideration, we decided not to use the IP2Vec approach.
 This is mainly because of the fact that addresses do not influence the flow behavior too much.
 The only feature of them that might influence a flow is if they are public or local (private).
 Additionally, IP2Vec sees IPs in the context of a series of packet flows, which represent a network traffic capture,
@@ -631,7 +631,7 @@ IP2Vec does not account for problems that might result from this.
 The best-case scenario is that two IPs from different captures will be classified as being unknown to each other.
 But even this holds the issue that a later flow may have communication between those IP addresses and the GAN will have problems generating packet data that will satisfy the DN, because to the DN this will look like an anomaly.
 
-Furthermore we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
+Furthermore, we would assume that for our GAN in the future work, we have a whole set of flows for each IP address, that could provide the data necessary to apply IP2Vec before using the flow as input to the DN.
 This will most likely not be the case, as the GN of the GAN would try to create a sequence of packets based on the input of one flow.
 So it would not have the sufficient data to create IP2Vec vectors.
 % is this really the problem? I think so
@@ -660,10 +660,10 @@ This is when we found Vinyals \cite{vinyalsShowTellNeural2015} and Karpathy \cit
 \label{sec:imagedesc}
 
 On first glance the field of image description may look out of the scope of this thesis.
-However in computer science and machine learning in particular, it is not unlikely for two very separate problems to have the same solution.
+However, in computer science and machine learning in particular, it is not unlikely for two very separate problems to have the same solution.
 The process of teaching a NN to describe an image or even different regions of the image using natural language is a big and complex problem.
-The papers "Show and Tell: A Neural Image Caption Generator" by Vinyals et al. \cite{vinyalsShowTellNeural2015} and "Deep Visual-Semantic Alignments for Generating Image Descriptions" by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015} both solve this problem in 2015.
-However the problem we were interested in is much smaller.
+The papers "Show and Tell: A Neural Image Caption Generator" by Vinyals et al. \cite{vinyalsShowTellNeural2015} and "Deep Visual-Semantic Alignments for Generating Image Descriptions" by Karpathy and Fei-Fei \cite{karpathyDeepVisualSemanticAlignments2015} both solved this problem in 2015.
+However, the problem we were interested in is much smaller.
 
 How did both Vinyals and Karpathy solve the problem of multiple inputs for RNNs?
 They had the image data and the descriptions in natural language.
@@ -695,7 +695,7 @@ However, it is not obvious how they were able to use SGD with mini-batches of 10
 Vinyals et al. also use a CNN to create a proper representation of the image that can be passed to the RNN.
 For the RNN they chose the LSTM model with the adjustment of a conditional input.
 The also used 512 units per RNN layer.
-Over all their work is quite similar to Karpathy et al..
+Over all, their work is quite similar to Karpathy et al..
 
 \chapter{Methodology}
 \label{sec:approach}
@@ -1589,7 +1589,7 @@ Increasing the number of errors per altered packet from 3 to 9 did increase the 
 Regarding different error types, we also experimented with datasets with negative datapoints created by only one of the methods described in section \ref{sec:negativeSamples}.
 The results can be seen in figure \ref{fig:negative_methods}.
 As we can see, \textbf{method 1a} and \textbf{method 2} caused the most problems for our model.
-This is of no surprise, as \textbf{method 1a} generates random numerical values within the scope of the header fields, meaning its size in bit, so the model might only see those numbers in those negative samples and \textbf{methode 2} randomizes the order of packets and not their contents, which is hard to detect on the bases of a flow, especially for UDP.
+This is of no surprise, as \textbf{method 1a} generates random numerical values within the scope of the header fields, meaning its size in bit, so the model might only see those numbers in those negative samples and \textbf{method 2} randomizes the order of packets and not their contents, which is hard to detect on the bases of a flow, especially for UDP.
 In fact, it might be impossible, see later in discussion section \ref{sec:exDiscussion}.\\
 \textbf{Method 1b} on the other hand performs a bit better than average in comparison with the general results of the model.
 This again can be easily explained, as the method takes a number of fields from other datapoints in the dataset at random and adds them to an otherwise positive sample.
@@ -1782,10 +1782,10 @@ Especially in conjunction with FL.
 
 % FIXME: everything below
 Other possible improvements might be:
-Adding some of the trivial features as binary representation with the purpose of indicating the validity of the feature.
-Brining in more meta data extracted by Wiresharek, or more network flow statistics.
+Adding some of the trivial features as a binary representation with the purpose of indicating the validity of the feature.
+Bringing in more meta data extracted by Wireshark, or more network flow statistics.
 Exploring other network flow representations.
-Or as stated before additional subcategories for system and registerd ports, for examples categories for different services or importance of said services.
+Or as stated before additional subcategories for system and registered ports, for example categories for different services or the importance of said services.
 Also the deletion of the two end reasons that are not present in our dataset and other dead features, if any.
 
 \printbibliography
@@ -1800,7 +1800,7 @@ In this section, we append all experiment graphs.
     \includegraphics[width=.95\textwidth]{hinge_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{hinge_val_loss.pdf}
     \caption{Comparison of both validation accuracy and loss between \textbf{binary crossentropy} and \textbf{hinge loss}.
-             Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with a batchsize of 350 and the \textbf{base} dataset.}
+             Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with a batch size of 350 and the \textbf{base} dataset.}
     \label{fig:hinge}
 \end{figure}
 
@@ -1808,7 +1808,7 @@ In this section, we append all experiment graphs.
     \includegraphics[width=.95\textwidth]{1000_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{1000_val_loss.pdf}
     \caption{Validation accuracy and loss over 1000 epochs.
-    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batchsize of 350 and the \textbf{base} dataset.}
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batch size of 350 and the \textbf{base} dataset.}
     \label{fig:1000epochs}
 \end{figure}
 
@@ -1816,7 +1816,7 @@ In this section, we append all experiment graphs.
     \includegraphics[width=.95\textwidth]{1000_comp_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{1000_comp_loss.pdf}
     \caption{comparison of accuracy and loss over 1000 epochs between training and validation.
-    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batchsize of 350 and the \textbf{base} dataset.}
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 1000 epochs with a batch size of 350 and the \textbf{base} dataset.}
     \label{fig:1000comp}
 \end{figure}
 
@@ -1824,22 +1824,23 @@ In this section, we append all experiment graphs.
     \includegraphics[width=.95\textwidth]{layers_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{layers_val_loss.pdf}
     \caption{Comparison of both validation accuracy and loss between 1 to 4 layers.
-    Our model with 64 LSTM units per layer was trained over 100 epochs with a batchsize of 500 and the \textbf{base} dataset.}
+    Our model with 64 LSTM units per layer was trained over 100 epochs with a batch size of 500 and the \textbf{base} dataset.}
     \label{fig:layers}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=.95\textwidth]{units_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{units_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between x and y.}
-    %TODO: parameters used dataset_dataset_LSTM_nn_1_layers_100_epochs_500_batchsize_18977_datapoint
+    \caption{Comparison of both validation accuracy and loss between different numbers of units.
+             For this experiment we used one RNN layer and trained with a batch size of 500 over 500 epochs.}
     \label{fig:units}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=.95\textwidth]{units25_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{units25_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between x and y.}
+    \caption{Comparison of both validation accuracy and loss between different numbers of units.
+    For this experiment we used two RNN layer and trained with a batch sizes of 350 and 500 over 500 epochs.}
     %TODO: parameters used dataset_clean_flows_dataset_LSTM_nn_2_layers_100_epochs_94602_datapoint
     \label{fig:units25}
 \end{figure}
@@ -1847,7 +1848,7 @@ In this section, we append all experiment graphs.
 \begin{figure}
     \includegraphics[width=.95\textwidth]{batchsize_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{batchsize_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between batchsizes.
+    \caption{Comparison of both validation accuracy and loss between batch sizes.
     Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with the \textbf{9 errors} dataset.}
     \label{fig:batchsize}
 \end{figure}
@@ -1856,7 +1857,7 @@ In this section, we append all experiment graphs.
     \includegraphics[width=.95\textwidth]{dataset_percentage_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{dataset_percentage_val_loss.pdf}
     \caption{Comparison of both validation accuracy and loss between datasets \textbf{base} and \textbf{full25}.
-    Our model with various combinations of number of layers and units was trained over 100 epochs with a batchsize of 500 and the \textbf{base} dataset.}
+    Our model with various combinations of number of layers and units was trained over 100 epochs with a batch size of 500 and the \textbf{base} dataset.}
     \label{fig:dataset_percentage}
 \end{figure}
 
@@ -1864,7 +1865,7 @@ In this section, we append all experiment graphs.
     \includegraphics[width=.95\textwidth]{dataset_negative_samples_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{dataset_negative_samples_val_loss.pdf}
     \caption{Comparison of both validation accuracy and loss between datasets with various negative sample configurations, see \ref{tab:negativeSamples}.
-    Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with a batchsize of 500.}
+    Our model with 2 LSTM layers, and 64 units per layer was trained over 100 epochs with a batch size of 500.}
     \label{fig:dataset_negative}
 \end{figure}
 
@@ -1872,14 +1873,14 @@ In this section, we append all experiment graphs.
     \includegraphics[width=.95\textwidth]{negative_sample_methods_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{negative_sample_methods_val_loss.pdf}
     \caption{Comparison of both validation accuracy and loss between datasets created with only one method of negative sample creation.
-    Our model with 2 LSTM layers, and 96 units per layer was trained over 100 epochs with a batchsize of 350.}
+    Our model with 2 LSTM layers, and 96 units per layer was trained over 100 epochs with a batch size of 350.}
     \label{fig:negative_methods}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=.95\textwidth]{rnns_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{rnns_val_loss.pdf}
-    \caption{Comparison of both validation accuracy and loss between simpleRNN, LSTM and GRU using 2 condRNN layers, 64 units per layer, and a batchsize of 500 over 100 epochs with the \textbf{base} dataset.}
+    \caption{Comparison of both validation accuracy and loss between simpleRNN, LSTM and GRU using 2 condRNN layers, 64 units per layer, and a batch size of 500 over 100 epochs with the \textbf{base} dataset.}
     \label{fig:rnns}
 \end{figure}
 
@@ -1887,7 +1888,7 @@ In this section, we append all experiment graphs.
     \includegraphics[width=.95\textwidth]{gru_hinge_val_accuracy.pdf}
     \includegraphics[width=.95\textwidth]{gru_hinge_val_loss.pdf}
     \caption{Comparison of both validation accuracy and loss between 64 and 96 units per layer.
-             For this our model was trained with 1 layer of GRU units, the batchsize of 500 over 100 epochs with the \textbf{base} dataset.}
+             For this our model was trained with 1 layer of GRU units, the batch size of 500 over 100 epochs with the \textbf{base} dataset.}
     \label{fig:GRUhinge}
 \end{figure}
 
