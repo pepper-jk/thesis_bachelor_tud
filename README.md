@@ -11,6 +11,12 @@ Furthermore our model uses a special kind of RNN called a conditional RNN (condR
 This is necessary as a flow is the conditional counterpart to a sequence of packets.
 We aim to test the effectiveness of the different RNN architectures in regards to our problem and in the context of condRNNs.
 
+## LaTeX Code
+
+This repo contains the LaTeX code of my bachelor thesis.
+
+If you are looking for the rendered document, either get the official publication at [TUprints](https://tuprints.ulb.tu-darmstadt.de/20630) or see the [latest release](https://github.com/pepper-jk/thesis_bachelor_tud/releases/latest) in this repo.
+
 ## Python Source Code
 
 > Coming soon.
